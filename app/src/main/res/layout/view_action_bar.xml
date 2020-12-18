@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="actionbar"
+            type="com.lge.shoptime.ui.common.ActionBar" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@{actionbar.getBackgroundColor()}">
+
+        <ImageButton
+            android:id="@+id/iv_left"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:scaleType="fitCenter"
+            android:onClick="@{actionbar::onClickLeft}"
+            android:visibility="@{actionbar.getLeftVisibility ? View.VISIBLE : View.GONE}"
+            android:background="@{actionbar.titleButtonBg}"
+            app:imageResource="@{actionbar.getLeftImage()}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textSize="22dp"
+            android:textColor="@{actionbar.getTitleColor()}"
+            android:text="@{actionbar.getTitle}"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:text="메인화면"/>
+
+        <ImageView
+            android:id="@+id/iv_right"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:scaleType="centerInside"
+            android:onClick="@{actionbar::onClickRight}"
+            android:visibility="@{actionbar.getRightVisibility ? View.VISIBLE : View.GONE}"
+            android:background="@android:color/transparent"
+            app:imageResource="@{actionbar.getRightImage()}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray_e4e7e9"
+            android:visibility="@{actionbar.isDarkMode ? View.GONE : View.VISIBLE}"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

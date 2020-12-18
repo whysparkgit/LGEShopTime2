@@ -1,0 +1,622 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/gl_h1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/ll_main"
+            app:layout_constraintTop_toTopOf="parent"
+            android:paddingVertical="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center_horizontal|center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="3dp">
+
+            <Button
+                android:id="@+id/btn_11"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeMaxTextSize="14sp"
+                android:autoSizeMinTextSize="6sp"
+                android:autoSizeTextType="uniform"
+                android:text="App Ctrl\ninactive" />
+
+            <Button
+                android:id="@+id/btn_12"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeMaxTextSize="14sp"
+                android:autoSizeMinTextSize="6sp"
+                android:autoSizeTextType="uniform"
+                android:text="App Ctrl\nactive" />
+
+            <Button
+                android:id="@+id/btn_13"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeMaxTextSize="14sp"
+                android:autoSizeMinTextSize="6sp"
+                android:autoSizeTextType="uniform"
+                android:text="uninstall\nApp Ctrl" />
+
+            <Button
+                android:id="@+id/btn_14"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeMaxTextSize="14sp"
+                android:autoSizeMinTextSize="6sp"
+                android:autoSizeTextType="uniform"
+                android:text="download\n.html" />
+
+            <Button
+                android:id="@+id/btn_15"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeMaxTextSize="14sp"
+                android:autoSizeMinTextSize="6sp"
+                android:autoSizeTextType="uniform"
+                android:text="Device\nstatus" />
+
+            <Button
+                android:id="@+id/btn_16"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeMaxTextSize="14sp"
+                android:autoSizeMinTextSize="6sp"
+                android:autoSizeTextType="uniform"
+                android:text="Storage\nstatus" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center_horizontal|center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="3dp">
+
+            <Button
+                android:id="@+id/btn_21"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeMaxTextSize="14sp"
+                android:autoSizeMinTextSize="6sp"
+                android:autoSizeTextType="uniform"
+                android:text="storage\ninit" />
+
+            <Button
+                android:id="@+id/btn_22"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeMaxTextSize="14sp"
+                android:autoSizeMinTextSize="6sp"
+                android:autoSizeTextType="uniform"
+                android:text="file\ndownload" />
+
+            <Button
+                android:id="@+id/btn_23"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeMaxTextSize="14sp"
+                android:autoSizeMinTextSize="6sp"
+                android:autoSizeTextType="uniform"
+                android:text="install\napk" />
+
+            <Button
+                android:id="@+id/btn_24"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeMaxTextSize="14sp"
+                android:autoSizeMinTextSize="6sp"
+                android:autoSizeTextType="uniform"
+                android:text="Camera\nPreview" />
+
+            <Button
+                android:id="@+id/btn_25"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeMaxTextSize="14sp"
+                android:autoSizeMinTextSize="6sp"
+                android:autoSizeTextType="uniform"
+                android:text="UI:popup" />
+
+            <Button
+                android:id="@+id/btn_26"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeMaxTextSize="14sp"
+                android:autoSizeMinTextSize="6sp"
+                android:autoSizeTextType="uniform"
+                android:text="NTP" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center_horizontal|center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="3dp">
+
+            <Button
+                android:id="@+id/btn_31"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeMaxTextSize="14sp"
+                android:autoSizeMinTextSize="6sp"
+                android:autoSizeTextType="uniform"
+                android:text="UI:\nhome" />
+
+            <Button
+                android:id="@+id/btn_32"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeMaxTextSize="14sp"
+                android:autoSizeMinTextSize="6sp"
+                android:autoSizeTextType="uniform"
+                android:text="webview2" />
+
+            <Button
+                android:id="@+id/btn_33"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeMaxTextSize="14sp"
+                android:autoSizeMinTextSize="6sp"
+                android:autoSizeTextType="uniform"
+                android:text="webview3" />
+
+            <Button
+                android:id="@+id/btn_34"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeMaxTextSize="14sp"
+                android:autoSizeMinTextSize="6sp"
+                android:autoSizeTextType="uniform"
+                android:text="webview4" />
+
+            <Button
+                android:id="@+id/btn_35"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeMaxTextSize="14sp"
+                android:autoSizeMinTextSize="6sp"
+                android:autoSizeTextType="uniform"
+                android:text="" />
+
+            <Button
+                android:id="@+id/btn_36"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeMaxTextSize="14sp"
+                android:autoSizeMinTextSize="6sp"
+                android:autoSizeTextType="uniform"
+                android:text="" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center_horizontal|center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="3dp">
+
+            <Button
+                android:id="@+id/btn_41"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeMaxTextSize="14sp"
+                android:autoSizeMinTextSize="6sp"
+                android:autoSizeTextType="uniform"
+                android:text="IF:\nauth" />
+
+            <Button
+                android:id="@+id/btn_42"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeMaxTextSize="14sp"
+                android:autoSizeMinTextSize="6sp"
+                android:autoSizeTextType="uniform"
+                android:text="AF" />
+
+            <Button
+                android:id="@+id/btn_43"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeMaxTextSize="14sp"
+                android:autoSizeMinTextSize="6sp"
+                android:autoSizeTextType="uniform"
+                android:text="test" />
+
+            <Button
+                android:id="@+id/btn_44"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeMaxTextSize="14sp"
+                android:autoSizeMinTextSize="6sp"
+                android:autoSizeTextType="uniform"
+                android:text="" />
+
+            <Button
+                android:id="@+id/btn_45"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeMaxTextSize="14sp"
+                android:autoSizeMinTextSize="6sp"
+                android:autoSizeTextType="uniform"
+                android:text="" />
+
+            <Button
+                android:id="@+id/btn_46"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeMaxTextSize="14sp"
+                android:autoSizeMinTextSize="6sp"
+                android:autoSizeTextType="uniform"
+                android:text="" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center_horizontal|center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="3dp">
+
+            <Button
+                android:id="@+id/btn_51"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeMaxTextSize="14sp"
+                android:autoSizeMinTextSize="6sp"
+                android:autoSizeTextType="uniform"
+                android:text="" />
+
+            <Button
+                android:id="@+id/btn_52"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeMaxTextSize="14sp"
+                android:autoSizeMinTextSize="6sp"
+                android:autoSizeTextType="uniform"
+                android:text="" />
+
+            <Button
+                android:id="@+id/btn_53"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeMaxTextSize="14sp"
+                android:autoSizeMinTextSize="6sp"
+                android:autoSizeTextType="uniform"
+                android:text="" />
+
+            <Button
+                android:id="@+id/btn_54"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeMaxTextSize="14sp"
+                android:autoSizeMinTextSize="6sp"
+                android:autoSizeTextType="uniform"
+                android:text="" />
+
+            <Button
+                android:id="@+id/btn_55"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeMaxTextSize="14sp"
+                android:autoSizeMinTextSize="6sp"
+                android:autoSizeTextType="uniform"
+                android:text="" />
+
+            <Button
+                android:id="@+id/btn_56"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeMaxTextSize="14sp"
+                android:autoSizeMinTextSize="6sp"
+                android:autoSizeTextType="uniform"
+                android:text="" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center_horizontal|center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="3dp">
+
+            <Button
+                android:id="@+id/btn_61"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeMaxTextSize="14sp"
+                android:autoSizeMinTextSize="6sp"
+                android:autoSizeTextType="uniform"
+                android:text="" />
+
+            <Button
+                android:id="@+id/btn_62"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeMaxTextSize="14sp"
+                android:autoSizeMinTextSize="6sp"
+                android:autoSizeTextType="uniform"
+                android:text="" />
+
+            <Button
+                android:id="@+id/btn_63"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeMaxTextSize="14sp"
+                android:autoSizeMinTextSize="6sp"
+                android:autoSizeTextType="uniform"
+                android:text="" />
+
+            <Button
+                android:id="@+id/btn_64"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeMaxTextSize="14sp"
+                android:autoSizeMinTextSize="6sp"
+                android:autoSizeTextType="uniform"
+                android:text="" />
+
+            <Button
+                android:id="@+id/btn_65"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeMaxTextSize="14sp"
+                android:autoSizeMinTextSize="6sp"
+                android:autoSizeTextType="uniform"
+                android:text="" />
+
+            <Button
+                android:id="@+id/btn_66"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeMaxTextSize="14sp"
+                android:autoSizeMinTextSize="6sp"
+                android:autoSizeTextType="uniform"
+                android:text="" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center_horizontal|center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="3dp">
+
+            <Button
+                android:id="@+id/btn_71"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeMaxTextSize="14sp"
+                android:autoSizeMinTextSize="6sp"
+                android:autoSizeTextType="uniform"
+                android:text="Date\nPicker" />
+
+            <Button
+                android:id="@+id/btn_72"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeMaxTextSize="14sp"
+                android:autoSizeMinTextSize="6sp"
+                android:autoSizeTextType="uniform"
+                android:text="samsung\nnotes" />
+
+            <Button
+                android:id="@+id/btn_73"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeMaxTextSize="14sp"
+                android:autoSizeMinTextSize="6sp"
+                android:autoSizeTextType="uniform"
+                android:text="img\nchooser" />
+
+            <Button
+                android:id="@+id/btn_74"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeMaxTextSize="14sp"
+                android:autoSizeMinTextSize="6sp"
+                android:autoSizeTextType="uniform"
+                android:text="vdo\nchooser" />
+
+            <Button
+                android:id="@+id/btn_75"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeMaxTextSize="14sp"
+                android:autoSizeMinTextSize="6sp"
+                android:autoSizeTextType="uniform"
+                android:text="gallery" />
+
+            <Button
+                android:id="@+id/btn_76"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeMaxTextSize="14sp"
+                android:autoSizeMinTextSize="6sp"
+                android:autoSizeTextType="uniform"
+                android:text="" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center_horizontal|center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="3dp">
+
+            <Button
+                android:id="@+id/btn_81"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeMaxTextSize="14sp"
+                android:autoSizeMinTextSize="6sp"
+                android:autoSizeTextType="uniform"
+                android:text="ws:\nopen" />
+
+            <Button
+                android:id="@+id/btn_82"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeMaxTextSize="14sp"
+                android:autoSizeMinTextSize="6sp"
+                android:autoSizeTextType="uniform"
+                android:text="ws:\nlogin" />
+
+            <Button
+                android:id="@+id/btn_83"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeMaxTextSize="14sp"
+                android:autoSizeMinTextSize="6sp"
+                android:autoSizeTextType="uniform"
+                android:text="ws:\nclose" />
+
+            <Button
+                android:id="@+id/btn_84"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeMaxTextSize="14sp"
+                android:autoSizeMinTextSize="6sp"
+                android:autoSizeTextType="uniform"
+                android:text="logcat" />
+
+            <Button
+                android:id="@+id/btn_85"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeMaxTextSize="14sp"
+                android:autoSizeMinTextSize="6sp"
+                android:autoSizeTextType="uniform"
+                android:text="clear\nlog" />
+
+            <Button
+                android:id="@+id/btn_86"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autoSizeMaxTextSize="14sp"
+                android:autoSizeMinTextSize="6sp"
+                android:autoSizeTextType="uniform"
+                android:text="▷▷" />
+        </LinearLayout>
+
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/gl_h1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintGuide_percent="0.60"/>
+
+    <ImageView
+        android:id="@+id/iv_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|center_vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/gl_h1" />
+
+    <ScrollView
+        android:id="@+id/sv_log"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/gl_h1"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:id="@+id/tv_log"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
