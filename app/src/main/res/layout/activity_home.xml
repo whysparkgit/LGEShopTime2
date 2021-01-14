@@ -7,7 +7,7 @@
     <data>
         <variable
             name="listener"
-            type="com.lge.shoptime.ui.home.HomeActivity" />
+            type="com.lge.lgshoptimem.ui.home.HomeActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

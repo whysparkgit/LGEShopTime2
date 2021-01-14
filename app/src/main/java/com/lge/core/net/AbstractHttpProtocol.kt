@@ -166,8 +166,7 @@ abstract class AbstractHttpProtocol<RES> : HttpRequestable
             }
 
             HttpConst.HTTP_MIME_TYPE_JPEG,
-            HttpConst.HTTP_MIME_TYPE_PNG,
-            -> {
+            HttpConst.HTTP_MIME_TYPE_PNG -> {
                 parsedObject = BitmapFactory.decodeStream(responseBody as InputStream) as RES
             }
 

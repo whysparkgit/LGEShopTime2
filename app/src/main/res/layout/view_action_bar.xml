@@ -8,7 +8,7 @@
         <import type="android.view.View"/>
         <variable
             name="actionbar"
-            type="com.lge.shoptime.ui.common.ActionBar" />
+            type="com.lge.lgshoptimem.ui.common.ActionBar" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

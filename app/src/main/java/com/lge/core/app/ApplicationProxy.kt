@@ -3,18 +3,17 @@ package com.lge.core.app
 import android.app.Activity
 import android.app.Application
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ComponentActivity
 import com.lge.core.fs.StorageManager
 import com.lge.core.net.NetworkManager
 import com.lge.core.sys.Trace
-import com.lge.shoptime.MainActivity
 
 class ApplicationProxy : Application()
 {
     private var mbInitLaunch = false;
-    private var mActivity: Activity? = null
+    private lateinit var mActivity: Activity
     private var mAppCompatActivity: AppCompatActivity? = null
     private var mLifeCycle: LifeCycle = LifeCycle()
 

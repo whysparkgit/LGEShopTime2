@@ -7,7 +7,7 @@
     <data>
         <variable
             name="bottombar"
-            type="com.lge.shoptime.ui.common.BottomBar" />
+            type="com.lge.lgshoptimem.ui.common.BottomBar" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

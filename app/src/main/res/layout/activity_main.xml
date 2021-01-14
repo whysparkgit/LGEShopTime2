@@ -1,18 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <data>
+        <variable
+            name="listener"
+            type="com.lge.lgshoptimem.MainActivity" />
+    </data>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.lge.lgshoptimem.ui.component.HeaderListComponent
+                android:id="@+id/comp_hilist"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@color/blue_0c4ca3"
+                app:headLayout="@layout/comp_head_product_images"
+                app:itemLayout="@layout/comp_item_detail_main_image"
+                app:orientation="horizontal"
+                app:showIndex="true"
+                app:layout_constraintTop_toBottomOf="@+id/comp_thlist"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <!--        <com.lge.lgshoptimem.ui.component.TitleHeaderListComponent-->
+            <!--            android:id="@+id/comp_today_deals"-->
+            <!--            android:layout_width="0dp"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            android:background="@color/gray_bdc4d2"-->
+            <!--            app:headLayout="@layout/component_title_header_list"-->
+            <!--            app:itemLayout="@layout/item_thlist_today_deal"-->
+            <!--            app:itemDataClass="com.lge.lgshoptimem.model.dto.Curation"-->
+            <!--            app:orientation="horizontal"-->
+            <!--            app:showTitle="true"-->
+            <!--            app:showIndex="true"-->
+            <!--            app:layout_constraintTop_toBottomOf="@+id/comp_hilist"-->
+            <!--            app:layout_constraintStart_toStartOf="parent"-->
+            <!--            app:layout_constraintEnd_toEndOf="parent" />-->
+
+            <!--        app:layout_constraintTop_toBottomOf="@+id/comp_today_deals"-->
+            <com.lge.lgshoptimem.ui.component.HeaderListComponent
+                android:id="@+id/comp_thlist"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@color/pink_e32e70"
+                app:headLayout="@layout/comp_head_text_images"
+                app:itemLayout="@layout/comp_item_next_upcoming"
+                app:orientation="horizontal"
+                app:showIndex="true"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <!--        <com.lge.lgshoptimem.ui.component.TitleHeaderListComponent-->
+            <!--            android:id="@+id/comp_thlist2"-->
+            <!--            android:layout_width="0dp"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            android:background="@color/blue_4fa8cd"-->
+            <!--            app:headLayout="@layout/component_title_header_list"-->
+            <!--            app:itemLayout="@layout/item_thlist_next_upcoming"-->
+            <!--            app:orientation="vertical"-->
+            <!--            app:showTitle="true"-->
+            <!--            app:showIndex="true"-->
+            <!--            app:layout_constraintTop_toBottomOf="@id/comp_thlist"-->
+            <!--            app:layout_constraintStart_toStartOf="parent"-->
+            <!--            app:layout_constraintEnd_toEndOf="parent"/>-->
+
+            <!--        <com.lge.lgshoptimem.ui.component.TitleHeaderListComponent-->
+            <!--            android:id="@+id/comp_item_list"-->
+            <!--            android:layout_width="0dp"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            android:background="@color/blue_4fa8cd"-->
+            <!--            app:headLayout="@layout/component_title_header_list"-->
+            <!--            app:itemLayout="@layout/item_thlist_product"-->
+            <!--            app:orientation="vertical"-->
+            <!--            app:showTitle="true"-->
+            <!--            app:showIndex="true"-->
+            <!--            app:layout_constraintTop_toBottomOf="@+id/comp_thlist"-->
+            <!--            app:layout_constraintStart_toStartOf="parent"-->
+            <!--            app:layout_constraintEnd_toEndOf="parent"/>-->
+
+            <Button
+                android:id="@+id/btn_list1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="list1"
+                android:onClick="@{listener::onClick}"
+                app:layout_constraintTop_toBottomOf="@id/comp_hilist"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <Button
+                android:id="@+id/btn_list2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="list2"
+                android:onClick="@{listener::onClick}"
+                app:layout_constraintTop_toBottomOf="@id/comp_hilist"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</layout>

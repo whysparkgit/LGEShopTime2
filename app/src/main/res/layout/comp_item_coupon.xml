@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="com.lge.lgshoptimem.model.dto.Curation" />
+        <variable
+            name="position"
+            type="int" />
+        <variable
+            name="listener"
+            type="com.lge.lgshoptimem.ui.component.ComponentItemListener" />
+        <variable
+            name="viewmodel"
+            type="com.lge.lgshoptimem.model.dto.Curation" />
+
+<!--        <variable-->
+<!--            name="viewmodel"-->
+<!--            type="com.lge.lgshoptimem.ui.component.TitleHeaderListComponent.ComponentViewModel&lt;Curation>" />-->
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/comp_cl_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="@{v -> listener.onClick(v, position)}">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingVertical="10dp"
+            android:layout_marginHorizontal="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" >
+
+        <TextView
+            android:id="@+id/comp_tv_coupon_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:text="[on TV4U] John Connor's Cooking Special Show Open Celebrating Kitchen and Food 10% Special Discount Cou ..."/>
+
+<!--        android:text="@{viewmodel.mldDataList.get(position).productInfos.get(0).prdtNm}"-->
+        <TextView
+            android:id="@+id/comp_tv_coupon_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Code : G18JN87DA"
+            android:textStyle="bold"
+            android:textColor="@color/black_141414"
+            android:textSize="19sp" />
+
+        <!--        android:text="@{viewmodel.mldDataList.get(position).productInfos.get(0).price3}"-->
+        <TextView
+            android:id="@+id/comp_tv_coupon_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textSize="12sp"
+            android:textColor="@color/gray_898989"
+            android:text="09/07/2020 12:19 PM"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray_e9e9e9"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

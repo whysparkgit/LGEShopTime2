@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="com.lge.lgshoptimem.model.dto.Curation" />
+        <variable
+            name="position"
+            type="int" />
+        <variable
+            name="listener"
+            type="com.lge.lgshoptimem.ui.component.ComponentItemListener" />
+        <variable
+            name="viewmodel"
+            type="com.lge.lgshoptimem.model.dto.Curation" />
+
+<!--        <variable-->
+<!--            name="viewmodel"-->
+<!--            type="com.lge.lgshoptimem.ui.component.TitleHeaderListComponent.ComponentViewModel&lt;Curation>" />        -->
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/comp_cl_item"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:onClick="@{v -> listener.onClick(v, position)}">
+
+        <ImageView
+            android:id="@+id/comp_iv_main_image"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            app:imageUrl="@{viewmodel.thumbnailUrl}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/dummy_product_image6" />
+
+        <ImageView
+            android:id="@+id/iv_play"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/btn_list_play_nor"
+            app:layout_constraintTop_toTopOf="@+id/comp_iv_main_image"
+            app:layout_constraintBottom_toBottomOf="@+id/comp_iv_main_image"
+            app:layout_constraintStart_toStartOf="@+id/comp_iv_main_image"
+            app:layout_constraintEnd_toEndOf="@+id/comp_iv_main_image" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginHorizontal="10dp"
+            app:layout_constraintTop_toBottomOf="@id/comp_iv_main_image"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+    <!--        android:text="@{viewmodel.mldDataList.get(position).productInfos.get(0).prdtNm}"-->
+            <TextView
+                android:id="@+id/comp_tv_product_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:minLines="2"
+                android:text="[on TV4U] Too Faced Enchanted"
+                android:textColor="@color/black_141414"
+                android:textSize="14sp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+    <!--        android:text="@{viewmodel.mldDataList.get(position).productInfos.get(0).price3}"-->
+            <TextView
+                android:id="@+id/comp_tv_item_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:textColor="@color/gray_898989"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="@+id/comp_tv_product_title"
+                app:layout_constraintTop_toBottomOf="@id/comp_tv_product_title"
+                android:text="10 Item in the show"/>
+
+    <!--        android:text="@{viewmodel.mldDataList.get(position).productInfos.get(0).price3}"-->
+            <TextView
+                android:id="@+id/comp_tv_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/gray_505050"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="@+id/comp_tv_product_title"
+                app:layout_constraintTop_toBottomOf="@id/comp_tv_item_count"
+                android:text="11/28/2020"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

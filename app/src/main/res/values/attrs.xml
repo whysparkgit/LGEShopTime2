@@ -1,0 +1,23 @@
+<resources>
+    <declare-styleable name="FullscreenAttrs">
+        <attr name="fullscreenBackgroundColor" format="color" />
+        <attr name="fullscreenTextColor" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="ListComponentAttrs" >
+        <attr name="headLayout" format="integer" />
+        <attr name="itemLayout" format="integer" />
+        <attr name="orientation" format="enum">
+            <enum name="vertical" value="0" />
+            <enum name="horizontal" value="1" />
+        </attr>
+        <attr name="title" format="string" />
+        <attr name="showIndex" format="boolean" />
+        <attr name="itemDataClass" format="string" />
+        <attr name="videoUrl" format="string" />
+        <attr name="itemCount" format="integer" />
+        <attr name="subject" format="string" />
+        <attr name="subtitle" format="string" />
+        <attr name="rowCount" format="integer" />
+    </declare-styleable>
+</resources>

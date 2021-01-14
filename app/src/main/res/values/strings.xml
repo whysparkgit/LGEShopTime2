@@ -7,5 +7,8 @@
     <string name="more_back_finish">뒤로 버튼을 한번 더 누르시면 종료됩니다.</string>
     <string name="confirm">확인</string>
     <string name="cancel">취소</string>
+    <string name="title_activity_video_player">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 
 </resources>

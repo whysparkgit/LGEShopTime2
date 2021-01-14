@@ -159,7 +159,7 @@ class NetworkManager private constructor()
                 Trace.debug(">> hasOfflineJob() begin")
 
                 if (HttpConst.HTTP_FEATURE_COROUTINE) {
-                    CoroutineScope(Dispatchers.Default).launch {
+                    CoroutineScope(Dispatchers.Main).launch {
                         protocol.processOffline()
                     }
                 } else {
@@ -192,7 +192,7 @@ class NetworkManager private constructor()
                 }
 
                 if (HttpConst.HTTP_FEATURE_COROUTINE) {
-                    CoroutineScope(Dispatchers.IO).launch {
+                    CoroutineScope(Dispatchers.Main).launch {
                         processResponse(protocol, response)
                     }
                 } else {

@@ -188,7 +188,7 @@
                 android:autoSizeMaxTextSize="14sp"
                 android:autoSizeMinTextSize="6sp"
                 android:autoSizeTextType="uniform"
-                android:text="webview2" />
+                android:text="video\nplayer" />
 
             <Button
                 android:id="@+id/btn_33"
@@ -198,7 +198,7 @@
                 android:autoSizeMaxTextSize="14sp"
                 android:autoSizeMinTextSize="6sp"
                 android:autoSizeTextType="uniform"
-                android:text="webview3" />
+                android:text="video\nplayer2" />
 
             <Button
                 android:id="@+id/btn_34"
@@ -208,7 +208,7 @@
                 android:autoSizeMaxTextSize="14sp"
                 android:autoSizeMinTextSize="6sp"
                 android:autoSizeTextType="uniform"
-                android:text="webview4" />
+                android:text="today\ndeals" />
 
             <Button
                 android:id="@+id/btn_35"
@@ -228,7 +228,7 @@
                 android:autoSizeMaxTextSize="14sp"
                 android:autoSizeMinTextSize="6sp"
                 android:autoSizeTextType="uniform"
-                android:text="" />
+                android:text="main\nactivity" />
         </LinearLayout>
 
         <LinearLayout
@@ -258,7 +258,7 @@
                 android:autoSizeMaxTextSize="14sp"
                 android:autoSizeMinTextSize="6sp"
                 android:autoSizeTextType="uniform"
-                android:text="AF" />
+                android:text="IF:\ncuration" />
 
             <Button
                 android:id="@+id/btn_43"

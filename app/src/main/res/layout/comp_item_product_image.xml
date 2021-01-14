@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="com.lge.lgshoptimem.model.dto.Curation" />
+        <variable
+            name="position"
+            type="int" />
+        <variable
+            name="listener"
+            type="com.lge.lgshoptimem.ui.component.ComponentItemListener" />
+        <variable
+            name="viewmodel"
+            type="com.lge.lgshoptimem.model.dto.Curation" />
+
+<!--        <variable-->
+<!--            name="viewmodel"-->
+<!--            type="com.lge.lgshoptimem.ui.component.TitleHeaderListComponent.ComponentViewModel&lt;Curation>" />        -->
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/comp_cl_item"
+        android:layout_width="126dp"
+        android:layout_height="126dp"
+        android:onClick="@{v -> listener.onClick(v, position)}">
+
+<!--        android:foreground="@color/dim_898989"-->
+        <ImageView
+            android:id="@+id/comp_iv_main_image"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            app:imageUrl="@{viewmodel.thumbnailUrl}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/dummy_product_image3" />
+
+        <ToggleButton
+            android:id="@+id/comp_tb_favorate"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@drawable/sel_favorate"
+            android:onClick="@{v -> listener.onClick(v, position)}"
+            android:textOff=""
+            android:textOn=""
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.86"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.16" />
+
+        <TextView
+            android:id="@+id/comp_tv_sold_out"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="SOLD-OUT"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

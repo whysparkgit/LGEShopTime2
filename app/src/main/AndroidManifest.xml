@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.lge.shoptime">
+    package="com.lge.lgshoptimem">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
         android:name="com.lge.core.app.ApplicationProxy"
@@ -14,22 +16,36 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.home.HomeActivity"></activity>
-        <activity android:name=".SplashActivity">
+
+        <activity
+            android:name="com.lge.lgshoptimem.SplashActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
-            android:name=".MainActivity"
+            android:name="com.lge.lgshoptimem.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ActionBarTheme" />
+
         <activity
-            android:name=".IndexActivity"
+            android:name="com.lge.lgshoptimem.IndexActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ActionBarTheme" />
+
+        <activity android:name="com.lge.lgshoptimem.ui.home.HomeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name="com.lge.lgshoptimem.ui.home.VideoPlayerActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_video_player"
+            android:theme="@style/AppTheme.Fullscreen" />
     </application>
 
 </manifest>
