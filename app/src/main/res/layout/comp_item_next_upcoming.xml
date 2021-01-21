@@ -5,7 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="com.lge.lgshoptimem.model.dto.Curation" />
         <variable
             name="position"
             type="int" />
@@ -13,12 +12,8 @@
             name="listener"
             type="com.lge.lgshoptimem.ui.component.ComponentItemListener" />
         <variable
-            name="viewmodel"
-            type="com.lge.lgshoptimem.model.dto.Curation" />
-
-<!--        <variable-->
-<!--            name="viewmodel"-->
-<!--            type="com.lge.lgshoptimem.ui.component.TitleHeaderListComponent.ComponentViewModel&lt;Curation>" />-->
+            name="viewdata"
+            type="com.lge.lgshoptimem.model.dto.Product" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -50,7 +45,7 @@
                 android:adjustViewBounds="true"
                 android:scaleType="fitXY"
                 android:layout_marginEnd="7dp"
-                app:imageUrl="@{viewmodel.thumbnailUrl}"
+                app:imageUrl="@{viewdata.imgUrl}"
                 app:srcCompat="@drawable/ic_player_hsn" />
 
             <TextView
@@ -99,7 +94,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 android:text="09/07/2020 12:19 PM"/>
 
-    <!--        android:text="@{viewmodel.mldDataList.get(position).productInfos.get(0).prdtNm}"-->
+<!--            android:text="Nike Swoosh Run Totalmente transparente bonita"-->
             <TextView
                 android:id="@+id/comp_tv_product_title"
                 android:layout_width="0dp"
@@ -108,7 +103,7 @@
                 android:maxLines="2"
                 android:minLines="2"
                 android:ellipsize="end"
-                android:text="Nike Swoosh Run Totalmente transparente bonita"
+                android:text="@{viewdata.prdtNm}"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"

@@ -5,7 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="com.lge.lgshoptimem.model.dto.Curation" />
         <variable
             name="position"
             type="int" />
@@ -13,30 +12,33 @@
             name="listener"
             type="com.lge.lgshoptimem.ui.component.ComponentItemListener" />
         <variable
-            name="viewmodel"
-            type="com.lge.lgshoptimem.model.dto.Curation" />
-
-<!--        <variable-->
-<!--            name="viewmodel"-->
-<!--            type="com.lge.lgshoptimem.ui.component.TitleHeaderListComponent.ComponentViewModel&lt;Curation>" />        -->
+            name="viewdata"
+            type="com.lge.lgshoptimem.model.dto.Product" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/comp_cl_item"
-        android:layout_width="126dp"
-        android:layout_height="126dp"
+        android:layout_width="136dp"
+        android:layout_height="260dp"
         android:onClick="@{v -> listener.onClick(v, position)}">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_h1"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.54" />
 
 <!--        android:foreground="@color/dim_898989"-->
         <ImageView
             android:id="@+id/comp_iv_main_image"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="6dp"
             android:adjustViewBounds="true"
             android:scaleType="fitXY"
-            app:imageUrl="@{viewmodel.thumbnailUrl}"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:imageUrl="@{viewdata.imgUrl}"
+            app:layout_constraintBottom_toBottomOf="@+id/gl_h1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -50,7 +52,7 @@
             android:onClick="@{v -> listener.onClick(v, position)}"
             android:textOff=""
             android:textOn=""
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/gl_h1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.86"
             app:layout_constraintStart_toStartOf="parent"
@@ -67,12 +69,99 @@
             android:textSize="14sp"
             android:textStyle="bold"
             android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/gl_h1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            app:layout_constraintTop_toBottomOf="@+id/gl_h1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
+            <TextView
+                android:id="@+id/comp_tv_product_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:minLines="2"
+                android:text="@{viewdata.prdtNm}"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="Nike Swoosh Run Totalmente transparente bonita"/>
+
+            <RatingBar
+                android:id="@+id/comp_rb_rating"
+                style="@style/Widget.AppCompat.RatingBar.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:isIndicator="true"
+                android:progressTint="@color/pink_e32e70"
+                android:rating="3.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/comp_tv_product_title" />
+
+            <TextView
+                android:id="@+id/comp_tv_shoptime_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:paddingVertical="1dp"
+                android:paddingHorizontal="6dp"
+                android:background="@drawable/bg_rect_border_pink_r1"
+                android:textColor="@color/pink_e32e70"
+                android:textSize="9sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/comp_rb_rating"
+                android:text="Shop Time Price"/>
+
+            <TextView
+                android:id="@+id/comp_tv_origin_price"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:textSize="12sp"
+                app:strikeThrough="@{true}"
+                app:layout_constraintTop_toBottomOf="@id/comp_tv_shoptime_price"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="$345.99" />
+
+            <!--        android:text="@{viewmodel.mldDataList.get(position).productInfos.get(0).price3}"-->
+            <TextView
+                android:id="@+id/comp_tv_price"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black_141414"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/comp_tv_origin_price"
+                android:text="$135.95"/>
+
+            <!--        android:text="@{viewmodel.mldDataList.get(position).productInfos.get(0).price3}"-->
+            <TextView
+                android:id="@+id/comp_tv_discount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:textColor="@color/pink_e32e70"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/comp_tv_price"
+                app:layout_constraintBottom_toBottomOf="@+id/comp_tv_price"
+                android:text="12%"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

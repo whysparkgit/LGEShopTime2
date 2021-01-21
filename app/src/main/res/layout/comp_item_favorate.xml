@@ -5,7 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="com.lge.lgshoptimem.model.dto.Curation" />
         <variable
             name="position"
             type="int" />
@@ -13,12 +12,8 @@
             name="listener"
             type="com.lge.lgshoptimem.ui.component.ComponentItemListener" />
         <variable
-            name="viewmodel"
-            type="com.lge.lgshoptimem.model.dto.Curation" />
-
-<!--        <variable-->
-<!--            name="viewmodel"-->
-<!--            type="com.lge.lgshoptimem.ui.component.TitleHeaderListComponent.ComponentViewModel&lt;Curation>" />-->
+            name="viewdata"
+            type="com.lge.lgshoptimem.model.dto.Product" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

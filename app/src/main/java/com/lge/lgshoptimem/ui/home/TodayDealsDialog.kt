@@ -17,15 +17,16 @@ import com.lge.lgshoptimem.databinding.DialogTodayDealsBinding
 import com.lge.lgshoptimem.model.dto.Curation
 import com.lge.lgshoptimem.model.dto.CurationList
 import com.lge.lgshoptimem.model.http.MainCurationProtocol
+import com.lge.lgshoptimem.ui.component.BaseListComponent
 import com.lge.lgshoptimem.ui.component.HeaderListComponent
 
 class TodayDealsDialog: DialogFragment()
 {
     private lateinit var mBinding: DialogTodayDealsBinding
-    private val mViewModel = ApplicationProxy.getInstance().getActivity()!!.run {
-        val viewModel: HeaderListComponent.ComponentViewModel<Curation> by viewModels()
-        viewModel
-    }
+//    private val mViewModel = ApplicationProxy.getInstance().getActivity()!!.run {
+//        val viewModel: BaseListComponent.ComponentViewModel<Curation> by viewModels()
+//        viewModel
+//    }
 
     override fun onAttach(context: Context) {
         Trace.debug("++ onAttach()")
@@ -69,7 +70,7 @@ class TodayDealsDialog: DialogFragment()
                 Trace.debug(">> requestData() onResponse() : $response")
 
                 if (response.isSuccess()) {
-                    mViewModel.mldDataList.value = response.data.curations
+//                    mViewModel.mldDataList.value = response.data.curations
                 }
             }
 

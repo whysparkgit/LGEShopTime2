@@ -5,7 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="com.lge.lgshoptimem.model.dto.Curation" />
         <variable
             name="position"
             type="int" />
@@ -13,8 +12,12 @@
             name="listener"
             type="com.lge.lgshoptimem.ui.component.ComponentItemListener" />
         <variable
-            name="viewmodel"
-            type="com.lge.lgshoptimem.model.dto.Curation" />
+            name="viewdata"
+            type="com.lge.lgshoptimem.model.dto.Product" />
+
+<!--        <variable-->
+<!--            name="viewdata"-->
+<!--            type="com.lge.lgshoptimem.model.dto.Curation" />-->
 
 <!--        <variable-->
 <!--            name="viewmodel"-->
@@ -46,13 +49,13 @@
             android:ellipsize="end"
             android:text="[on TV4U] John Connor's Cooking Special Show Open Celebrating Kitchen and Food 10% Special Discount Cou ..."/>
 
-<!--        android:text="@{viewmodel.mldDataList.get(position).productInfos.get(0).prdtNm}"-->
+<!--            android:text="Code : G18JN87DA"-->
         <TextView
             android:id="@+id/comp_tv_coupon_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Code : G18JN87DA"
+            android:text="@{viewdata.prdtNm}"
             android:textStyle="bold"
             android:textColor="@color/black_141414"
             android:textSize="19sp" />

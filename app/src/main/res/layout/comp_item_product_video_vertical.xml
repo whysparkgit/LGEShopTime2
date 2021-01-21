@@ -5,7 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="com.lge.lgshoptimem.model.dto.Curation" />
         <variable
             name="position"
             type="int" />
@@ -13,12 +12,8 @@
             name="listener"
             type="com.lge.lgshoptimem.ui.component.ComponentItemListener" />
         <variable
-            name="viewmodel"
-            type="com.lge.lgshoptimem.model.dto.Curation" />
-
-<!--        <variable-->
-<!--            name="viewmodel"-->
-<!--            type="com.lge.lgshoptimem.ui.component.TitleHeaderListComponent.ComponentViewModel&lt;Curation>" />        -->
+            name="viewdata"
+            type="com.lge.lgshoptimem.model.dto.Product" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -34,7 +29,8 @@
             android:layout_margin="5dp"
             android:adjustViewBounds="true"
             android:scaleType="fitXY"
-            app:imageUrl="@{viewmodel.thumbnailUrl}"
+            android:foreground="@color/dim_898989"
+            app:imageUrl="@{viewdata.imgUrl}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -61,7 +57,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
-    <!--        android:text="@{viewmodel.mldDataList.get(position).productInfos.get(0).prdtNm}"-->
+
+<!--            android:text="[on TV4U] Too Faced Enchanted"-->
             <TextView
                 android:id="@+id/comp_tv_product_title"
                 android:layout_width="0dp"
@@ -69,7 +66,7 @@
                 android:ellipsize="end"
                 android:maxLines="2"
                 android:minLines="2"
-                android:text="[on TV4U] Too Faced Enchanted"
+                android:text="@{viewdata.prdtNm}"
                 android:textColor="@color/black_141414"
                 android:textSize="14sp"
                 app:layout_constraintTop_toTopOf="parent"

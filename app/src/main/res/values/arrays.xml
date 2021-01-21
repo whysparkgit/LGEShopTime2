@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer-array name="id_channel_icons" >
+        <item>@drawable/sel_channel_hsn</item>
+        <item>@drawable/sel_channel_qvc</item>
+        <item>@drawable/sel_channel_ontv</item>
+        <item>@drawable/sel_channel_jtv</item>
+    </integer-array>
+</resources>

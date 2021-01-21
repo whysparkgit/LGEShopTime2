@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="position"
+            type="int" />
+        <variable
+            name="listener"
+            type="com.lge.lgshoptimem.ui.component.ComponentItemListener" />
+<!--        <variable-->
+<!--            name="viewmodel"-->
+<!--            type="com.lge.lgshoptimem.model.dto.Curation" />-->
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.lge.lgshoptimem.ui.component.HeaderGridComponent
+            android:id="@+id/comp_list"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:headLayout="@layout/comp_head_grid_items"
+            app:itemLayout="@layout/comp_item_product_video_vertical"
+            app:orientation="vertical"
+            app:subject="RECENTLY VIEWED"
+            app:subtitle="Show"
+            app:itemCount="4"
+            app:rowCount="2"
+            app:position="@{position}"
+            android:onClick="@{v -> listener.onClick(v, position)}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

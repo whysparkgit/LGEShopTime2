@@ -10,10 +10,14 @@
             type="com.lge.lgshoptimem.ui.component.HeaderGridComponent" />
         <variable
             name="adapter"
-            type="com.lge.lgshoptimem.ui.component.HeaderGridComponent.ComponentAdapter" />
+            type="com.lge.lgshoptimem.ui.component.BaseListComponent.ComponentAdapter" />
+        <variable
+            name="viewdata"
+            type="com.lge.lgshoptimem.model.dto.Curation" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/comp_cl_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

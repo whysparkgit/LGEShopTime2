@@ -13,12 +13,14 @@ import com.lge.lgshoptimem.databinding.ActivityMainBinding
 import com.lge.lgshoptimem.model.dto.Curation
 import com.lge.lgshoptimem.model.dto.CurationList
 import com.lge.lgshoptimem.model.http.MainCurationProtocol
+import com.lge.lgshoptimem.ui.component.BaseListComponent
 import com.lge.lgshoptimem.ui.component.HeaderListComponent
 
 class MainActivity : AppCompatActivity()
 {
     private lateinit var mBinding: ActivityMainBinding
-    private val mViewModel: HeaderListComponent.ComponentViewModel<Curation> by viewModels()
+//    private val mViewModel: BaseListComponent.ComponentViewModel<Curation> by viewModels()
+    private val mViewModel: BaseListComponent.ComponentViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,7 +59,7 @@ class MainActivity : AppCompatActivity()
                 Trace.debug(">> requestData() onResponse() : $response")
 
                 if (response.isSuccess()) {
-                    mViewModel.mldDataList.value = response.data.curations
+//                    mViewModel.mldDataList.value = response.data.curations
                 }
             }
 

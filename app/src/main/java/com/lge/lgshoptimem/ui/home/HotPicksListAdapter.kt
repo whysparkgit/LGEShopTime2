@@ -4,8 +4,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.viewModels
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.lge.core.app.ApplicationProxy
 import com.lge.core.sys.Trace
@@ -13,23 +16,27 @@ import com.lge.lgshoptimem.BR
 import com.lge.lgshoptimem.R
 import com.lge.lgshoptimem.databinding.*
 import com.lge.lgshoptimem.ui.common.AppConst
+import com.lge.lgshoptimem.ui.component.BaseListComponent
 import com.lge.lgshoptimem.ui.component.ComponentItemListener
+import com.lge.lgshoptimem.ui.component.HeaderGridComponent
 import com.lge.lgshoptimem.ui.component.HeaderListComponent
 
-class HotPicksListAdapter(val mListener: ComponentItemListener):
+class HotPicksListAdapter(mFragment: Fragment):
         RecyclerView.Adapter<HotPicksListAdapter.ItemViewHolder<*>>()
 {
-    private val mViewModel = ApplicationProxy.getInstance().getActivity()!!.run {
-        val viewModel: WatchNowViewModel by viewModels()
+    private val mViewModel = mFragment.run {
+        val viewModel: HotPicksViewModel by viewModels()
         viewModel
     }
 
+    private val mListener: ComponentItemListener = mFragment as ComponentItemListener
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HotPicksListAdapter.ItemViewHolder<*> {
-        Trace.debug("++ onCreateViewHolder() viewType = $viewType")
+//        Trace.debug("++ onCreateViewHolder() viewType = $viewType")
         val inflater = LayoutInflater.from(parent.context)
 
         return when (viewType) {
-            AppConst.VIEWTYPE.VT_PRODUCT_ITEM -> {
+            AppConst.VIEWTYPE.VT_LIVE_CHANNEL_PRODUCT -> {
                 val binding: ViewProductListBinding = DataBindingUtil.inflate(inflater, R.layout.view_product_list, parent, false)
                 ItemViewHolder<ViewProductListBinding>(binding.root)
             }
@@ -44,9 +51,9 @@ class HotPicksListAdapter(val mListener: ComponentItemListener):
                 ItemViewHolder<ViewTodayDealsBinding>(binding.root)
             }
 
-            AppConst.VIEWTYPE.VT_PRODUCT_AD_ITEMS -> {
-                val binding: ViewAdItemsBinding = DataBindingUtil.inflate(inflater, R.layout.view_ad_items, parent, false)
-                ItemViewHolder<ViewAdItemsBinding>(binding.root)
+            AppConst.VIEWTYPE.VT_HOT_PICKS -> {
+                val binding: ViewHotPicksBinding = DataBindingUtil.inflate(inflater, R.layout.view_hot_picks, parent, false)
+                ItemViewHolder<ViewHotPicksBinding>(binding.root)
             }
 
             else -> {
@@ -57,70 +64,94 @@ class HotPicksListAdapter(val mListener: ComponentItemListener):
     }
 
     override fun onBindViewHolder(holder: HotPicksListAdapter.ItemViewHolder<*>, position: Int) {
-        Trace.debug("++ onBindViewHolder()")
-        val binding: ViewDataBinding = holder.getBinding() as ViewDataBinding
-        binding.setVariable(BR.position, position)
-        binding.setVariable(BR.listener, mListener)
-        binding.setVariable(BR.viewmodel, mViewModel.mldDataList.value?.get(position))
+//        Trace.debug("++ onBindViewHolder()")
+        val binding: ViewDataBinding? = holder.getBinding()
+        binding?.setVariable(BR.position, position)
+        binding?.setVariable(BR.listener, mListener)
+
+        if (mViewModel.mldDataList.value.isNullOrEmpty()) return
+
+        val baseCompList = binding?.root?.findViewById<BaseListComponent>(R.id.comp_list)
+
+        when (getItemViewType(position)) {
+            AppConst.VIEWTYPE.VT_TODAY_DEAL -> {
+                baseCompList?.setHeadData(mViewModel.mldDataList.value!![position % mViewModel.mldDataList.value!!.size])
+                baseCompList?.setItemList(mViewModel.mldDataList.value!!)
+            }
+
+            else -> {
+                baseCompList?.setHeadData(mViewModel.mldDataList.value!![position % mViewModel.mldDataList.value!!.size])
+                baseCompList?.setItemList(mViewModel.mldDataList.value!![position % mViewModel.mldDataList.value!!.size].productInfos)
+            }
+        }
+
         holder.bind()
     }
 
     override fun getItemCount(): Int {
-        Trace.debug("++ getItemCount()")
-        return getItemCount(AppConst.VIEWTYPE.VT_PRODUCT_ITEM) +
-               getItemCount(AppConst.VIEWTYPE.VT_NEXT_UPCOMING_HORIZONTAL) +
-               getItemCount(AppConst.VIEWTYPE.VT_TODAY_DEAL) +
-               getItemCount(AppConst.VIEWTYPE.VT_PRODUCT_AD_ITEMS)
+        var nCount = 0
+
+        var arrViewTypes = arrayOf(
+                AppConst.VIEWTYPE.VT_LIVE_CHANNEL_PRODUCT,
+                AppConst.VIEWTYPE.VT_NEXT_UPCOMING_HORIZONTAL,
+                AppConst.VIEWTYPE.VT_TODAY_DEAL,
+                AppConst.VIEWTYPE.VT_HOT_PICKS
+        )
+
+        arrViewTypes.forEach {
+            nVal -> nCount += getItemCount(nVal)
+        }
+
+//        Trace.debug("++ getItemCount() nCount = $nCount")
+        return nCount
     }
 
     fun getItemCount(viewType: Int): Int {
-        Trace.debug("++ getItemCount(viewType)")
+//        Trace.debug("++ getItemCount(viewType)")
         return when (viewType) {
-            AppConst.VIEWTYPE.VT_PRODUCT_ITEM -> 0
+            AppConst.VIEWTYPE.VT_LIVE_CHANNEL_PRODUCT -> 0
             AppConst.VIEWTYPE.VT_NEXT_UPCOMING_HORIZONTAL -> 0
             AppConst.VIEWTYPE.VT_TODAY_DEAL -> 1
-            AppConst.VIEWTYPE.VT_PRODUCT_AD_ITEMS -> 5
+            AppConst.VIEWTYPE.VT_HOT_PICKS -> 5
             else -> 1
         }
     }
 
     override fun getItemViewType(position: Int): Int {
         var nIndex: Int = 0;
-        var nRet = AppConst.VIEWTYPE.VT_PRODUCT_ITEM
 
-        if (position in nIndex until getItemCount(AppConst.VIEWTYPE.VT_TODAY_DEAL)) {
-            nRet = AppConst.VIEWTYPE.VT_TODAY_DEAL
+        var arrViewTypes = arrayOf(
+                AppConst.VIEWTYPE.VT_LIVE_CHANNEL_PRODUCT,
+                AppConst.VIEWTYPE.VT_NEXT_UPCOMING_HORIZONTAL,
+                AppConst.VIEWTYPE.VT_TODAY_DEAL,
+                AppConst.VIEWTYPE.VT_HOT_PICKS
+        )
+
+        arrViewTypes.forEach {
+            nVal -> if (position in nIndex until nIndex + getItemCount(nVal)) {
+                Trace.debug("++ getItemViewType() position = $position ViewType = $nVal")
+                return nVal
+            }
+
+            nIndex += getItemCount(nVal)
         }
 
-        nIndex += getItemCount(AppConst.VIEWTYPE.VT_TODAY_DEAL)
-
-        if (position in nIndex until nIndex + getItemCount(AppConst.VIEWTYPE.VT_PRODUCT_AD_ITEMS)) {
-            nRet = AppConst.VIEWTYPE.VT_PRODUCT_AD_ITEMS
-        }
-
-        nIndex += getItemCount(AppConst.VIEWTYPE.VT_PRODUCT_AD_ITEMS)
-
-        if (position in nIndex until nIndex + getItemCount(AppConst.VIEWTYPE.VT_NEXT_UPCOMING_HORIZONTAL)) {
-            nRet = AppConst.VIEWTYPE.VT_NEXT_UPCOMING_HORIZONTAL
-        }
-
-        nIndex += getItemCount(AppConst.VIEWTYPE.VT_NEXT_UPCOMING_HORIZONTAL)
-
-        if (position in nIndex until nIndex + getItemCount(AppConst.VIEWTYPE.VT_PRODUCT_ITEM)) {
-            nRet = AppConst.VIEWTYPE.VT_PRODUCT_ITEM
-        }
-
-        Trace.debug("++ getItemViewType() position = $position nRet = $nRet")
-        return nRet
+        return arrViewTypes.last()
     }
 
     inner class ItemViewHolder<B>(itemView: View) :
             RecyclerView.ViewHolder(itemView)
     {
-        fun getBinding() = DataBindingUtil.getBinding<ViewDataBinding>(itemView) as B
+        fun getBinding(): ViewDataBinding? = DataBindingUtil.getBinding(itemView)
 
         fun bind() {
-            itemView.findViewById<HeaderListComponent>(R.id.comp_list).addItemListener(mListener)
+            Trace.debug("++ bind()")
+            val view: View = itemView.findViewById<ConstraintLayout>(R.id.comp_list)
+
+            if (view is BaseListComponent) {
+                Trace.debug(">> view is BaseListComponent")
+                view.addItemListener(mListener)
+            }
         }
     }
 }

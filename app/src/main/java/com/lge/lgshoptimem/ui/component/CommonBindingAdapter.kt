@@ -2,6 +2,7 @@ package com.lge.lgshoptimem.ui.component
 
 import android.graphics.Bitmap
 import android.graphics.Paint
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
@@ -17,6 +18,18 @@ import com.lge.lgshoptimem.model.http.ImageLinkProtocol
 object CommonBindingAdapter
 {
     @JvmStatic
+    @BindingAdapter("position")
+    fun setPosition(comp: BaseListComponent, position: Int) {
+        comp.setPosition(position)
+    }
+
+    @JvmStatic
+    @BindingAdapter("resource")
+    fun setResource(imageView: ImageView, resourceId: Int) {
+        imageView.setImageResource(resourceId)
+    }
+
+    @JvmStatic
     @BindingAdapter("strikeThrough")
     fun strikeThrough(textView: TextView, bFlag: Boolean) {
         if (bFlag) {
@@ -30,6 +43,7 @@ object CommonBindingAdapter
     @BindingAdapter("imageUrl")
     fun setImageUrl(imageView: ImageView, strUrl: String?) {
         Trace.debug("++ setImageUrl() strUrl = $strUrl")
+        Trace.debug("++ setImageUrl() imageView = $imageView")
 
         if (!strUrl.isNullOrEmpty()) {
             requestImage(strUrl, imageView)

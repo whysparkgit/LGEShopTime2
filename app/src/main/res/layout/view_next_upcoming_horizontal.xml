@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+    <data>
+        <variable
+            name="position"
+            type="int" />
+        <variable
+            name="listener"
+            type="com.lge.lgshoptimem.ui.component.ComponentItemListener" />
+<!--        <variable-->
+<!--            name="viewmodel"-->
+<!--            type="com.lge.lgshoptimem.model.dto.Curation" />-->
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -15,9 +26,11 @@
             app:headLayout="@layout/comp_head_text_images"
             app:itemLayout="@layout/comp_item_next_upcoming"
             app:orientation="horizontal"
-            app:title="NEXT UPCOMING"
+            app:subject="NEXT UPCOMING"
             app:showIndex="true"
             app:itemCount="3"
+            app:position="@{position}"
+            android:onClick="@{v -> listener.onClick(v, position)}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>

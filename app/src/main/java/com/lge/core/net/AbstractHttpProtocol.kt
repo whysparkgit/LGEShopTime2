@@ -134,6 +134,7 @@ abstract class AbstractHttpProtocol<RES> : HttpRequestable
         mResponsable = responsable
     }
 
+    @Suppress("UNCHECKED_CAST")
     override fun parse(responseBody: Any?) {
         Trace.debug("++ parse()")
         var parsedObject: RES? = null

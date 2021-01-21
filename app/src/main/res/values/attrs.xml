@@ -19,5 +19,6 @@
         <attr name="subject" format="string" />
         <attr name="subtitle" format="string" />
         <attr name="rowCount" format="integer" />
+        <attr name="position" format="integer" />
     </declare-styleable>
 </resources>
