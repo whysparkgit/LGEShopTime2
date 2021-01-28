@@ -3,14 +3,12 @@ package com.lge.lgshoptimem.ui.home
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
-import com.lge.core.app.ApplicationProxy
 import com.lge.core.sys.Trace
 import com.lge.lgshoptimem.BR
 import com.lge.lgshoptimem.R
@@ -18,8 +16,6 @@ import com.lge.lgshoptimem.databinding.*
 import com.lge.lgshoptimem.ui.common.AppConst
 import com.lge.lgshoptimem.ui.component.BaseListComponent
 import com.lge.lgshoptimem.ui.component.ComponentItemListener
-import com.lge.lgshoptimem.ui.component.HeaderGridComponent
-import com.lge.lgshoptimem.ui.component.HeaderListComponent
 
 class HotPicksListAdapter(mFragment: Fragment):
         RecyclerView.Adapter<HotPicksListAdapter.ItemViewHolder<*>>()
@@ -36,7 +32,7 @@ class HotPicksListAdapter(mFragment: Fragment):
         val inflater = LayoutInflater.from(parent.context)
 
         return when (viewType) {
-            AppConst.VIEWTYPE.VT_LIVE_CHANNEL_PRODUCT -> {
+            AppConst.VIEWTYPE.VT_LIVE_CHANNELS -> {
                 val binding: ViewProductListBinding = DataBindingUtil.inflate(inflater, R.layout.view_product_list, parent, false)
                 ItemViewHolder<ViewProductListBinding>(binding.root)
             }
@@ -92,7 +88,7 @@ class HotPicksListAdapter(mFragment: Fragment):
         var nCount = 0
 
         var arrViewTypes = arrayOf(
-                AppConst.VIEWTYPE.VT_LIVE_CHANNEL_PRODUCT,
+                AppConst.VIEWTYPE.VT_LIVE_CHANNELS,
                 AppConst.VIEWTYPE.VT_NEXT_UPCOMING_HORIZONTAL,
                 AppConst.VIEWTYPE.VT_TODAY_DEAL,
                 AppConst.VIEWTYPE.VT_HOT_PICKS
@@ -109,7 +105,7 @@ class HotPicksListAdapter(mFragment: Fragment):
     fun getItemCount(viewType: Int): Int {
 //        Trace.debug("++ getItemCount(viewType)")
         return when (viewType) {
-            AppConst.VIEWTYPE.VT_LIVE_CHANNEL_PRODUCT -> 0
+            AppConst.VIEWTYPE.VT_LIVE_CHANNELS -> 0
             AppConst.VIEWTYPE.VT_NEXT_UPCOMING_HORIZONTAL -> 0
             AppConst.VIEWTYPE.VT_TODAY_DEAL -> 1
             AppConst.VIEWTYPE.VT_HOT_PICKS -> 5
@@ -121,7 +117,7 @@ class HotPicksListAdapter(mFragment: Fragment):
         var nIndex: Int = 0;
 
         var arrViewTypes = arrayOf(
-                AppConst.VIEWTYPE.VT_LIVE_CHANNEL_PRODUCT,
+                AppConst.VIEWTYPE.VT_LIVE_CHANNELS,
                 AppConst.VIEWTYPE.VT_NEXT_UPCOMING_HORIZONTAL,
                 AppConst.VIEWTYPE.VT_TODAY_DEAL,
                 AppConst.VIEWTYPE.VT_HOT_PICKS

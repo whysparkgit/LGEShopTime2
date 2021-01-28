@@ -1,26 +1,17 @@
 package com.lge.lgshoptimem.ui.home
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.lge.core.app.ApplicationProxy
-import com.lge.core.net.HttpResponsable
-import com.lge.core.net.NetworkManager
-import com.lge.core.net.ProtocolFactory
 import com.lge.core.sys.Trace
 import com.lge.lgshoptimem.R
 import com.lge.lgshoptimem.databinding.FragmentForyouBinding
 import com.lge.lgshoptimem.model.dto.Curation
-import com.lge.lgshoptimem.model.dto.CurationList
-import com.lge.lgshoptimem.model.http.MainCurationProtocol
 import com.lge.lgshoptimem.ui.common.AppConst
 import com.lge.lgshoptimem.ui.component.ComponentItemListener
 import com.lge.lgshoptimem.ui.component.HeaderGridComponent
@@ -72,7 +63,7 @@ class ForYouFragment : Fragment(), ComponentItemListener {
             AppConst.VIEWTYPE.VT_CATEGORY_REMINDER -> Trace.debug(">> viewType = VT_CATEGORY_REMINDER")
             AppConst.VIEWTYPE.VT_KEYWORD_REMINDER -> Trace.debug(">> viewType = VT_KEYWORD_REMINDER")
             AppConst.VIEWTYPE.VT_NEXT_UPCOMING_VERTICAL -> Trace.debug(">> viewType = VT_NEXT_UPCOMING_VERTICAL")
-            AppConst.VIEWTYPE.VT_LIVE_CHANNEL_PRODUCT -> Trace.debug(">> viewType = VT_LIVE_CHANNEL_PRODUCT")
+            AppConst.VIEWTYPE.VT_LIVE_CHANNELS -> Trace.debug(">> viewType = VT_LIVE_CHANNEL_PRODUCT")
             AppConst.VIEWTYPE.VT_MY_FAVORITES -> Trace.debug(">> viewType = VT_MY_FAVORITES")
             AppConst.VIEWTYPE.VT_RECENTLY_VIEWED -> Trace.debug(">> viewType = VT_RECENTLY_VIEWED")
             AppConst.VIEWTYPE.VT_COUPON -> Trace.debug(">> viewType = VT_COUPON")
@@ -99,7 +90,7 @@ class ForYouFragment : Fragment(), ComponentItemListener {
             AppConst.VIEWTYPE.VT_CATEGORY_REMINDER -> Trace.debug(">> viewType = VT_CATEGORY_REMINDER")
             AppConst.VIEWTYPE.VT_KEYWORD_REMINDER -> Trace.debug(">> viewType = VT_KEYWORD_REMINDER")
             AppConst.VIEWTYPE.VT_NEXT_UPCOMING_VERTICAL -> Trace.debug(">> viewType = VT_NEXT_UPCOMING_VERTICAL")
-            AppConst.VIEWTYPE.VT_LIVE_CHANNEL_PRODUCT -> Trace.debug(">> viewType = VT_LIVE_CHANNEL_PRODUCT")
+            AppConst.VIEWTYPE.VT_LIVE_CHANNELS -> Trace.debug(">> viewType = VT_LIVE_CHANNEL_PRODUCT")
             AppConst.VIEWTYPE.VT_MY_FAVORITES -> Trace.debug(">> viewType = VT_MY_FAVORITES")
             AppConst.VIEWTYPE.VT_RECENTLY_VIEWED -> Trace.debug(">> viewType = VT_RECENTLY_VIEWED")
             AppConst.VIEWTYPE.VT_COUPON -> Trace.debug(">> viewType = VT_COUPON")

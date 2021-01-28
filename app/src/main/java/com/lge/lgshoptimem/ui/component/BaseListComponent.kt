@@ -40,11 +40,11 @@ open class BaseListComponent @JvmOverloads constructor(
 //        viewModel
 //    }
     /** Component Subject */
-    var mstrSubject: String?
+    var mstrSubject: String? = null
     /** Component Title */
-    var mstrTitle: String?
+    var mstrTitle: String? = null
     /** Component Subtitle */
-    var mstrSubtitle: String?
+    var mstrSubtitle: String? = null
     /** Component Position */
     var mnPosition: Int = 0
     var mnItemCountLimit = -1

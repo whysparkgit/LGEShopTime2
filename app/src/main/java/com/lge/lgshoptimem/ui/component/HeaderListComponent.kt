@@ -6,21 +6,13 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.databinding.ObservableInt
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SnapHelper
-import com.lge.core.net.HttpResponsable
-import com.lge.core.net.NetworkManager
-import com.lge.core.net.ProtocolFactory
 import com.lge.core.sys.Trace
 import com.lge.lgshoptimem.R
-import com.lge.lgshoptimem.model.dto.CurationList
-import com.lge.lgshoptimem.model.http.MainCurationProtocol
+import kotlin.math.abs
 
 
 class HeaderListComponent @JvmOverloads constructor(
@@ -35,6 +27,8 @@ class HeaderListComponent @JvmOverloads constructor(
 //        viewModel
 //    }
     private val mSnapHelper: SnapHelper = LinearSnapHelper()
+    private var mLastX: Float = 0f
+    private var mLastY: Float = 0f
 
     init {
         Trace.debug("++ HeaderListComponent.init() $this")
@@ -84,17 +78,38 @@ class HeaderListComponent @JvmOverloads constructor(
 
                 addOnItemTouchListener(object: RecyclerView.OnItemTouchListener {
                     override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
+                        Trace.debug(">> onInterceptTouchEvent() action = ${e.action} x = ${e.x} y = ${e.y}")
+                        var curX: Float = 0f
+                        var curY: Float = 0f
+                        var distX: Float = 0f
+                        var distY: Float = 0f
+
                         when (e.action) {
-                            MotionEvent.ACTION_MOVE -> compRvList.parent.requestDisallowInterceptTouchEvent(true)
+                            MotionEvent.ACTION_DOWN -> {
+                                mLastX = e.x
+                                mLastY = e.y
+                            }
+
+                            MotionEvent.ACTION_MOVE -> {
+                                curX = e.x
+                                curY = e.y
+                                distX = abs(curX - mLastX)
+                                distY = abs(curY - mLastY)
+                                mLastX = curX
+                                mLastY = curY
+                                compRvList.parent.requestDisallowInterceptTouchEvent(distX > distY)
+                            }
                         }
 
                         return false
                     }
 
                     override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {
+                        Trace.debug(">> onTouchEvent() action = ${e.action} x = ${e.x} y = ${e.y}")
                     }
 
                     override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {
+                        Trace.debug(">> onRequestDisallowInterceptTouchEvent() disallowIntercept = $disallowIntercept")
                     }
                 })
             }

@@ -5,20 +5,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
+import android.widget.AbsListView
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.lge.core.net.HttpResponsable
-import com.lge.core.net.NetworkManager
-import com.lge.core.net.ProtocolFactory
+import androidx.recyclerview.widget.RecyclerView
 import com.lge.core.sys.Trace
 import com.lge.lgshoptimem.databinding.FragmentWatchnowBinding
+import com.lge.lgshoptimem.databinding.ViewLiveChannelsBinding
+import com.lge.lgshoptimem.databinding.ViewPopularShowsBinding
 import com.lge.lgshoptimem.model.dto.Curation
-import com.lge.lgshoptimem.model.dto.CurationList
-import com.lge.lgshoptimem.model.http.MainCurationProtocol
 import com.lge.lgshoptimem.ui.common.AppConst
 import com.lge.lgshoptimem.ui.component.ComponentItemListener
+import com.lge.lgshoptimem.ui.component.VideoViewComponent
 
 class WatchNowFragment : Fragment(), ComponentItemListener {
     private lateinit var mBinding: FragmentWatchnowBinding
@@ -64,7 +64,7 @@ class WatchNowFragment : Fragment(), ComponentItemListener {
         Trace.debug("++ onClick() v = ${v.id} pos = $pos")
 
         when (mAdapter.getItemViewType(pos)) {
-            AppConst.VIEWTYPE.VT_LIVE_CHANNEL_PRODUCT -> Trace.debug(">> viewType = VT_LIVE_CHANNEL_PRODUCT")
+            AppConst.VIEWTYPE.VT_LIVE_CHANNELS -> Trace.debug(">> viewType = VT_LIVE_CHANNEL_PRODUCT")
             AppConst.VIEWTYPE.VT_NEXT_UPCOMING_HORIZONTAL -> Trace.debug(">> viewType = VT_NEXT_UPCOMING_HORIZONTAL")
             AppConst.VIEWTYPE.VT_TODAY_DEAL -> Trace.debug(">> viewType = VT_TODAY_DEAL")
             AppConst.VIEWTYPE.VT_POPULAR_SHOWS -> Trace.debug(">> viewType = VT_POPULAR_SHOWS")
@@ -85,12 +85,17 @@ class WatchNowFragment : Fragment(), ComponentItemListener {
                 item.isSelected = !item.isSelected
             }
 
-            AppConst.VIEWTYPE.VT_LIVE_CHANNEL_PRODUCT -> Trace.debug(">> viewType = VT_LIVE_CHANNEL_PRODUCT")
+            AppConst.VIEWTYPE.VT_LIVE_CHANNELS -> Trace.debug(">> viewType = VT_LIVE_CHANNEL_PRODUCT")
             AppConst.VIEWTYPE.VT_NEXT_UPCOMING_HORIZONTAL -> Trace.debug(">> viewType = VT_NEXT_UPCOMING_HORIZONTAL")
             AppConst.VIEWTYPE.VT_TODAY_DEAL -> Trace.debug(">> viewType = VT_TODAY_DEAL")
             AppConst.VIEWTYPE.VT_POPULAR_SHOWS -> Trace.debug(">> viewType = VT_POPULAR_SHOWS")
             AppConst.VIEWTYPE.VT_YOU_MAY_LIKE -> Trace.debug(">> viewType = VT_YOU_MAY_LIKE")
             else -> Trace.debug(">> viewType = else")
         }
+    }
+
+    override fun onDestroyView() {
+        Trace.debug("++ onDestroyView()")
+        super.onDestroyView()
     }
 }

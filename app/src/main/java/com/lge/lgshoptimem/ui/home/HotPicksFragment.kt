@@ -8,14 +8,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.lge.core.net.HttpResponsable
-import com.lge.core.net.NetworkManager
-import com.lge.core.net.ProtocolFactory
 import com.lge.core.sys.Trace
 import com.lge.lgshoptimem.databinding.FragmentHotpicksBinding
 import com.lge.lgshoptimem.model.dto.Curation
-import com.lge.lgshoptimem.model.dto.CurationList
-import com.lge.lgshoptimem.model.http.MainCurationProtocol
 import com.lge.lgshoptimem.ui.common.AppConst
 import com.lge.lgshoptimem.ui.component.ComponentItemListener
 
@@ -62,7 +57,7 @@ class HotPicksFragment : Fragment(), ComponentItemListener
         Trace.debug("++ onClick() v = ${v.id} pos = $pos")
 
         when (mAdapter.getItemViewType(pos)) {
-            AppConst.VIEWTYPE.VT_LIVE_CHANNEL_PRODUCT -> Trace.debug(">> viewType = VT_LIVE_CHANNEL_PRODUCT")
+            AppConst.VIEWTYPE.VT_LIVE_CHANNELS -> Trace.debug(">> viewType = VT_LIVE_CHANNEL_PRODUCT")
             AppConst.VIEWTYPE.VT_NEXT_UPCOMING_HORIZONTAL -> Trace.debug(">> viewType = VT_NEXT_UPCOMING_HORIZONTAL")
             AppConst.VIEWTYPE.VT_TODAY_DEAL -> Trace.debug(">> viewType = VT_TODAY_DEAL")
             AppConst.VIEWTYPE.VT_HOT_PICKS -> Trace.debug(">> viewType = VT_HOT_PICKS")
@@ -78,7 +73,7 @@ class HotPicksFragment : Fragment(), ComponentItemListener
         Trace.debug("++ onItemClick() parent = ${parent.id} parentPos = $parentPos item = ${item.id} pos = $pos")
 
         when (mAdapter.getItemViewType(parentPos)) {
-            AppConst.VIEWTYPE.VT_LIVE_CHANNEL_PRODUCT -> Trace.debug(">> viewType = VT_LIVE_CHANNEL_PRODUCT")
+            AppConst.VIEWTYPE.VT_LIVE_CHANNELS -> Trace.debug(">> viewType = VT_LIVE_CHANNEL_PRODUCT")
             AppConst.VIEWTYPE.VT_NEXT_UPCOMING_HORIZONTAL -> Trace.debug(">> viewType = VT_NEXT_UPCOMING_HORIZONTAL")
             AppConst.VIEWTYPE.VT_TODAY_DEAL -> Trace.debug(">> viewType = VT_TODAY_DEAL")
             AppConst.VIEWTYPE.VT_HOT_PICKS -> Trace.debug(">> viewType = VT_HOT_PICKS")

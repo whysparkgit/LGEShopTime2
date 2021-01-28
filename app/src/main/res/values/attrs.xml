@@ -15,6 +15,7 @@
         <attr name="showIndex" format="boolean" />
         <attr name="itemDataClass" format="string" />
         <attr name="videoUrl" format="string" />
+        <attr name="thumbnailUrl" format="string" />
         <attr name="itemCount" format="integer" />
         <attr name="subject" format="string" />
         <attr name="subtitle" format="string" />

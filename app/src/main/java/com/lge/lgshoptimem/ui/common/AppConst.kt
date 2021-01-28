@@ -16,7 +16,7 @@ interface AppConst {
     interface VIEWTYPE {
         companion object {
             const val VT_LIVE_CHANNEL_ICONS = 0
-            const val VT_LIVE_CHANNEL_PRODUCT = 1
+            const val VT_LIVE_CHANNELS = 1
             const val VT_POPULAR_SHOWS = 2
             const val VT_PRODUCT_IMAGE = 3
             const val VT_TODAY_DEAL = 4

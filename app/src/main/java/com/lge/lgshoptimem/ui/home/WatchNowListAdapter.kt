@@ -1,11 +1,9 @@
 package com.lge.lgshoptimem.ui.home
 
-import android.annotation.SuppressLint
 import android.content.res.TypedArray
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -19,10 +17,7 @@ import com.lge.lgshoptimem.BR
 import com.lge.lgshoptimem.R
 import com.lge.lgshoptimem.databinding.*
 import com.lge.lgshoptimem.ui.common.AppConst
-import com.lge.lgshoptimem.ui.component.BaseListComponent
-import com.lge.lgshoptimem.ui.component.ComponentItemListener
-import com.lge.lgshoptimem.ui.component.HeaderGridComponent
-import com.lge.lgshoptimem.ui.component.HeaderListComponent
+import com.lge.lgshoptimem.ui.component.*
 
 class WatchNowListAdapter(mFragment: Fragment):
         RecyclerView.Adapter<WatchNowListAdapter.ItemViewHolder<*>>()
@@ -44,9 +39,9 @@ class WatchNowListAdapter(mFragment: Fragment):
                 ItemViewHolder<ViewLiveChannelIconsBinding>(binding.root)
             }
 
-            AppConst.VIEWTYPE.VT_LIVE_CHANNEL_PRODUCT -> {
-                val binding: ViewLiveChannelProductBinding = DataBindingUtil.inflate(inflater, R.layout.view_live_channel_product, parent, false)
-                ItemViewHolder<ViewLiveChannelProductBinding>(binding.root)
+            AppConst.VIEWTYPE.VT_LIVE_CHANNELS -> {
+                val binding: ViewLiveChannelsBinding = DataBindingUtil.inflate(inflater, R.layout.view_live_channels, parent, false)
+                ItemViewHolder<ViewLiveChannelsBinding>(binding.root)
             }
 
             AppConst.VIEWTYPE.VT_NEXT_UPCOMING_HORIZONTAL -> {
@@ -91,10 +86,26 @@ class WatchNowListAdapter(mFragment: Fragment):
                 resources.recycle()
             }
 
+            AppConst.VIEWTYPE.VT_LIVE_CHANNELS -> {
+                if (!mViewModel.mldDataList.value.isNullOrEmpty()) {
+                    binding?.setVariable(BR.viewdata, mViewModel.mldDataList.value!![position % mViewModel.mldDataList.value!!.size])
+                    baseCompList?.setHeadData(mViewModel.mldDataList.value!![position % mViewModel.mldDataList.value!!.size])
+                    baseCompList?.setItemList(mViewModel.mldDataList.value!![position % mViewModel.mldDataList.value!!.size].productInfos)
+                }
+            }
+
             AppConst.VIEWTYPE.VT_TODAY_DEAL -> {
                 if (!mViewModel.mldDataList.value.isNullOrEmpty()) {
                     baseCompList?.setHeadData(mViewModel.mldDataList.value!![position % mViewModel.mldDataList.value!!.size])
                     baseCompList?.setItemList(mViewModel.mldDataList.value!!)
+                }
+            }
+
+            AppConst.VIEWTYPE.VT_POPULAR_SHOWS -> {
+                if (!mViewModel.mldDataList.value.isNullOrEmpty()) {
+                    binding?.setVariable(BR.viewdata, mViewModel.mldDataList.value!![position % mViewModel.mldDataList.value!!.size])
+                    baseCompList?.setHeadData(mViewModel.mldDataList.value!![position % mViewModel.mldDataList.value!!.size])
+                    baseCompList?.setItemList(mViewModel.mldDataList.value!![position % mViewModel.mldDataList.value!!.size].productInfos)
                 }
             }
 
@@ -114,7 +125,7 @@ class WatchNowListAdapter(mFragment: Fragment):
 
         var arrViewTypes = arrayOf(
                 AppConst.VIEWTYPE.VT_LIVE_CHANNEL_ICONS,
-                AppConst.VIEWTYPE.VT_LIVE_CHANNEL_PRODUCT,
+                AppConst.VIEWTYPE.VT_LIVE_CHANNELS,
                 AppConst.VIEWTYPE.VT_NEXT_UPCOMING_HORIZONTAL,
                 AppConst.VIEWTYPE.VT_TODAY_DEAL,
                 AppConst.VIEWTYPE.VT_POPULAR_SHOWS,
@@ -133,7 +144,7 @@ class WatchNowListAdapter(mFragment: Fragment):
 //        Trace.debug("++ getItemCount() viewType = $viewType")
         return when (viewType) {
             AppConst.VIEWTYPE.VT_LIVE_CHANNEL_ICONS -> 1
-            AppConst.VIEWTYPE.VT_LIVE_CHANNEL_PRODUCT -> 1
+            AppConst.VIEWTYPE.VT_LIVE_CHANNELS -> 1
             AppConst.VIEWTYPE.VT_NEXT_UPCOMING_HORIZONTAL -> 1
             AppConst.VIEWTYPE.VT_TODAY_DEAL -> 1
             AppConst.VIEWTYPE.VT_POPULAR_SHOWS -> 5
@@ -143,11 +154,11 @@ class WatchNowListAdapter(mFragment: Fragment):
     }
 
     override fun getItemViewType(position: Int): Int {
-        var nIndex: Int = 0;
+        var nIndex: Int = 0
 
         var arrViewTypes = arrayOf(
             AppConst.VIEWTYPE.VT_LIVE_CHANNEL_ICONS,
-            AppConst.VIEWTYPE.VT_LIVE_CHANNEL_PRODUCT,
+            AppConst.VIEWTYPE.VT_LIVE_CHANNELS,
             AppConst.VIEWTYPE.VT_NEXT_UPCOMING_HORIZONTAL,
             AppConst.VIEWTYPE.VT_TODAY_DEAL,
             AppConst.VIEWTYPE.VT_POPULAR_SHOWS,
@@ -166,6 +177,32 @@ class WatchNowListAdapter(mFragment: Fragment):
         return arrViewTypes.last()
     }
 
+    fun getViewTypeString(position: Int): String {
+        var nType: Int = getItemViewType(position);
+
+        var arrViewTypes = arrayOf(
+                AppConst.VIEWTYPE.VT_LIVE_CHANNEL_ICONS,
+                AppConst.VIEWTYPE.VT_LIVE_CHANNELS,
+                AppConst.VIEWTYPE.VT_NEXT_UPCOMING_HORIZONTAL,
+                AppConst.VIEWTYPE.VT_TODAY_DEAL,
+                AppConst.VIEWTYPE.VT_POPULAR_SHOWS,
+                AppConst.VIEWTYPE.VT_YOU_MAY_LIKE
+        )
+
+        var strViewTypes = arrayOf(
+                "VT_LIVE_CHANNEL_ICONS",
+                "VT_LIVE_CHANNEL_PRODUCT",
+                "VT_NEXT_UPCOMING_HORIZONTAL",
+                "VT_TODAY_DEAL",
+                "VT_POPULAR_SHOWS_PRODUCT",
+                "VT_YOU_MAY_LIKE"
+        )
+
+        arrViewTypes.forEachIndexed { index, nVal -> if (nVal == nType) return strViewTypes[index] }
+
+        return ""
+    }
+
     inner class ItemViewHolder<B>(itemView: View) :
             RecyclerView.ViewHolder(itemView)
     {
@@ -173,11 +210,13 @@ class WatchNowListAdapter(mFragment: Fragment):
 
         fun bind() {
             Trace.debug("++ bind()")
-            val view: View = itemView.findViewById<ConstraintLayout>(R.id.comp_list)
+            val view: View? = itemView.findViewById<ConstraintLayout>(R.id.comp_list)
 
-            if (view is BaseListComponent) {
-                Trace.debug(">> view is BaseListComponent")
-                view.addItemListener(mListener)
+            view?.apply {
+                if (this is BaseListComponent) {
+                    Trace.debug(">> view is BaseListComponent")
+                    addItemListener(mListener)
+                }
             }
         }
     }

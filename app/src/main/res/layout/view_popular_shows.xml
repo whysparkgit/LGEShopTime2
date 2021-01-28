@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
             name="position"
@@ -7,34 +10,76 @@
         <variable
             name="listener"
             type="com.lge.lgshoptimem.ui.component.ComponentItemListener" />
-<!--        <variable-->
-<!--            name="viewmodel"-->
-<!--            type="com.lge.lgshoptimem.model.dto.Curation" />-->
+        <variable
+            name="viewdata"
+            type="com.lge.lgshoptimem.model.dto.Curation" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.lge.lgshoptimem.ui.component.HeaderListComponent
-            android:id="@+id/comp_list"
+        <TextView
+            android:id="@+id/comp_tv_subject"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal|center_vertical"
+            android:textColor="@color/black_141414"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:text="POPULAR SHOWS"
+            android:paddingBottom="10dp"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginVertical="10dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/comp_cl_video_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:headLayout="@layout/comp_head_video_images"
-            app:itemLayout="@layout/comp_item_product_image"
-            app:orientation="horizontal"
-            app:subject="POPULAR SHOWS"
-            app:subtitle="Item on the show"
-            app:showIndex="true"
-            app:itemCount="10"
-            app:position="@{position}"
-            android:onClick="@{v -> listener.onClick(v, position)}"
-            app:layout_constraintTop_toTopOf="parent"
+            android:background="@color/gray_f4f4f4"
+            app:layout_constraintTop_toBottomOf="@+id/comp_tv_subject"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <com.lge.lgshoptimem.ui.component.VideoViewComponent
+                android:id="@+id/vv_video_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:videoUrl="@{viewdata.showUrl}"
+                app:thumbnailUrl="@{viewdata.thumbnailUrl}"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/gray_f4f4f4"
+            app:layout_constraintTop_toBottomOf="@+id/comp_cl_video_view"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <com.lge.lgshoptimem.ui.component.HeaderListComponent
+                android:id="@+id/comp_list"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:headLayout="@layout/comp_head_text_products"
+                app:itemLayout="@layout/comp_item_product_image"
+                app:orientation="horizontal"
+                app:subtitle="Item on the show"
+                app:showIndex="true"
+                app:itemCount="10"
+                app:position="@{position}"
+                android:onClick="@{v -> listener.onClick(v, position)}"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

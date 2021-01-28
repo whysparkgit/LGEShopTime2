@@ -70,19 +70,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="@{listener::onClick}"
-            app:srcCompat="@drawable/btn_close_w_nor"
+            app:srcCompat="@drawable/sel_btn_close_w"
             app:layout_constraintTop_toTopOf="@id/gl_h1"
             app:layout_constraintEnd_toEndOf="@id/gl_v2"/>
 
-        <ImageView
-            android:id="@+id/iv_share"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:onClick="@{listener::onClick}"
-            app:layout_constraintEnd_toStartOf="@id/iv_close"
-            app:layout_constraintTop_toTopOf="@id/gl_h1"
-            app:srcCompat="@drawable/btn_share_w_nor" />
+<!--        <ImageView-->
+<!--            android:id="@+id/iv_share"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginEnd="16dp"-->
+<!--            android:onClick="@{listener::onClick}"-->
+<!--            app:layout_constraintEnd_toStartOf="@id/iv_close"-->
+<!--            app:layout_constraintTop_toTopOf="@id/gl_h1"-->
+<!--            app:srcCompat="@drawable/btn_share_w_nor" />-->
 
         <TextView
             android:id="@+id/tv_title"
@@ -94,7 +94,7 @@
             android:text="Nike-Women Sportswear Icon Clash Collection"
             app:layout_constraintTop_toTopOf="@id/gl_h1"
             app:layout_constraintStart_toStartOf="@id/gl_v1"
-            app:layout_constraintEnd_toStartOf="@id/iv_share" />
+            app:layout_constraintEnd_toStartOf="@id/iv_close" />
 
         <ImageView
             android:id="@+id/iv_channel_logo"
@@ -134,7 +134,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="@{listener::onClick}"
-            app:srcCompat="@drawable/btn_halfscreen_nor"
+            app:srcCompat="@drawable/sel_btn_halfscreen"
             app:layout_constraintBottom_toBottomOf="@id/gl_h2"
             app:layout_constraintEnd_toEndOf="@id/gl_v2" />
 
@@ -144,7 +144,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:onClick="@{listener::onClick}"
-            app:srcCompat="@drawable/btn_pip_mode_nor"
+            app:srcCompat="@drawable/sel_btn_pip_mode"
             app:layout_constraintBottom_toBottomOf="@id/gl_h2"
             app:layout_constraintEnd_toStartOf="@id/iv_half_screen" />
 
@@ -154,7 +154,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:onClick="@{listener::onClick}"
-            app:srcCompat="@drawable/btn_setting_nor"
+            app:srcCompat="@drawable/sel_btn_setting"
             app:layout_constraintBottom_toBottomOf="@id/gl_h2"
             app:layout_constraintEnd_toStartOf="@id/iv_pip_screen" />
 
@@ -218,7 +218,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="@{listener::onClick}"
-            app:srcCompat="@drawable/btn_pm_pop_nor"
+            app:srcCompat="@drawable/sel_btn_pm_pop"
             app:layout_constraintTop_toBottomOf="@id/gl_h2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@id/gl_v1"

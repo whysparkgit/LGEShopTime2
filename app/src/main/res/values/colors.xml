@@ -24,6 +24,7 @@
     <color name="gray_f4f4f4">#f4f4f4</color>
     <color name="gray_505050">#505050</color>
     <color name="black_141414">#141414</color>
+    <color name="black_80000000">#80000000</color>
     <color name="white_80">#80ffffff</color>
     <color name="dim_898989">#AA898989</color>
     <color name="pink_e32e70">#e32e70</color>

@@ -13,8 +13,6 @@ import com.lge.core.sys.Trace
 import com.lge.lgshoptimem.BR
 import com.lge.lgshoptimem.R
 import com.lge.lgshoptimem.databinding.*
-import com.lge.lgshoptimem.model.dto.Curation
-import com.lge.lgshoptimem.model.dto.Product
 import com.lge.lgshoptimem.ui.common.AppConst
 import com.lge.lgshoptimem.ui.component.BaseListComponent
 import com.lge.lgshoptimem.ui.component.ComponentItemListener
@@ -54,7 +52,7 @@ class ForYouListAdapter(mFragment: Fragment):
                 ItemViewHolder<ViewNextUpcomingVerticalBinding>(binding.root)
             }
 
-            AppConst.VIEWTYPE.VT_LIVE_CHANNEL_PRODUCT -> {
+            AppConst.VIEWTYPE.VT_LIVE_CHANNELS -> {
                 val binding: ViewProductListBinding = DataBindingUtil.inflate(inflater, R.layout.view_product_list, parent, false)
                 ItemViewHolder<ViewProductListBinding>(binding.root)
             }
@@ -109,7 +107,7 @@ class ForYouListAdapter(mFragment: Fragment):
                 AppConst.VIEWTYPE.VT_CATEGORY_REMINDER,
                 AppConst.VIEWTYPE.VT_KEYWORD_REMINDER,
                 AppConst.VIEWTYPE.VT_NEXT_UPCOMING_VERTICAL,
-                AppConst.VIEWTYPE.VT_LIVE_CHANNEL_PRODUCT,
+                AppConst.VIEWTYPE.VT_LIVE_CHANNELS,
                 AppConst.VIEWTYPE.VT_MY_FAVORITES,
                 AppConst.VIEWTYPE.VT_RECENTLY_VIEWED,
                 AppConst.VIEWTYPE.VT_COUPON
@@ -130,7 +128,7 @@ class ForYouListAdapter(mFragment: Fragment):
             AppConst.VIEWTYPE.VT_CATEGORY_REMINDER -> 1
             AppConst.VIEWTYPE.VT_KEYWORD_REMINDER -> 1
             AppConst.VIEWTYPE.VT_NEXT_UPCOMING_VERTICAL -> 1
-            AppConst.VIEWTYPE.VT_LIVE_CHANNEL_PRODUCT -> 1
+            AppConst.VIEWTYPE.VT_LIVE_CHANNELS -> 1
             AppConst.VIEWTYPE.VT_MY_FAVORITES -> 1
             AppConst.VIEWTYPE.VT_RECENTLY_VIEWED -> 1
             AppConst.VIEWTYPE.VT_COUPON -> 1
@@ -145,7 +143,7 @@ class ForYouListAdapter(mFragment: Fragment):
                 AppConst.VIEWTYPE.VT_CATEGORY_REMINDER,
                 AppConst.VIEWTYPE.VT_KEYWORD_REMINDER,
                 AppConst.VIEWTYPE.VT_NEXT_UPCOMING_VERTICAL,
-                AppConst.VIEWTYPE.VT_LIVE_CHANNEL_PRODUCT,
+                AppConst.VIEWTYPE.VT_LIVE_CHANNELS,
                 AppConst.VIEWTYPE.VT_MY_FAVORITES,
                 AppConst.VIEWTYPE.VT_RECENTLY_VIEWED,
                 AppConst.VIEWTYPE.VT_COUPON

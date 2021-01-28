@@ -216,7 +216,6 @@ class VideoPlayerActivity : AppCompatActivity() {
                 finish()
             }
 
-            R.id.iv_share -> {}
             R.id.iv_half_screen -> {}
             R.id.iv_pip_screen -> {}
             R.id.iv_setting -> {}
