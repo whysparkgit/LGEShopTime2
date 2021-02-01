@@ -14,6 +14,7 @@ class ApplicationProxy : Application()
 {
     private var mbInitLaunch = false;
     private lateinit var mActivity: Activity
+    private lateinit var mLastActivity: Activity
     private var mAppCompatActivity: AppCompatActivity? = null
     private var mLifeCycle: LifeCycle = LifeCycle()
 
@@ -34,6 +35,8 @@ class ApplicationProxy : Application()
 
         return mAppCompatActivity
     }
+
+    fun getLastActivity() = mLastActivity
 
     override fun onCreate() {
         Trace.debug("++ Application onCreate()")
@@ -93,6 +96,7 @@ class ApplicationProxy : Application()
 
         override fun onActivityPaused(activity: Activity) {
             Trace.debug("++ onActivityPaused() : ${activity.localClassName}")
+            mLastActivity = mActivity
         }
 
         override fun onActivityStopped(activity: Activity) {

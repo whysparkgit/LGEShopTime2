@@ -14,7 +14,7 @@ import com.lge.core.app.ApplicationProxy
 import com.lge.core.sys.Trace
 import com.lge.lgshoptimem.R
 
-class SinglePopupDialog private constructor(val builder: SinglePopupDialog.Builder): DialogFragment(), View.OnClickListener
+class SinglePopupDialog private constructor(builder: Builder): DialogFragment(), View.OnClickListener
 {
     private var mstrTitle: String? = null
     private var mstrMessage: String? = null
@@ -60,8 +60,8 @@ class SinglePopupDialog private constructor(val builder: SinglePopupDialog.Build
         return view
     }
 
-    fun init(view: View?) {
-        val tvTitle = view!!.findViewById<TextView>(R.id.dg_tv_title)
+    fun init(view: View) {
+        val tvTitle = view.findViewById<TextView>(R.id.dg_tv_title)
         val tvMessage = view.findViewById<TextView>(R.id.dg_tv_message)
         val llSelectioin = view.findViewById<LinearLayout>(R.id.dg_ll_selection)
         val tvNeutral = view.findViewById<TextView>(R.id.dg_tv_neutral)
@@ -201,7 +201,7 @@ class SinglePopupDialog private constructor(val builder: SinglePopupDialog.Build
             }
 
             if (mDialog!!.dialog!!.isShowing) {
-                mDialog!!.init(mDialog!!.view)
+                mDialog!!.view?.let { mDialog!!.init(it) }
             } else {
                 mDialog!!.show(fragmentManager!!, null)
             }

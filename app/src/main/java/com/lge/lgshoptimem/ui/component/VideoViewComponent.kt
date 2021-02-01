@@ -3,7 +3,6 @@ package com.lge.lgshoptimem.ui.component
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.content.res.Configuration
 import android.content.res.Resources
 import android.graphics.Rect
 import android.media.MediaPlayer
@@ -30,7 +29,7 @@ class VideoViewComponent @JvmOverloads constructor(
         context: Context,
         attrs: AttributeSet? = null,
         defStyleAttr: Int = 0):
-        ConstraintLayout(context, attrs, defStyleAttr), SurfaceHolder.Callback
+        ConstraintLayout(context, attrs, defStyleAttr), SurfaceHolder.Callback, VideoPIPManager.ComponentListener
 {
     companion object {
         /**
@@ -56,9 +55,6 @@ class VideoViewComponent @JvmOverloads constructor(
         private const val CONTROLLER_UPDATE_MS = 1000L
 
         private const val FADEOUT_SECONDS = 3
-
-        @JvmStatic
-        private var mTotalVideoView: Int = 0
     }
 
     private val mBinding: CompVideoViewBinding
@@ -174,9 +170,7 @@ class VideoViewComponent @JvmOverloads constructor(
         mstrThumbnailUrl = "http://cf-images.us-east-1.prod.boltdns.net/v1/static/6091058944001/af6c8d0d-1bc6-47ce-976f-a35fff09f131/8d49c6e7-b034-4018-93af-d59e95a4d8aa/1280x720/match/image.jpg"
 
         CommonBindingAdapter.setImageUrl(mBinding.compIvThumbnail, mstrThumbnailUrl)
-        mbCheckPlay = true
-        mlDelayMillis = CHECK_PLAYABLE_MS
-        checkPlayable()
+        start()
     }
 
     fun getThumbnailUrl() = mstrThumbnailUrl
@@ -186,19 +180,19 @@ class VideoViewComponent @JvmOverloads constructor(
         Trace.debug("++ onAttachedToWindow() mstrThumbnailUrl = $mstrThumbnailUrl")
         Trace.debug("++ onAttachedToWindow() mstrVideoUrl = $mstrVideoUrl")
         super.onAttachedToWindow()
+        VideoPIPManager.getInstance().addComponent(this)
 
         if (mstrVideoUrl.isNullOrEmpty() or mstrThumbnailUrl.isNullOrEmpty()) return
 
-        if (!mCheckPlayJob.isActive) {
-            mlDelayMillis = CHECK_PLAYABLE_MS
-            mbCheckPlay = true
-            checkPlayable()
-        }
+        if (::mCheckPlayJob.isInitialized and mCheckPlayJob.isActive) return
+
+        start()
     }
 
     override fun onDetachedFromWindow() {
         Trace.debug("++ onDetachedFromWindow() this = $this")
         super.onDetachedFromWindow()
+        VideoPIPManager.getInstance().removeComponent(this)
 
         if (mstrVideoUrl.isNullOrEmpty() or mstrThumbnailUrl.isNullOrEmpty()) return
 
@@ -213,50 +207,58 @@ class VideoViewComponent @JvmOverloads constructor(
 
         mMediaPlayer?.release()
         mMediaPlayer = null
-        mTotalVideoView--
-        Trace.debug("-- onDetachedFromWindow() mTotalVideoView = $mTotalVideoView")
+    }
+
+    override fun onPIPModeChanged(bPIPMode: Boolean) {
+        Trace.debug(">> onPIPModeChanged() bPIPMode = $bPIPMode")
     }
 
     override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
         Trace.debug(">> onWindowFocusChanged() hasWindowFocus = $hasWindowFocus")
         super.onWindowFocusChanged(hasWindowFocus)
 
-        if (mMediaPlayer != null) {
-            if (hasWindowFocus) {
-                Trace.debug(">> onWindowFocusChanged() mJob.isActive = ${mCheckPlayJob.isActive}")
+        if (mMediaPlayer == null) return
 
-                if (!mCheckPlayJob.isActive) {
-                    mbCheckPlay = true
-                    checkPlayable()
-                }
-            } else {
-                mMediaPlayer?.pause()
-                mRestartPosition = mMediaPlayer!!.currentPosition
-                mbCheckPlay = false
+        if (hasWindowFocus) {
+            Trace.debug(">> onWindowFocusChanged() mJob.isActive = ${mCheckPlayJob?.isActive}")
+
+            if (!mCheckPlayJob.isActive) {
+                start()
             }
+        } else {
+            pause()
         }
     }
 
     override fun surfaceCreated(holder: SurfaceHolder) {
-        Trace.debug(">> init() surfaceCreated()")
+        Trace.debug(">> surfaceCreated()")
         mMediaPlayer?.setDisplay(mBinding.compVvPlayer.holder)
     }
 
     override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
-        Trace.debug(">> init() surfaceChanged()")
+        Trace.debug(">> surfaceChanged()")
     }
 
     override fun surfaceDestroyed(holder: SurfaceHolder) {
-        Trace.debug(">> init() surfaceDestroyed()")
+        Trace.debug(">> surfaceDestroyed()")
+    }
+
+    private fun start() {
+        mlDelayMillis = CHECK_PLAYABLE_MS
+        mbCheckPlay = true
+        checkPlayable()
+    }
+
+    private fun pause() {
+        mMediaPlayer?.pause()
+        mRestartPosition = mMediaPlayer!!.currentPosition
+        mbCheckPlay = false
     }
 
     private fun checkPlayable() {
-        mTotalVideoView++
-        Trace.debug("++ checkPlayable() mTotalVideoView = $mTotalVideoView")
-
         mCheckPlayJob = CoroutineScope(Dispatchers.Main).launch {
             while (mbCheckPlay) {
-                if (isPlayable()) {
+                if (measurePlayable() and !VideoPIPManager.getInstance().isPIPMode()) {
                     mBinding.compIvThumbnail.visibility = View.GONE
 
                     if (mMediaPlayer == null) {
@@ -297,11 +299,11 @@ class VideoViewComponent @JvmOverloads constructor(
         }
     }
 
-    private fun isPlayable(): Boolean {
+    private fun measurePlayable(): Boolean {
         val videoRect = Rect()
         mBinding.compVvPlayer.getGlobalVisibleRect(videoRect)
-        val margin: Int = (Resources.getSystem().displayMetrics.heightPixels * 0.5).toInt()
-        val borderRect = Rect(0, margin, Resources.getSystem().displayMetrics.widthPixels,
+        val margin: Int = (Resources.getSystem().displayMetrics.heightPixels * 0.4).toInt()
+        val borderRect = Rect(0, margin / 2, Resources.getSystem().displayMetrics.widthPixels,
                 Resources.getSystem().displayMetrics.heightPixels - margin)
 
         return borderRect.intersect(videoRect)
@@ -337,105 +339,57 @@ class VideoViewComponent @JvmOverloads constructor(
     fun playByMediaPlayer(strUrl: String = mstrVideoUrl!!) {
         mMediaPlayer = MediaPlayer()
 
-//        mBinding.compVvPlayer.holder.addCallback(object: SurfaceHolder.Callback {
-//            override fun surfaceCreated(holder: SurfaceHolder) {
-//                Trace.debug(">> doMediaPlayer() surfaceCreated() this = $this")
+        mMediaPlayer?.apply {
+            Trace.debug(">> mMediaPlayer is not null")
+            reset()
+            setDataSource(strUrl)
+            setDisplay(mBinding.compVvPlayer.holder)
+            prepareAsync()
 
-//                CoroutineScope(Dispatchers.Main).launch {
-                    mMediaPlayer?.apply {
-                        Trace.debug(">> mMediaPlayer is not null")
-                        reset()
-                        setDataSource(strUrl)
-                        setDisplay(mBinding.compVvPlayer.holder)
-                        prepareAsync()
-
-                        setOnPreparedListener {
-                            try {
-                                Trace.debug(">> doMediaPlayer() OnPrepared() it.videoWidth = ${it.videoWidth}")
-                                Trace.debug(">> doMediaPlayer() OnPrepared() it.videoHeight = ${it.videoHeight}")
-//                        Trace.debug(">> doMediaPlayer() OnPrepared() videoWidth = ${videoWidth}")
-//                        Trace.debug(">> doMediaPlayer() OnPrepared() videoHeight = ${videoHeight}")
-//                        Trace.debug(">> doMediaPlayer() OnPrepared() root.width = ${mBinding.root.width}")
+            setOnPreparedListener {
+                try {
+                    Trace.debug(">> doMediaPlayer() OnPrepared() it.videoWidth = ${it.videoWidth}")
+                    Trace.debug(">> doMediaPlayer() OnPrepared() it.videoHeight = ${it.videoHeight}")
+//                    Trace.debug(">> doMediaPlayer() OnPrepared() videoWidth = ${videoWidth}")
+//                    Trace.debug(">> doMediaPlayer() OnPrepared() videoHeight = ${videoHeight}")
+//                    Trace.debug(">> doMediaPlayer() OnPrepared() root.width = ${mBinding.root.width}")
 
 
-                                CoroutineScope(Dispatchers.Main).launch {
-
-//                                    if (it.videoHeight > 0) {
-//                                        val layoutParam: ViewGroup.LayoutParams = mBinding.vvPlayer.layoutParams
-//                                        val nHeight = if (videoWidth > 0) mBinding.root.width * videoHeight / videoWidth else 0
-//                                        Trace.debug(">> doMediaPlayer() OnPrepared() layout.height = $nHeight")
+                    CoroutineScope(Dispatchers.Main).launch {
+//                        if (it.videoHeight > 0) {
+//                            val layoutParam: ViewGroup.LayoutParams = mBinding.vvPlayer.layoutParams
+//                            val nHeight = if (videoWidth > 0) mBinding.root.width * videoHeight / videoWidth else 0
+//                            Trace.debug(">> doMediaPlayer() OnPrepared() layout.height = $nHeight")
 //
-//                                        layoutParam.height = if (nHeight > resources.displayMetrics.heightPixels) {
-//                                            resources.displayMetrics.heightPixels
-//                                        } else {
-//                                            nHeight
-//                                        }
+//                            layoutParam.height = if (nHeight > resources.displayMetrics.heightPixels) {
+//                                resources.displayMetrics.heightPixels
+//                            } else {
+//                                nHeight
+//                            }
 //
-//                                        Trace.debug(">> doMediaPlayer() OnPrepared() layoutParam.height = ${layoutParam.height}")
-//                                        mBinding.vvPlayer.layoutParams = layoutParam
-//                                    }
+//                            Trace.debug(">> doMediaPlayer() OnPrepared() layoutParam.height = ${layoutParam.height}")
+//                            mBinding.vvPlayer.layoutParams = layoutParam
+//                        }
 
-                                    setVideoScalingMode(MediaPlayer.VIDEO_SCALING_MODE_SCALE_TO_FIT)
-                                    initSeekBar()
-                                    seekTo(mRestartPosition)
-                                    setVolume(0f, 0f)
-                                    start()
-                                    mnFadeoutCount = FADEOUT_SECONDS
-                                    mRestartPosition = 0
-                                }
-                            } catch (e: IllegalStateException) {
-                                e.printStackTrace()
-                            }
-                        }
-
-                        setOnCompletionListener {
-                            Trace.debug(">> doMediaPlayer() OnCompletion()")
-//                            mBinding.compClControlView.visibility = View.VISIBLE
-                            mBinding.compVvPlayer.setZOrderOnTop(false)
-                        }
+                        setVideoScalingMode(MediaPlayer.VIDEO_SCALING_MODE_SCALE_TO_FIT)
+                        initSeekBar()
+                        seekTo(mRestartPosition)
+                        setVolume(0f, 0f)
+                        start()
+                        mnFadeoutCount = FADEOUT_SECONDS
+                        mRestartPosition = 0
                     }
-//                }
-//            }
-//
-//            override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
-//                Trace.debug(">> doMediaPlayer() surfaceChanged() width = ${width}")
-//                Trace.debug(">> doMediaPlayer() surfaceChanged() height = ${height}")
-////                Trace.debug(">> doMediaPlayer() surfaceChanged() videoWidth = ${mMediaPlayer?.videoWidth}")
-////                Trace.debug(">> doMediaPlayer() surfaceChanged() videoHeight = ${mMediaPlayer?.videoHeight}")
-////                Trace.debug(">> doMediaPlayer() surfaceChanged() root.width = ${mBinding.root.width}")
-////                Trace.debug(">> doMediaPlayer() surfaceChanged() root.height = ${mBinding.root.height}")
-////                Trace.debug(">> doMediaPlayer() surfaceChanged() disp.width = ${resources.displayMetrics.widthPixels}")
-////                Trace.debug(">> doMediaPlayer() surfaceChanged() disp.height = ${resources.displayMetrics.heightPixels}")
-//            }
-//
-//            override fun surfaceDestroyed(holder: SurfaceHolder) {
-//                Trace.debug(">> doMediaPlayer() surfaceDestroyed() this = $this")
-//            }
-//        })
-    }
+                } catch (e: IllegalStateException) {
+                    e.printStackTrace()
+                }
+            }
 
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        Trace.debug(">> onConfigurationChanged() newConfig.orientation = ${newConfig.orientation}")
-        Trace.debug(">> onConfigurationChanged() videoWidth = ${mMediaPlayer?.videoWidth}")
-        Trace.debug(">> onConfigurationChanged() videoHeight = ${mMediaPlayer?.videoHeight}")
-//        Trace.debug(">> onConfigurationChanged() root.width = ${mBinding.root.width}")
-//        Trace.debug(">> onConfigurationChanged() root.height = ${mBinding.root.height}")
-//        Trace.debug(">> onConfigurationChanged() disp.width = ${resources.displayMetrics.widthPixels}")
-//        Trace.debug(">> onConfigurationChanged() disp.height = ${resources.displayMetrics.heightPixels}")
-
-        super.onConfigurationChanged(newConfig)
-
-        val layoutParam: ViewGroup.LayoutParams = mBinding.compVvPlayer.layoutParams
-
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            layoutParam.height = resources.displayMetrics.heightPixels
-        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            layoutParam.height = resources.displayMetrics.widthPixels * mMediaPlayer!!.videoHeight / mMediaPlayer!!.videoWidth
+            setOnCompletionListener {
+                Trace.debug(">> doMediaPlayer() OnCompletion()")
+//                mBinding.compClControlView.visibility = View.VISIBLE
+                mBinding.compVvPlayer.setZOrderOnTop(false)
+            }
         }
-
-        mBinding.compVvPlayer.layoutParams = layoutParam
-        mBinding.compVvPlayer.holder.setSizeFromLayout()
-        Trace.debug(">> onConfigurationChanged() new height = ${layoutParam.height}")
     }
 
     fun onClick(v: View) {
@@ -445,23 +399,13 @@ class VideoViewComponent @JvmOverloads constructor(
             R.id.iv_play -> {
                 mbCheckPlay = true
                 checkPlayable()
-
-                var fEndTrans: ((Unit) -> (Unit))? = {
-                    toggleIcon(mBinding.ivPlay, mBinding.ivPause)
-                }
-
-                fadeControlView(false, fEndTrans)
+                fadeControlView(false) { toggleIcon(mBinding.ivPlay, mBinding.ivPause) }
             }
 
             R.id.iv_pause -> {
                 mMediaPlayer?.pause()
                 mbCheckPlay = false
-
-                var fEndTrans: ((Unit) -> (Unit))? = {
-                    toggleIcon(mBinding.ivPause, mBinding.ivPlay)
-                }
-
-                fadeControlView(false, fEndTrans)
+                fadeControlView(false) { toggleIcon(mBinding.ivPause, mBinding.ivPlay) }
             }
 
             R.id.iv_mute -> {
@@ -496,15 +440,14 @@ class VideoViewComponent @JvmOverloads constructor(
         }
     }
 
-    private fun getTimeString(nSec: Int): String {
-        return String.format("%02d:%02d:%02d", nSec / 3600, (nSec / 60) % 60, nSec % 60)
+    private fun Int.getTimeString(): String {
+        return String.format("%02d:%02d:%02d", this / 3600, (this / 60) % 60, this % 60)
     }
 
     private fun initSeekBar() {
         Trace.debug("++ initSeekBar totalTime = ${mMediaPlayer?.seconds}")
         mBinding.sbProgress.max = mMediaPlayer!!.seconds
         mBinding.sbProgress.progress = 0
-//        mBinding.sbProgress.secondaryProgress = 0
 
         mBinding.sbProgress.apply {
             setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener {
@@ -522,14 +465,17 @@ class VideoViewComponent @JvmOverloads constructor(
                 }
             })
         }
+
+        mMediaPlayer?.setOnBufferingUpdateListener {
+            mp, percent -> mBinding.sbProgress.secondaryProgress = percent
+        }
     }
 
     private fun updateSeekBar() {
 //        Trace.debug("++ updateSeekBar currentSeconds = ${mMediaPlayer?.currentSeconds}")
-
         if (mMediaPlayer!!.currentSeconds < 0) return
 
-        mBinding.tvElapsedTime.text = getTimeString(mMediaPlayer!!.currentSeconds)
+        mBinding.tvElapsedTime.text = mMediaPlayer?.currentSeconds?.getTimeString()
         mBinding.sbProgress.progress = mMediaPlayer!!.currentSeconds
 
         if (mnFadeoutCount == 0) {

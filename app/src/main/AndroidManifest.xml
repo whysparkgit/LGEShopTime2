@@ -43,9 +43,12 @@
 
         <activity
             android:name="com.lge.lgshoptimem.ui.home.VideoPlayerActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:launchMode="singleTask"
+            android:supportsPictureInPicture="true"
+            android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout"
             android:label="@string/title_activity_video_player"
-            android:theme="@style/AppTheme.Fullscreen" />
+            android:theme="@style/AppTheme.Fullscreen"
+            tools:targetApi="O" />
     </application>
 
 </manifest>
