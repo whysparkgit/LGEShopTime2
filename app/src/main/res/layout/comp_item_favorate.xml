@@ -13,7 +13,7 @@
             type="com.lge.lgshoptimem.ui.component.ComponentItemListener" />
         <variable
             name="viewdata"
-            type="com.lge.lgshoptimem.model.dto.Product" />
+            type="com.lge.lgshoptimem.model.dto.ProductInfo" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

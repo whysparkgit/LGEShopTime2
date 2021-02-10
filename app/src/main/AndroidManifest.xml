@@ -18,7 +18,7 @@
         android:usesCleartextTraffic="true">
 
         <activity
-            android:name="com.lge.lgshoptimem.SplashActivity"
+            android:name=".SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,27 +26,28 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
-            android:name="com.lge.lgshoptimem.MainActivity"
+            android:name=".MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ActionBarTheme" />
-
         <activity
-            android:name="com.lge.lgshoptimem.IndexActivity"
+            android:name=".IndexActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ActionBarTheme" />
-
-        <activity android:name="com.lge.lgshoptimem.ui.home.HomeActivity"
+        <activity
+            android:name=".ui.home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-
         <activity
-            android:name="com.lge.lgshoptimem.ui.home.VideoPlayerActivity"
-            android:launchMode="singleTask"
-            android:supportsPictureInPicture="true"
+            android:name=".ui.product.DetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.home.VideoPlayerActivity"
             android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout"
             android:label="@string/title_activity_video_player"
+            android:launchMode="singleTask"
+            android:supportsPictureInPicture="true"
             android:theme="@style/AppTheme.Fullscreen"
             tools:targetApi="O" />
     </application>

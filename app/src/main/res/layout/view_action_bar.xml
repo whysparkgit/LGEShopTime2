@@ -16,10 +16,12 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@{actionbar.getBackgroundColor()}">
 
+<!--        android:layout_width="38dp"-->
+<!--        android:layout_height="38dp"-->
         <ImageButton
             android:id="@+id/iv_left"
-            android:layout_width="38dp"
-            android:layout_height="38dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:scaleType="fitCenter"
             android:onClick="@{actionbar::onClickLeft}"
             android:visibility="@{actionbar.getLeftVisibility ? View.VISIBLE : View.GONE}"

@@ -1,17 +1,11 @@
 package com.lge.lgshoptimem.model.dto
 
-import com.lge.core.net.HttpConst
-
 class CurationList
 {
-    data class Response(
-        val retCode: Int,
-        val retMsg: String,
-        val data: Data)
+    data class Response(val data: Data): BaseResponse()
     {
-
-        fun isSuccess(): Boolean {
-            return (retCode == HttpConst.HTTP_RESPONSE_SUCCESS)
+        override fun toString(): String {
+            return super.toString() + data.toString()
         }
 
         data class Data(
@@ -19,11 +13,4 @@ class CurationList
             val curations: ArrayList<Curation>
         )
     }
-
-    data class AdInfo(
-        val curationId: String,
-        val curationNm: String,
-        val tmpltCd: String,
-        val expsOrd: String
-    )
 }

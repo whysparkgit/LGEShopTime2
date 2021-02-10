@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <import type="android.view.View" />
+        <variable
+            name="position"
+            type="int" />
+        <variable
+            name="index"
+            type="int" />
+        <variable
+            name="total_count"
+            type="int" />
+        <variable
+            name="listener"
+            type="com.lge.lgshoptimem.ui.component.ComponentItemListener" />
+        <variable
+            name="viewdata"
+            type="com.lge.lgshoptimem.model.dto.ProductInfo" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+<!--        <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--            android:id="@+id/comp_cl_video_view"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent">-->
+
+<!--            <com.lge.lgshoptimem.ui.component.VideoViewComponent-->
+<!--                android:id="@+id/vv_video_view"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                app:videoUrl="@{viewdata.showUrl}"-->
+<!--                app:thumbnailUrl="@{viewdata.thumbnailUrl}"-->
+<!--                app:viewdata="@{viewdata}"-->
+<!--                app:layout_constraintTop_toTopOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"/>-->
+
+<!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+
+<!--        app:layout_constraintTop_toBottomOf="@+id/comp_cl_video_view"-->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <com.lge.lgshoptimem.ui.component.HeaderListComponent
+                android:id="@+id/comp_list"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:headLayout="@layout/comp_head_product_images"
+                app:itemLayout="@layout/comp_item_product_detail_image"
+                app:orientation="horizontal"
+                app:showIndex="true"
+                app:position="@{position}"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_desc"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                app:layout_constraintTop_toBottomOf="@+id/comp_list"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <TextView
+                    android:id="@+id/comp_tv_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:textSize="14sp"
+                    android:textColor="@color/gray_505050"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:text="@{`ID: ` + viewdata.prdtId}" />
+
+                <TextView
+                    android:id="@+id/comp_tv_product_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:minLines="2"
+                    android:text="@{viewdata.prdtNm}"
+                    android:textColor="@color/black_141414"
+                    android:textSize="18sp"
+                    app:layout_constraintTop_toBottomOf="@+id/comp_tv_id"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:text="Nike Swoosh Run Totalmente transparente bonita"/>
+
+                <LinearLayout
+                    android:id="@+id/ll_option"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal"
+                    android:visibility="@{viewdata.todaySpclFlag.equals(`Y`) ? (viewdata.freeShippingFlag.equals(`Y`) ? View.GONE : View.VISIBLE) : View.VISIBLE}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/comp_tv_product_title" >
+
+                <TextView
+                    android:id="@+id/comp_tv_tsv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:paddingVertical="1dp"
+                    android:paddingHorizontal="6dp"
+                    android:background="@drawable/bg_rect_border_pink_r1"
+                    android:textColor="@color/pink_e32e70"
+                    android:textSize="12sp"
+                    android:visibility="@{viewdata.todaySpclFlag.equals(`Y`) ? View.VISIBLE : View.GONE}"
+                    android:text="TSV"/>
+
+                <TextView
+                    android:id="@+id/comp_tv_free_sh"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="1dp"
+                    android:paddingHorizontal="6dp"
+                    android:background="@drawable/bg_rect_border_pink_r1"
+                    android:textColor="@color/pink_e32e70"
+                    android:textSize="12sp"
+                    android:visibility="@{viewdata.freeShippingFlag.equals(`Y`) ? View.VISIBLE : View.GONE}"
+                    android:text="Free S\u0026H"/>
+
+                </LinearLayout>
+
+                <RatingBar
+                    android:id="@+id/comp_rb_rating"
+                    style="@style/Widget.AppCompat.RatingBar.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:progressTint="@color/pink_e32e70"
+                    android:rating="@{viewdata.revwGrd == null ? 0f : Float.parseFloat(viewdata.revwGrd)}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ll_option" />
+
+                <TextView
+                    android:id="@+id/comp_tv_origin_seller"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:textSize="14sp"
+                    app:layout_constraintTop_toBottomOf="@id/comp_rb_rating"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:text="@{viewdata.patncNm + ` Price`}"
+                    tools:text="QVC Price"/>
+
+                <TextView
+                    android:id="@+id/comp_tv_origin_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="10dp"
+                    android:textSize="14sp"
+                    app:strikeThrough="@{true}"
+                    app:layout_constraintTop_toBottomOf="@id/comp_rb_rating"
+                    app:layout_constraintStart_toEndOf="@+id/comp_tv_origin_seller"
+                    android:text="@{viewdata.getOriginPrice()}"
+                    tools:text="$12,345.99"/>
+
+                <TextView
+                    android:id="@+id/comp_tv_price"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:textColor="@color/black_141414"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/comp_tv_origin_price"
+                    android:text="@{viewdata.getShopTimePrice()}"
+                    tools:text="$127.95"/>
+
+                <TextView
+                    android:id="@+id/comp_tv_discount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:textColor="@color/pink_e32e70"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toEndOf="@+id/comp_tv_price"
+                    app:layout_constraintBottom_toBottomOf="@+id/comp_tv_price"
+                    android:text="@{viewdata.getDiscount()}"
+                    tools:text="12%"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:id="@+id/vw_h1"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginVertical="10dp"
+                android:background="@color/gray_e9e9e9"
+                app:layout_constraintTop_toBottomOf="@id/cl_desc"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/comp_tv_call"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:paddingStart="10dp"
+                android:text="@{viewdata.orderPhnNo}"
+                android:textColor="@color/black_141414"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:onClick="@{v -> listener.onClick(v, position)}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/vw_h1" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="14dp"
+                android:background="@color/gray_f2f2f2"
+                app:layout_constraintTop_toBottomOf="@+id/comp_tv_call"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -1,29 +1,27 @@
 package com.lge.lgshoptimem.ui.home
 
-import androidx.databinding.ObservableInt
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.lge.core.net.HttpResponsable
 import com.lge.core.net.NetworkManager
 import com.lge.core.net.ProtocolFactory
 import com.lge.core.sys.Trace
-import com.lge.lgshoptimem.model.dto.Curation
-import com.lge.lgshoptimem.model.dto.CurationList
-import com.lge.lgshoptimem.model.http.MainCurationProtocol
+import com.lge.lgshoptimem.model.dto.HotPicks
+import com.lge.lgshoptimem.model.http.HotPicksProtocol
 
 class HotPicksViewModel : ViewModel() {
-    val mldDataList: MutableLiveData<ArrayList<Curation>> = MutableLiveData()
+    val mldHotPicks: MutableLiveData<HotPicks.Response.Data> = MutableLiveData()
 
     /** Custom Component Data Query */
     fun requestData() {
-        val protocol: MainCurationProtocol = ProtocolFactory.create(MainCurationProtocol::class.java)
+        val protocol: HotPicksProtocol = ProtocolFactory.create(HotPicksProtocol::class.java)
 
-        protocol.setHttpResponsable(object : HttpResponsable<CurationList.Response> {
-            override fun onResponse(response: CurationList.Response) {
+        protocol.setHttpResponsable(object : HttpResponsable<HotPicks.Response> {
+            override fun onResponse(response: HotPicks.Response) {
                 Trace.debug(">> requestData() onResponse() : $response")
 
                 if (response.isSuccess()) {
-                    mldDataList.value = response.data.curations
+                    mldHotPicks.value = response.data
                 }
             }
 

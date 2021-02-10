@@ -12,16 +12,5 @@ class Util
 
         @JvmStatic
         fun GetNowDateFormat(strExp: String): String = SimpleDateFormat(strExp).format(Date())
-
-        @JvmStatic
-        fun TypedArray.toIntArrayList(): ArrayList<Int> {
-            val arrInt: ArrayList<Int> = ArrayList<Int>()
-
-            for (i in 0 until this.length()) {
-                arrInt.add(this.getResourceId(i, 0))
-            }
-
-            return arrInt
-        }
     }
 }

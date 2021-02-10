@@ -25,6 +25,15 @@ class ForYouListAdapter(mFragment: Fragment):
         viewModel
     }
 
+    val marrViewTypes = arrayOf(
+        AppConst.VIEWTYPE.VT_UPCOMING_HORIZONTAL,
+        AppConst.VIEWTYPE.VT_FAVORITE_CATEGORY,
+        AppConst.VIEWTYPE.VT_FAVORITE_KEYWORD,
+        AppConst.VIEWTYPE.VT_MY_FAVORITES,
+        AppConst.VIEWTYPE.VT_RECENTLY_VIEWED,
+        AppConst.VIEWTYPE.VT_COUPON
+    )
+
     private val mListener: ComponentItemListener = mFragment as ComponentItemListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ForYouListAdapter.ItemViewHolder<*> {
@@ -32,29 +41,19 @@ class ForYouListAdapter(mFragment: Fragment):
         val inflater = LayoutInflater.from(parent.context)
 
         return when (viewType) {
-            AppConst.VIEWTYPE.VT_NEXT_UPCOMING_HORIZONTAL -> {
-                val binding: ViewNextUpcomingHorizontalBinding = DataBindingUtil.inflate(inflater, R.layout.view_next_upcoming_horizontal, parent, false)
-                ItemViewHolder<ViewNextUpcomingHorizontalBinding>(binding.root)
+            AppConst.VIEWTYPE.VT_UPCOMING_HORIZONTAL -> {
+                val binding: ViewUpcomingHorizontalBinding = DataBindingUtil.inflate(inflater, R.layout.view_upcoming_horizontal, parent, false)
+                ItemViewHolder<ViewUpcomingHorizontalBinding>(binding.root)
             }
 
-            AppConst.VIEWTYPE.VT_CATEGORY_REMINDER -> {
-                val binding: ViewCategoryReminderBinding = DataBindingUtil.inflate(inflater, R.layout.view_category_reminder, parent, false)
-                ItemViewHolder<ViewCategoryReminderBinding>(binding.root)
+            AppConst.VIEWTYPE.VT_FAVORITE_CATEGORY -> {
+                val binding: ViewFavoriteCategoryBinding = DataBindingUtil.inflate(inflater, R.layout.view_favorite_category, parent, false)
+                ItemViewHolder<ViewFavoriteCategoryBinding>(binding.root)
             }
 
-            AppConst.VIEWTYPE.VT_KEYWORD_REMINDER -> {
-                val binding: ViewKeywordReminderBinding = DataBindingUtil.inflate(inflater, R.layout.view_keyword_reminder, parent, false)
-                ItemViewHolder<ViewKeywordReminderBinding>(binding.root)
-            }
-
-            AppConst.VIEWTYPE.VT_NEXT_UPCOMING_VERTICAL -> {
-                val binding: ViewNextUpcomingVerticalBinding = DataBindingUtil.inflate(inflater, R.layout.view_next_upcoming_vertical, parent, false)
-                ItemViewHolder<ViewNextUpcomingVerticalBinding>(binding.root)
-            }
-
-            AppConst.VIEWTYPE.VT_LIVE_CHANNELS -> {
-                val binding: ViewProductListBinding = DataBindingUtil.inflate(inflater, R.layout.view_product_list, parent, false)
-                ItemViewHolder<ViewProductListBinding>(binding.root)
+            AppConst.VIEWTYPE.VT_FAVORITE_KEYWORD -> {
+                val binding: ViewFavoriteKeywordBinding = DataBindingUtil.inflate(inflater, R.layout.view_favorite_keyword, parent, false)
+                ItemViewHolder<ViewFavoriteKeywordBinding>(binding.root)
             }
 
             AppConst.VIEWTYPE.VT_MY_FAVORITES -> {
@@ -73,6 +72,7 @@ class ForYouListAdapter(mFragment: Fragment):
             }
 
             else -> {
+                // TODO not exit view
                 val binding: ViewProductListBinding = DataBindingUtil.inflate(inflater, R.layout.view_product_list, parent, false)
                 ItemViewHolder<ViewProductListBinding>(binding.root)
             }
@@ -80,40 +80,64 @@ class ForYouListAdapter(mFragment: Fragment):
     }
 
     override fun onBindViewHolder(holder: ForYouListAdapter.ItemViewHolder<*>, position: Int) {
-//        Trace.debug("++ onBindViewHolder()")
         val binding: ViewDataBinding? = holder.getBinding()
+        Trace.debug("++ onBindViewHolder() position = $position binding = $binding")
+
+        if (mViewModel.mldForYou.value == null) return
+
         binding?.setVariable(BR.position, position)
         binding?.setVariable(BR.listener, mListener)
 
-        // fixme setViewModel by ItemView each
-        if (!mViewModel.mldDataList.value.isNullOrEmpty()) {
-            val baseCompList = binding?.root?.findViewById<BaseListComponent>(R.id.comp_list)
+        val baseCompList = binding?.root?.findViewById<BaseListComponent>(R.id.comp_list)
 
-//            baseCompList?.setViewModel(mViewModel.mldDataList.value!![position % mViewModel.mldDataList.value!!.size] as Any)
-//            baseCompList?.setViewModel<Curation, Product>(mViewModel)
-            baseCompList?.setHeadData(mViewModel.mldDataList.value!![position % mViewModel.mldDataList.value!!.size])
-            baseCompList?.setItemList(mViewModel.mldDataList.value!![position % mViewModel.mldDataList.value!!.size].productInfos)
+        when (getItemViewType(position)) {
+            AppConst.VIEWTYPE.VT_UPCOMING_HORIZONTAL -> {
+//                baseCompList?.setHeadData(mViewModel.mldForYou.value!!.alerts)
+                baseCompList?.setItemList(mViewModel.mldForYou.value!!.alerts)
+            }
+
+            AppConst.VIEWTYPE.VT_FAVORITE_CATEGORY -> {
+                val nIndex: Int = getPositionOf(AppConst.VIEWTYPE.VT_FAVORITE_CATEGORY, position)
+                binding?.setVariable(BR.index, nIndex)
+                binding?.setVariable(BR.total_count, getItemCount(AppConst.VIEWTYPE.VT_FAVORITE_CATEGORY))
+//                baseCompList?.setHeadData(mViewModel.mldForYou.value!!.alerts)
+                baseCompList?.setItemList(mViewModel.mldForYou.value!!.alerts)
+            }
+
+            AppConst.VIEWTYPE.VT_FAVORITE_KEYWORD -> {
+                val nIndex: Int = getPositionOf(AppConst.VIEWTYPE.VT_FAVORITE_KEYWORD, position)
+                binding?.setVariable(BR.index, nIndex)
+                binding?.setVariable(BR.total_count, getItemCount(AppConst.VIEWTYPE.VT_FAVORITE_KEYWORD))
+                baseCompList?.setHeadData(mViewModel.mldForYou.value!!.alerts[nIndex])
+                baseCompList?.setItemList(mViewModel.mldForYou.value!!.alerts[nIndex].showList)
+            }
+
+            AppConst.VIEWTYPE.VT_MY_FAVORITES -> {
+//                baseCompList?.setHeadData(mViewModel.mldForYou.value!!.alerts)
+                baseCompList?.setItemList(mViewModel.mldForYou.value!!.favorites)
+            }
+
+            AppConst.VIEWTYPE.VT_RECENTLY_VIEWED -> {
+//                baseCompList?.setHeadData(mViewModel.mldForYou.value!!.alerts)
+                baseCompList?.setItemList(mViewModel.mldForYou.value!!.alerts)
+            }
+
+            AppConst.VIEWTYPE.VT_COUPON -> {
+//                baseCompList?.setHeadData(mViewModel.mldForYou.value!!.alerts)
+                baseCompList?.setItemList(mViewModel.mldForYou.value!!.alerts)
+            }
+
+            else -> { }
         }
 
-        holder.bind()
+        holder.setItemListener()
     }
 
     override fun getItemCount(): Int {
 //        Trace.debug("++ getItemCount()")
         var nCount = 0
 
-        var arrViewTypes = arrayOf(
-                AppConst.VIEWTYPE.VT_NEXT_UPCOMING_HORIZONTAL,
-                AppConst.VIEWTYPE.VT_CATEGORY_REMINDER,
-                AppConst.VIEWTYPE.VT_KEYWORD_REMINDER,
-                AppConst.VIEWTYPE.VT_NEXT_UPCOMING_VERTICAL,
-                AppConst.VIEWTYPE.VT_LIVE_CHANNELS,
-                AppConst.VIEWTYPE.VT_MY_FAVORITES,
-                AppConst.VIEWTYPE.VT_RECENTLY_VIEWED,
-                AppConst.VIEWTYPE.VT_COUPON
-        )
-
-        arrViewTypes.forEach {
+        marrViewTypes.forEach {
             nVal -> nCount += getItemCount(nVal)
         }
 
@@ -123,33 +147,31 @@ class ForYouListAdapter(mFragment: Fragment):
 
     fun getItemCount(viewType: Int): Int {
 //        Trace.debug("++ getItemCount(viewType)")
+
+        if (mViewModel.mldForYou.value == null) return 0
+
         return when (viewType) {
-            AppConst.VIEWTYPE.VT_NEXT_UPCOMING_HORIZONTAL -> 1
-            AppConst.VIEWTYPE.VT_CATEGORY_REMINDER -> 1
-            AppConst.VIEWTYPE.VT_KEYWORD_REMINDER -> 1
-            AppConst.VIEWTYPE.VT_NEXT_UPCOMING_VERTICAL -> 1
-            AppConst.VIEWTYPE.VT_LIVE_CHANNELS -> 1
-            AppConst.VIEWTYPE.VT_MY_FAVORITES -> 1
-            AppConst.VIEWTYPE.VT_RECENTLY_VIEWED -> 1
-            AppConst.VIEWTYPE.VT_COUPON -> 1
-            else -> 1
+            AppConst.VIEWTYPE.VT_UPCOMING_HORIZONTAL -> 0       // not exist
+            AppConst.VIEWTYPE.VT_FAVORITE_CATEGORY -> 0         // not exist
+            AppConst.VIEWTYPE.VT_FAVORITE_KEYWORD -> {          // alert
+                val nCount = mViewModel.mldForYou.value!!.alerts.size
+                if (nCount >= 5) 5 else nCount
+            }
+
+            AppConst.VIEWTYPE.VT_MY_FAVORITES -> {              // favorite
+                if (mViewModel.mldForYou.value!!.favorites.size > 0) 1 else 0
+            }
+
+            AppConst.VIEWTYPE.VT_RECENTLY_VIEWED -> 0           // not exist
+            AppConst.VIEWTYPE.VT_COUPON -> 0                    // not exist
+            else -> 0
         }
     }
 
     override fun getItemViewType(position: Int): Int {
         var nIndex: Int = 0;
-        var arrViewTypes = arrayOf(
-                AppConst.VIEWTYPE.VT_NEXT_UPCOMING_HORIZONTAL,
-                AppConst.VIEWTYPE.VT_CATEGORY_REMINDER,
-                AppConst.VIEWTYPE.VT_KEYWORD_REMINDER,
-                AppConst.VIEWTYPE.VT_NEXT_UPCOMING_VERTICAL,
-                AppConst.VIEWTYPE.VT_LIVE_CHANNELS,
-                AppConst.VIEWTYPE.VT_MY_FAVORITES,
-                AppConst.VIEWTYPE.VT_RECENTLY_VIEWED,
-                AppConst.VIEWTYPE.VT_COUPON
-        )
 
-        arrViewTypes.forEach {
+        marrViewTypes.forEach {
             nVal -> if (position in nIndex until nIndex + getItemCount(nVal)) {
 //                Trace.debug("++ getItemViewType() position = $position ViewType = $nVal")
                 return nVal
@@ -158,15 +180,32 @@ class ForYouListAdapter(mFragment: Fragment):
             nIndex += getItemCount(nVal)
         }
 
-        return arrViewTypes.last()
+        return marrViewTypes.last()
     }
 
-    inner class ItemViewHolder<B>(itemView: View) :
-            RecyclerView.ViewHolder(itemView)
+    fun getPositionOf(viewType: Int, position: Int): Int {
+        var nCount: Int = 0
+
+        marrViewTypes.forEach {
+            nVal -> if (nVal == viewType) {
+                Trace.debug("++ getPositionOf() result = ${position - nCount}")
+                return (position - nCount).let {
+                    if (it < 0) 0
+                    else it
+                }
+            } else {
+                nCount += getItemCount(nVal)
+            }
+        }
+
+        return 0
+    }
+
+    inner class ItemViewHolder<B>(itemView: View): RecyclerView.ViewHolder(itemView)
     {
         fun getBinding(): ViewDataBinding? = DataBindingUtil.getBinding(itemView)
 
-        fun bind() {
+        fun setItemListener() {
             Trace.debug("++ bind()")
             val view: View = itemView.findViewById<ConstraintLayout>(R.id.comp_list)
 

@@ -218,7 +218,7 @@
                 android:autoSizeMaxTextSize="14sp"
                 android:autoSizeMinTextSize="6sp"
                 android:autoSizeTextType="uniform"
-                android:text="" />
+                android:text="Detail\nActivity" />
 
             <Button
                 android:id="@+id/btn_36"
@@ -268,7 +268,7 @@
                 android:autoSizeMaxTextSize="14sp"
                 android:autoSizeMinTextSize="6sp"
                 android:autoSizeTextType="uniform"
-                android:text="test" />
+                android:text="IF:\nhome" />
 
             <Button
                 android:id="@+id/btn_44"
@@ -508,7 +508,7 @@
                 android:autoSizeMaxTextSize="14sp"
                 android:autoSizeMinTextSize="6sp"
                 android:autoSizeTextType="uniform"
-                android:text="" />
+                android:text="codec" />
         </LinearLayout>
 
         <LinearLayout

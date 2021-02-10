@@ -29,7 +29,6 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.54" />
 
-<!--        android:foreground="@color/dim_898989"-->
         <ImageView
             android:id="@+id/comp_iv_main_image"
             android:layout_width="0dp"
@@ -37,12 +36,11 @@
             android:layout_margin="6dp"
             android:adjustViewBounds="true"
             android:scaleType="fitXY"
-            app:imageUrl="@{viewdata.imgUrl}"
+            app:imageUrl="@{viewdata.getProductThumbnail()}"
             app:layout_constraintBottom_toBottomOf="@+id/gl_h1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/dummy_product_image3" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ToggleButton
             android:id="@+id/comp_tb_favorate"
@@ -105,7 +103,7 @@
                 android:layout_marginTop="2dp"
                 android:isIndicator="true"
                 android:progressTint="@color/pink_e32e70"
-                android:rating="3.5"
+                android:rating="@{viewdata.revwGrd == null ? 0f : Float.parseFloat(viewdata.revwGrd)}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/comp_tv_product_title" />
 
@@ -133,7 +131,7 @@
                 app:layout_constraintTop_toBottomOf="@id/comp_tv_shoptime_price"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:text="$345.99" />
+                android:text="@{viewdata.getOriginPrice()}" />
 
             <!--        android:text="@{viewmodel.mldDataList.get(position).productInfos.get(0).price3}"-->
             <TextView
@@ -145,7 +143,7 @@
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/comp_tv_origin_price"
-                android:text="$135.95"/>
+                android:text="@{viewdata.getShopTimePrice()}"/>
 
             <!--        android:text="@{viewmodel.mldDataList.get(position).productInfos.get(0).price3}"-->
             <TextView
@@ -159,7 +157,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/comp_tv_price"
                 app:layout_constraintBottom_toBottomOf="@+id/comp_tv_price"
-                android:text="12%"/>
+                android:text="@{viewdata.getDiscount()}"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

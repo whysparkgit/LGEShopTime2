@@ -45,7 +45,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/dummy_product_image"
             app:imageUrl="@{viewdata.thumbnailUrl}"/>
 
         <ImageView
@@ -57,9 +56,8 @@
             app:layout_constraintEnd_toEndOf="@id/gl_v1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/comp_iv_main_image"
-            app:srcCompat="@drawable/ic_popular_ch_qvc" />
+            app:imageUrl="@{viewdata.patncLogoPath}"/>
 
-<!--        android:text="@{viewmodel.productInfos.get(0).prdtNm}"-->
         <TextView
             android:id="@+id/comp_tv_product_title"
             android:layout_width="0dp"
@@ -70,7 +68,7 @@
             android:ellipsize="end"
             android:maxLines="2"
             android:layout_marginTop="3dp"
-            android:text="EARTHWISE Cordless Electric 20-Volt Snow Thrower"
+            android:text="@{viewdata.productInfos.get(0).prdtNm}"
             app:layout_constraintTop_toTopOf="@+id/comp_iv_logo"
             app:layout_constraintStart_toStartOf="@id/gl_v1"
             app:layout_constraintEnd_toEndOf="@id/gl_v2" />
@@ -85,7 +83,7 @@
             app:layout_constraintTop_toBottomOf="@id/comp_tv_product_title"
             app:layout_constraintStart_toStartOf="@id/gl_v1"
             app:layout_constraintEnd_toEndOf="@id/gl_v2"
-            android:text="QVC Price $345.99" />
+            android:text="@{viewdata.productInfos.get(0).price2}" />
 
 <!--        android:text="@{viewmodel.productInfos.get(0).price3}"-->
         <TextView
@@ -96,7 +94,7 @@
             android:textStyle="bold"
             android:textSize="24sp"
             android:layout_marginTop="2dp"
-            android:text="$135.95"
+            android:text="@{viewdata.productInfos.get(0).price3}"
             app:layout_constraintTop_toBottomOf="@id/comp_tv_origin_price"
             app:layout_constraintStart_toStartOf="@id/gl_v1"
             app:layout_constraintEnd_toEndOf="@id/gl_v2" />

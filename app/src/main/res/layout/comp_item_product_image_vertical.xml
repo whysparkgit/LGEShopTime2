@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View" />
         <variable
             name="position"
             type="int" />
@@ -36,12 +37,12 @@
             android:layout_margin="6dp"
             android:adjustViewBounds="true"
             android:scaleType="fitXY"
+            android:foreground="@{viewdata.isSoldOut() ? @color/dim_898989 : 0}"
             app:imageUrl="@{viewdata.imgUrl}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="@+id/gl_h1"
-            app:srcCompat="@drawable/dummy_product_image5" />
+            app:layout_constraintBottom_toBottomOf="@+id/gl_h1"/>
 
         <ToggleButton
             android:id="@+id/comp_tb_favorate"
@@ -67,6 +68,7 @@
             android:textColor="@color/white"
             android:textSize="14sp"
             android:textStyle="bold"
+            android:visibility="@{viewdata.isSoldOut() ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="@id/gl_h1"
             app:layout_constraintEnd_toEndOf="@id/comp_iv_main_image"
             app:layout_constraintStart_toStartOf="@id/comp_iv_main_image"
@@ -103,7 +105,7 @@
                 android:layout_marginTop="2dp"
                 android:isIndicator="true"
                 android:progressTint="@color/pink_e32e70"
-                android:rating="3.5"
+                android:rating="@{viewdata.revwGrd == null ? 0f : Float.parseFloat(viewdata.revwGrd)}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/comp_tv_product_title" />
 
@@ -126,38 +128,37 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
-                android:textSize="14sp"
+                android:textSize="12sp"
+                android:textColor="@color/gray_898989"
                 app:strikeThrough="@{true}"
                 app:layout_constraintTop_toBottomOf="@id/comp_tv_shoptime_price"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:text="$345.99" />
+                android:text="@{viewdata.getOriginPrice()}" />
 
-            <!--        android:text="@{viewmodel.mldDataList.get(position).productInfos.get(0).price3}"-->
-            <TextView
-                android:id="@+id/comp_tv_price"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black_141414"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/comp_tv_origin_price"
-                android:text="$135.95"/>
-
-            <!--        android:text="@{viewmodel.mldDataList.get(position).productInfos.get(0).price3}"-->
             <TextView
                 android:id="@+id/comp_tv_discount"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
+                android:paddingEnd="10dp"
                 android:textColor="@color/pink_e32e70"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/comp_tv_price"
-                app:layout_constraintBottom_toBottomOf="@+id/comp_tv_price"
-                android:text="12%"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/comp_tv_origin_price"
+                android:text="@{viewdata.getDiscount()}"/>
+
+            <TextView
+                android:id="@+id/comp_tv_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black_141414"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/comp_tv_discount"
+                app:layout_constraintTop_toTopOf="@+id/comp_tv_discount"
+                app:layout_constraintBottom_toBottomOf="@+id/comp_tv_discount"
+                android:text="@{viewdata.getShopTimePrice()}"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

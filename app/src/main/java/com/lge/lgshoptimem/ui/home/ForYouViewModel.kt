@@ -8,11 +8,13 @@ import com.lge.core.net.ProtocolFactory
 import com.lge.core.sys.Trace
 import com.lge.lgshoptimem.model.dto.Curation
 import com.lge.lgshoptimem.model.dto.CurationList
+import com.lge.lgshoptimem.model.dto.ForYou
+import com.lge.lgshoptimem.model.http.ForYouProtocol
 import com.lge.lgshoptimem.model.http.MainCurationProtocol
 import com.lge.lgshoptimem.ui.component.BaseListComponent
 
 class ForYouViewModel: ViewModel() {
-    val mldDataList: MutableLiveData<ArrayList<Curation>> = MutableLiveData()
+    val mldForYou: MutableLiveData<ForYou.Response.Data> = MutableLiveData()
 
     inline fun <reified T> checkType(klass: Any) = (klass is T)
 //        return when (T::class) {
@@ -23,14 +25,14 @@ class ForYouViewModel: ViewModel() {
 
     /** Custom Component Data Query */
     fun requestData() {
-        val protocol: MainCurationProtocol = ProtocolFactory.create(MainCurationProtocol::class.java)
+        val protocol: ForYouProtocol = ProtocolFactory.create(ForYouProtocol::class.java)
 
-        protocol.setHttpResponsable(object : HttpResponsable<CurationList.Response> {
-            override fun onResponse(response: CurationList.Response) {
+        protocol.setHttpResponsable(object : HttpResponsable<ForYou.Response> {
+            override fun onResponse(response: ForYou.Response) {
                 Trace.debug(">> requestData() onResponse() : $response")
 
                 if (response.isSuccess()) {
-                    mldDataList.value = response.data.curations
+                    mldForYou.value = response.data
                 }
             }
 

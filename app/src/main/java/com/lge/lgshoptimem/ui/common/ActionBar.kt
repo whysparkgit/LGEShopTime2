@@ -62,6 +62,7 @@ class ActionBar(var listener: onActionBarListener)
     fun getImage(direction: Int): Int {
         return when (direction) {
             ACTION_BACK -> R.drawable.btn_back
+//            ACTION_BACK -> R.drawable.sel_btn_back
             ACTION_CLOSE -> if (darkMode) {
                 R.drawable.btn_close_b
             } else {
@@ -113,7 +114,7 @@ class ActionBar(var listener: onActionBarListener)
         return if (darkMode) {
             ApplicationProxy.getContext().getColor(R.color.white)
         } else {
-            ApplicationProxy.getContext().getColor(R.color.colorAccent)
+            ApplicationProxy.getContext().getColor(R.color.black_141414)
         }
     }
 }

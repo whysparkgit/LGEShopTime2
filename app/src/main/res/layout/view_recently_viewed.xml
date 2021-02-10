@@ -19,6 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+<!--        android:onClick="@{v -> listener.onClick(v, position)}"-->
         <com.lge.lgshoptimem.ui.component.HeaderGridComponent
             android:id="@+id/comp_list"
             android:layout_width="0dp"
@@ -31,7 +32,6 @@
             app:itemCount="4"
             app:rowCount="2"
             app:position="@{position}"
-            android:onClick="@{v -> listener.onClick(v, position)}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>

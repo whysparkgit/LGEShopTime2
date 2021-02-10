@@ -9,21 +9,25 @@ import com.lge.core.net.ProtocolFactory
 import com.lge.core.sys.Trace
 import com.lge.lgshoptimem.model.dto.Curation
 import com.lge.lgshoptimem.model.dto.CurationList
+import com.lge.lgshoptimem.model.dto.WatchNow
 import com.lge.lgshoptimem.model.http.MainCurationProtocol
+import com.lge.lgshoptimem.model.http.WatchNowProtocol
 
 class WatchNowViewModel : ViewModel() {
-    val mldDataList: MutableLiveData<ArrayList<Curation>> = MutableLiveData()
+    val mldWatchNow: MutableLiveData<WatchNow.Response.Data> = MutableLiveData()
 
     /** Custom Component Data Query */
-    fun requestData() {
-        val protocol: MainCurationProtocol = ProtocolFactory.create(MainCurationProtocol::class.java)
+    fun requestData(partnerId: String, showId: String) {
+        val protocol: WatchNowProtocol = ProtocolFactory.create(WatchNowProtocol::class.java)
+        protocol.setPartnerId(partnerId)
+        protocol.setShowId(showId)
 
-        protocol.setHttpResponsable(object : HttpResponsable<CurationList.Response> {
-            override fun onResponse(response: CurationList.Response) {
+        protocol.setHttpResponsable(object : HttpResponsable<WatchNow.Response> {
+            override fun onResponse(response: WatchNow.Response) {
                 Trace.debug(">> requestData() onResponse() : $response")
 
                 if (response.isSuccess()) {
-                    mldDataList.value = response.data.curations
+                    mldWatchNow.value = response.data
                 }
             }
 

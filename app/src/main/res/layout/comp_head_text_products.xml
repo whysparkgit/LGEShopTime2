@@ -11,9 +11,9 @@
         <variable
             name="adapter"
             type="com.lge.lgshoptimem.ui.component.BaseListComponent.ComponentAdapter" />
-        <variable
-            name="viewdata"
-            type="com.lge.lgshoptimem.model.dto.Curation" />
+<!--        <variable-->
+<!--            name="viewdata"-->
+<!--            type="com.lge.lgshoptimem.model.dto.Curation" />-->
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

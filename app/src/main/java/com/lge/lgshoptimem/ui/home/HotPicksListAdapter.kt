@@ -25,6 +25,11 @@ class HotPicksListAdapter(mFragment: Fragment):
         viewModel
     }
 
+    val marrViewTypes = arrayOf(
+        AppConst.VIEWTYPE.VT_TODAY_DEAL,
+        AppConst.VIEWTYPE.VT_HOT_PICKS
+    )
+
     private val mListener: ComponentItemListener = mFragment as ComponentItemListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HotPicksListAdapter.ItemViewHolder<*> {
@@ -32,16 +37,6 @@ class HotPicksListAdapter(mFragment: Fragment):
         val inflater = LayoutInflater.from(parent.context)
 
         return when (viewType) {
-            AppConst.VIEWTYPE.VT_LIVE_CHANNELS -> {
-                val binding: ViewProductListBinding = DataBindingUtil.inflate(inflater, R.layout.view_product_list, parent, false)
-                ItemViewHolder<ViewProductListBinding>(binding.root)
-            }
-
-            AppConst.VIEWTYPE.VT_NEXT_UPCOMING_HORIZONTAL -> {
-                val binding: ViewNextUpcomingHorizontalBinding = DataBindingUtil.inflate(inflater, R.layout.view_next_upcoming_horizontal, parent, false)
-                ItemViewHolder<ViewNextUpcomingHorizontalBinding>(binding.root)
-            }
-
             AppConst.VIEWTYPE.VT_TODAY_DEAL -> {
                 val binding: ViewTodayDealsBinding = DataBindingUtil.inflate(inflater, R.layout.view_today_deals, parent, false)
                 ItemViewHolder<ViewTodayDealsBinding>(binding.root)
@@ -53,6 +48,7 @@ class HotPicksListAdapter(mFragment: Fragment):
             }
 
             else -> {
+                // TODO not exit view
                 val binding: ViewProductListBinding = DataBindingUtil.inflate(inflater, R.layout.view_product_list, parent, false)
                 ItemViewHolder<ViewProductListBinding>(binding.root)
             }
@@ -65,36 +61,38 @@ class HotPicksListAdapter(mFragment: Fragment):
         binding?.setVariable(BR.position, position)
         binding?.setVariable(BR.listener, mListener)
 
-        if (mViewModel.mldDataList.value.isNullOrEmpty()) return
+        if (mViewModel.mldHotPicks.value == null) return
+
+        binding?.setVariable(BR.position, position)
+        binding?.setVariable(BR.listener, mListener)
 
         val baseCompList = binding?.root?.findViewById<BaseListComponent>(R.id.comp_list)
 
         when (getItemViewType(position)) {
             AppConst.VIEWTYPE.VT_TODAY_DEAL -> {
-                baseCompList?.setHeadData(mViewModel.mldDataList.value!![position % mViewModel.mldDataList.value!!.size])
-                baseCompList?.setItemList(mViewModel.mldDataList.value!!)
+//                baseCompList?.setHeadData(mViewModel.mldWatchNow.value!!.curations[position])
+                baseCompList?.setItemList(mViewModel.mldHotPicks.value!!.curations)
             }
 
-            else -> {
-                baseCompList?.setHeadData(mViewModel.mldDataList.value!![position % mViewModel.mldDataList.value!!.size])
-                baseCompList?.setItemList(mViewModel.mldDataList.value!![position % mViewModel.mldDataList.value!!.size].productInfos)
+            AppConst.VIEWTYPE.VT_HOT_PICKS -> {
+                val nIndex: Int = getPositionOf(AppConst.VIEWTYPE.VT_HOT_PICKS, position)
+                binding?.setVariable(BR.index, nIndex)
+                binding?.setVariable(BR.total_count, getItemCount(AppConst.VIEWTYPE.VT_HOT_PICKS))
+//                binding?.setVariable(BR.viewdata, mViewModel.mldHotPicks.value!!.topInfos[nIndex])
+                baseCompList?.setHeadData(mViewModel.mldHotPicks.value!!.themeInfos[nIndex])
+                baseCompList?.setItemList(mViewModel.mldHotPicks.value!!.themeInfos[nIndex].productInfos)
             }
+
+            else -> { }
         }
 
-        holder.bind()
+        holder.setItemListener()
     }
 
     override fun getItemCount(): Int {
         var nCount = 0
 
-        var arrViewTypes = arrayOf(
-                AppConst.VIEWTYPE.VT_LIVE_CHANNELS,
-                AppConst.VIEWTYPE.VT_NEXT_UPCOMING_HORIZONTAL,
-                AppConst.VIEWTYPE.VT_TODAY_DEAL,
-                AppConst.VIEWTYPE.VT_HOT_PICKS
-        )
-
-        arrViewTypes.forEach {
+        marrViewTypes.forEach {
             nVal -> nCount += getItemCount(nVal)
         }
 
@@ -104,26 +102,25 @@ class HotPicksListAdapter(mFragment: Fragment):
 
     fun getItemCount(viewType: Int): Int {
 //        Trace.debug("++ getItemCount(viewType)")
+        if (mViewModel.mldHotPicks.value == null) return 0
+
         return when (viewType) {
-            AppConst.VIEWTYPE.VT_LIVE_CHANNELS -> 0
-            AppConst.VIEWTYPE.VT_NEXT_UPCOMING_HORIZONTAL -> 0
-            AppConst.VIEWTYPE.VT_TODAY_DEAL -> 1
-            AppConst.VIEWTYPE.VT_HOT_PICKS -> 5
-            else -> 1
+            AppConst.VIEWTYPE.VT_TODAY_DEAL -> {
+                if (mViewModel.mldHotPicks.value!!.curations.size > 0) 1 else 0
+            }
+
+            AppConst.VIEWTYPE.VT_HOT_PICKS -> {
+                val nCount = mViewModel.mldHotPicks.value!!.themeInfos.size
+                if (nCount >= 5) 5 else nCount
+            }
+            else -> 0
         }
     }
 
     override fun getItemViewType(position: Int): Int {
         var nIndex: Int = 0;
 
-        var arrViewTypes = arrayOf(
-                AppConst.VIEWTYPE.VT_LIVE_CHANNELS,
-                AppConst.VIEWTYPE.VT_NEXT_UPCOMING_HORIZONTAL,
-                AppConst.VIEWTYPE.VT_TODAY_DEAL,
-                AppConst.VIEWTYPE.VT_HOT_PICKS
-        )
-
-        arrViewTypes.forEach {
+        marrViewTypes.forEach {
             nVal -> if (position in nIndex until nIndex + getItemCount(nVal)) {
                 Trace.debug("++ getItemViewType() position = $position ViewType = $nVal")
                 return nVal
@@ -132,15 +129,32 @@ class HotPicksListAdapter(mFragment: Fragment):
             nIndex += getItemCount(nVal)
         }
 
-        return arrViewTypes.last()
+        return marrViewTypes.last()
     }
 
-    inner class ItemViewHolder<B>(itemView: View) :
-            RecyclerView.ViewHolder(itemView)
+    fun getPositionOf(viewType: Int, position: Int): Int {
+        var nCount: Int = 0
+
+        marrViewTypes.forEach {
+            nVal -> if (nVal == viewType) {
+                Trace.debug("++ getPositionOf() result = ${position - nCount}")
+                return (position - nCount).let {
+                    if (it < 0) 0
+                    else it
+                }
+            } else {
+                nCount += getItemCount(nVal)
+            }
+        }
+
+        return 0
+    }
+
+    inner class ItemViewHolder<B>(itemView: View): RecyclerView.ViewHolder(itemView)
     {
         fun getBinding(): ViewDataBinding? = DataBindingUtil.getBinding(itemView)
 
-        fun bind() {
+        fun setItemListener() {
             Trace.debug("++ bind()")
             val view: View = itemView.findViewById<ConstraintLayout>(R.id.comp_list)
 

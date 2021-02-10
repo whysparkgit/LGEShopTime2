@@ -13,7 +13,7 @@
             type="com.lge.lgshoptimem.ui.component.ComponentItemListener" />
         <variable
             name="viewdata"
-            type="com.lge.lgshoptimem.model.dto.Product" />
+            type="com.lge.lgshoptimem.model.dto.ForYou.KeywordShow" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -30,7 +30,7 @@
             android:adjustViewBounds="true"
             android:scaleType="fitXY"
             android:foreground="@color/dim_898989"
-            app:imageUrl="@{viewdata.imgUrl}"
+            app:imageUrl="@{viewdata.thumbnailUrl}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -66,7 +66,7 @@
                 android:ellipsize="end"
                 android:maxLines="2"
                 android:minLines="2"
-                android:text="@{viewdata.prdtNm}"
+                android:text="@{viewdata.showNm}"
                 android:textColor="@color/black_141414"
                 android:textSize="14sp"
                 app:layout_constraintTop_toTopOf="parent"
@@ -95,7 +95,7 @@
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="@+id/comp_tv_product_title"
                 app:layout_constraintTop_toBottomOf="@id/comp_tv_item_count"
-                android:text="11/28/2020"/>
+                android:text="@{viewdata.strtDt}"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

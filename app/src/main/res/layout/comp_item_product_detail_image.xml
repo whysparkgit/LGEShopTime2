@@ -13,7 +13,7 @@
             type="com.lge.lgshoptimem.ui.component.ComponentItemListener" />
         <variable
             name="viewdata"
-            type="com.lge.lgshoptimem.model.dto.Product" />
+            type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -28,12 +28,11 @@
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:scaleType="fitXY"
-            app:imageUrl="@{viewdata.imgUrl}"
+            app:imageUrl="@{viewdata}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/dummy_product_main" />
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

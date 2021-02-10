@@ -35,6 +35,14 @@ abstract class AbstractHttpProtocol<RES> : HttpRequestable
       }
     }
 
+    fun getPath(): String {
+        return if (Config.SUPPORT_DEBUG) {
+            Const.NETWORK.DEV_SERVER.PATH
+        } else {
+            Const.NETWORK.OPR_SERVER.PATH
+        }
+    }
+
     abstract override fun getUrl(): String
 
     override fun getConnectTimeout(): Int = HttpConst.HTTP_CONNECT_TIMEOUT
@@ -99,7 +107,7 @@ abstract class AbstractHttpProtocol<RES> : HttpRequestable
         mResponseHeaderMap = responseHeaders
     }
 
-    fun getResponseHeader(strKey: String, nSubIndex: Int): String {
+    override fun getResponseHeader(strKey: String, nSubIndex: Int): String {
         Trace.debug("++ getResponseHeader()")   // mResponseHeaderMap = $mResponseHeaderMap")
 
         var strVal: String? = null
@@ -145,6 +153,11 @@ abstract class AbstractHttpProtocol<RES> : HttpRequestable
             return
         }
 
+        if ((mResponsable == null) or (mResponseData == null)) {
+            Trace.debug("-- parse() mResponsable or mResponseData is null")
+            return
+        }
+
         when (getResponseHeader(HttpConst.HTTP_HEADER_CONTENT_TYPE, 0)) {
             HttpConst.HTTP_MIME_TYPE_HTML -> {
                 requestFailed(HttpConst.Error.HTTP_NOT_SUPPORTED_CONTENT_TYPE.getCode(),
@@ -167,7 +180,8 @@ abstract class AbstractHttpProtocol<RES> : HttpRequestable
             }
 
             HttpConst.HTTP_MIME_TYPE_JPEG,
-            HttpConst.HTTP_MIME_TYPE_PNG -> {
+            HttpConst.HTTP_MIME_TYPE_PNG,
+            HttpConst.HTTP_MIME_TYPE_GIF -> {
                 parsedObject = BitmapFactory.decodeStream(responseBody as InputStream) as RES
             }
 

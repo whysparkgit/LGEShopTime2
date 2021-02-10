@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <import type="android.view.View" />
+        <variable
+            name="position"
+            type="int" />
+        <variable
+            name="index"
+            type="int" />
+        <variable
+            name="total_count"
+            type="int" />
+        <variable
+            name="listener"
+            type="com.lge.lgshoptimem.ui.component.ComponentItemListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+<!--        android:onClick="@{v -> listener.onClick(v, position)}"-->
+        <com.lge.lgshoptimem.ui.component.HeaderGridComponent
+            android:id="@+id/comp_list"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:headLayout="@layout/comp_head_grid_items"
+            app:itemLayout="@layout/comp_item_product_video_vertical"
+            app:orientation="vertical"
+            app:subject="FAVORITE CATEGORY"
+            app:title="Beauty"
+            app:itemCount="6"
+            app:rowCount="2"
+            app:position="@{position}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <View
+            android:id="@+id/vw_h1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray_e9e9e9"
+            android:layout_marginHorizontal="10dp"
+            android:visibility="@{index == total_count - 1 ? View.VISIBLE : View.GONE}"
+            app:layout_constraintTop_toBottomOf="@id/comp_list"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/comp_tv_edit"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:background="@color/white"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="FAVORITE CATEGORY EDIT"
+            android:textColor="@color/gray_898989"
+            android:textSize="14sp"
+            android:visibility="@{index == total_count - 1 ? View.VISIBLE : View.GONE}"
+            android:onClick="@{v -> listener.onClick(v, position)}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/vw_h1" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="14dp"
+            android:background="@color/gray_f2f2f2"
+            android:visibility="@{index == total_count - 1 ? View.VISIBLE : View.GONE}"
+            app:layout_constraintTop_toBottomOf="@+id/comp_tv_edit"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

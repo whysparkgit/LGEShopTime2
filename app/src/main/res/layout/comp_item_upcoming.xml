@@ -13,7 +13,7 @@
             type="com.lge.lgshoptimem.ui.component.ComponentItemListener" />
         <variable
             name="viewdata"
-            type="com.lge.lgshoptimem.model.dto.Product" />
+            type="com.lge.lgshoptimem.model.dto.WatchNow.UpComing" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -45,15 +45,14 @@
                 android:adjustViewBounds="true"
                 android:scaleType="fitXY"
                 android:layout_marginEnd="7dp"
-                app:imageUrl="@{viewdata.imgUrl}"
-                app:srcCompat="@drawable/ic_player_hsn" />
+                app:imageUrl="@{viewdata.patncLogoPath}"/>
 
             <TextView
                 android:id="@+id/comp_tv_channel_name"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="bottom"
-                android:text="HSN"
+                android:text="@{viewdata.patncNm}"
                 android:textAllCaps="false"
                 android:textSize="16sp" />
 
@@ -92,9 +91,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:text="09/07/2020 12:19 PM"/>
+                android:text="@{viewdata.strtDt}"/>
 
-<!--            android:text="Nike Swoosh Run Totalmente transparente bonita"-->
             <TextView
                 android:id="@+id/comp_tv_product_title"
                 android:layout_width="0dp"
@@ -103,14 +101,13 @@
                 android:maxLines="2"
                 android:minLines="2"
                 android:ellipsize="end"
-                android:text="@{viewdata.prdtNm}"
+                android:text="@{viewdata.showNm}"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/comp_tv_date" />
 
-            <!--        android:text="@{viewmodel.mldDataList.get(position).productInfos.get(0).price3}"-->
             <TextView
                 android:id="@+id/comp_tv_discount"
                 android:layout_width="0dp"
@@ -120,7 +117,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/comp_tv_product_title"
-                android:text="With Host Brian Kang"/>
+                android:text="@{`With Host ` + viewdata.hstNm}"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

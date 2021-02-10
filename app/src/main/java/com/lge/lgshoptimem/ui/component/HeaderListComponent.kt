@@ -6,6 +6,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.view.children
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -36,10 +37,12 @@ class HeaderListComponent @JvmOverloads constructor(
         val nOrientaion: Int
         /** Attribute Index TextView Visibility */
         val bShowIndex: Boolean
+        val bShowCount: Boolean
 
         context.theme.obtainStyledAttributes(attrs, R.styleable.ListComponentAttrs, 0, 0).apply {
             nOrientaion = getInteger(R.styleable.ListComponentAttrs_orientation, 1)
-            bShowIndex = getBoolean(R.styleable.ListComponentAttrs_showIndex, true)
+            bShowIndex = getBoolean(R.styleable.ListComponentAttrs_showIndex, false)
+            bShowCount = getBoolean(R.styleable.ListComponentAttrs_showCount, false)
             recycle()
         }
 
@@ -50,6 +53,7 @@ class HeaderListComponent @JvmOverloads constructor(
         Trace.debug(">> mstrTitle = $mstrTitle")
         Trace.debug(">> mstrSubtitle = $mstrSubtitle")
         Trace.debug(">> bShowIndex = $bShowIndex")
+        Trace.debug(">> bShowCount = $bShowCount")
         Trace.debug(">> mstrDataClass = $mstrDataClass")
         Trace.debug(">> mnPosition = $mnPosition")
         Trace.debug(">> mnItemCountLimit = $mnItemCountLimit")
@@ -62,7 +66,8 @@ class HeaderListComponent @JvmOverloads constructor(
 
         Trace.debug(">> mBinding.canonicalName = ${mBinding::class.java.canonicalName}")
 
-        findViewById<LinearLayout>(R.id.comp_ll_index).visibility = if (bShowIndex) View.VISIBLE else View.GONE
+        findViewById<LinearLayout>(R.id.comp_ll_index)?.visibility = if (bShowIndex) View.VISIBLE else View.GONE
+        findViewById<TextView>(R.id.comp_tv_item_count)?.visibility = if (bShowCount) View.VISIBLE else View.GONE
 
         val compRvList: RecyclerView = findViewById(R.id.comp_rv_list)
 
@@ -78,7 +83,7 @@ class HeaderListComponent @JvmOverloads constructor(
 
                 addOnItemTouchListener(object: RecyclerView.OnItemTouchListener {
                     override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
-                        Trace.debug(">> onInterceptTouchEvent() action = ${e.action} x = ${e.x} y = ${e.y}")
+//                        Trace.debug(">> onInterceptTouchEvent() action = ${e.action} x = ${e.x} y = ${e.y}")
                         var curX: Float = 0f
                         var curY: Float = 0f
                         var distX: Float = 0f
@@ -142,6 +147,16 @@ class HeaderListComponent @JvmOverloads constructor(
 //                findViewById<TextView>(R.id.comp_tv_current_index).text = value.toString()
 //            }
 //        })
+    }
+
+    override fun <T> setItemList(items: ArrayList<T>) {
+        mItemList = items
+
+        if ((mItemList as ArrayList<*>).size > 0) {
+            findViewById<TextView>(R.id.comp_tv_current_index).text = "1"
+        }
+
+        mAdapter.notifyDataSetChanged()
     }
 
     private fun onDataListChanged(itemList: ArrayList<*>) {

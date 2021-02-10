@@ -1,5 +1,6 @@
 package com.lge.lgshoptimem.ui.component
 
+import android.content.res.TypedArray
 import android.graphics.Bitmap
 import android.graphics.Paint
 import android.view.View
@@ -14,9 +15,21 @@ import com.lge.core.net.ProtocolFactory
 import com.lge.core.sys.Trace
 import com.lge.lgshoptimem.BR
 import com.lge.lgshoptimem.model.http.ImageLinkProtocol
+import java.util.*
 
 object CommonBindingAdapter
 {
+    @JvmStatic
+    fun TypedArray.toIntArrayList(): ArrayList<Int> {
+        val arrInt: ArrayList<Int> = ArrayList<Int>()
+
+        for (i in 0 until this.length()) {
+            arrInt.add(this.getResourceId(i, 0))
+        }
+
+        return arrInt
+    }
+
     @JvmStatic
     @BindingAdapter("position")
     fun setPosition(comp: BaseListComponent, position: Int) {
@@ -62,7 +75,7 @@ object CommonBindingAdapter
             }
 
             override fun onFailure(nError: Int, strMsg: String) {
-                Trace.debug(">> requestImage() onFailure()")
+                Trace.debug(">> requestImage() onFailure($nError) strMsg = $strMsg")
             }
         })
 

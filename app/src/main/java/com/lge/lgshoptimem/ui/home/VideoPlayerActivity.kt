@@ -9,7 +9,6 @@ import android.media.MediaPlayer
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.os.Looper
 import android.transition.Fade
 import android.transition.Transition
 import android.transition.TransitionManager
@@ -55,13 +54,11 @@ class VideoPlayerActivity : AppCompatActivity(), SurfaceHolder.Callback
 
         private const val CONTROLLER_UPDATE_MS = 1000L
 
-        private const val FADEOUT_SECONDS = 10  //3
+        private const val FADEOUT_SECONDS = 3
     }
 
     private lateinit var mBinding: ActivityVideoPlayerBinding
-    private val mMediaPlayer: MediaPlayer = MediaPlayer()
-    private var mRunnable: Runnable? = null
-    private var mHandler = Handler(Looper.getMainLooper())
+    private var mMediaPlayer: MediaPlayer? = null
 
     private val MediaPlayer.seconds: Int
         get() {
@@ -124,15 +121,16 @@ class VideoPlayerActivity : AppCompatActivity(), SurfaceHolder.Callback
         Trace.debug(">> mstrVideoUrl = $mstrVideoUrl")
 
         mBinding.vvPlayer.holder.addCallback(this)
-
-//        doMediaController(strUrl!!)
-//        doMediaPlayer(mstrVideoUrl!!)
     }
 
     override fun surfaceCreated(holder: SurfaceHolder) {
         Trace.debug(">> surfaceCreated()")
-        mMediaPlayer.setDisplay(mBinding.vvPlayer.holder)
-        playByMediaPlayer()
+
+        if (mMediaPlayer == null){
+            playByMediaPlayer()
+        } else {
+            mMediaPlayer?.setDisplay(holder)
+        }
     }
 
     override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
@@ -141,37 +139,35 @@ class VideoPlayerActivity : AppCompatActivity(), SurfaceHolder.Callback
 
     override fun surfaceDestroyed(holder: SurfaceHolder) {
         Trace.debug(">> surfaceDestroyed()")
+
+        mMediaPlayer?.apply {
+            if (seconds == 0) {
+                stop()
+                release()
+                mMediaPlayer = null
+            }
+        }
     }
 
     private fun startPlayer() {
-        mMediaPlayer.start()
+        mMediaPlayer?.start()
+        toggleIcon(mBinding.ivPlay, mBinding.ivPause)
         mbCheckPlay = true
         mnFadeoutCount = FADEOUT_SECONDS
-        checkPlayable()
+        updatePlayer()
     }
 
     private fun pausePlayer() {
-        mMediaPlayer.pause()
-//        mRestartPosition = mMediaPlayer.currentPosition
+        mMediaPlayer?.pause()
+        toggleIcon(mBinding.ivPause, mBinding.ivPlay)
+        updateSeekBar()
+        mRestartPosition = mMediaPlayer!!.currentPosition
         mbCheckPlay = false
     }
 
-    private fun checkPlayable() {
+    private fun updatePlayer() {
         mCheckPlayJob = CoroutineScope(Dispatchers.Main).launch {
             while (mbCheckPlay) {
-//                if (mMediaPlayer.isPlaying) {
-//                    Trace.debug(">> checkPlayable() isPlaying = true")
-//                    toggleIcon(mBinding.ivPause, mBinding.ivPlay)
-//                    mnFadeoutCount = FADEOUT_SECONDS
-//                    mMediaPlayer.pause()
-//                } else {
-//                    Trace.debug(">> checkPlayable() isPlaying = false")
-//                    toggleIcon(mBinding.ivPlay, mBinding.ivPause)
-//                    mnFadeoutCount = FADEOUT_SECONDS
-//                    mMediaPlayer.start()
-//                    updateSeekBar()
-//                }
-
                 Trace.debug(">> checkPlayable() updateSeekBar()")
                 updateSeekBar()
                 delay(CONTROLLER_UPDATE_MS)
@@ -205,12 +201,16 @@ class VideoPlayerActivity : AppCompatActivity(), SurfaceHolder.Callback
         }
     }
 
-    fun playByMediaPlayer(strUrl: String = mstrVideoUrl!!) {
+    fun playByMediaPlayer() {
         Trace.debug("++ playByMediaPlayer()")
 
-        mMediaPlayer.apply {
+        if (mstrVideoUrl.isNullOrBlank()) return
+
+        mMediaPlayer = MediaPlayer()
+
+        mMediaPlayer?.apply {
 //            reset()
-            setDataSource(strUrl)
+            setDataSource(mstrVideoUrl)
             setDisplay(mBinding.vvPlayer.holder)
             prepareAsync()
 
@@ -232,9 +232,9 @@ class VideoPlayerActivity : AppCompatActivity(), SurfaceHolder.Callback
                     mBinding.vvPlayer.layoutParams = layoutParam
                 }
 
-                setVideoScalingMode(MediaPlayer.VIDEO_SCALING_MODE_SCALE_TO_FIT)
+                setVideoScalingMode(MediaPlayer.VIDEO_SCALING_MODE_SCALE_TO_FIT)    // RuntimeException
                 initSeekBar()
-                seekTo(mRestartPosition)
+//                if (mRestartPosition != 0) seekTo(mRestartPosition)
                 startPlayer()
                 mRestartPosition = 0
             }
@@ -248,7 +248,6 @@ class VideoPlayerActivity : AppCompatActivity(), SurfaceHolder.Callback
                     prepareAsync()
                     mbNextUrl = false
                 } else {
-                    toggleIcon(mBinding.ivPause, mBinding.ivPlay)
                     fadeControlView(true, null)
                     mBinding.vvPlayer.setZOrderOnTop(false)
                 }
@@ -258,21 +257,23 @@ class VideoPlayerActivity : AppCompatActivity(), SurfaceHolder.Callback
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         Trace.debug(">> onConfigurationChanged() newConfig.orientation = ${newConfig.orientation}")
-        Trace.debug(">> onConfigurationChanged() videoWidth = ${mMediaPlayer.videoWidth}")
-        Trace.debug(">> onConfigurationChanged() videoHeight = ${mMediaPlayer.videoHeight}")
-        Trace.debug(">> onConfigurationChanged() root.width = ${mBinding.root.width}")
-        Trace.debug(">> onConfigurationChanged() root.height = ${mBinding.root.height}")
-        Trace.debug(">> onConfigurationChanged() disp.width = ${resources.displayMetrics.widthPixels}")
-        Trace.debug(">> onConfigurationChanged() disp.height = ${resources.displayMetrics.heightPixels}")
+//        Trace.debug(">> onConfigurationChanged() videoWidth = ${mMediaPlayer?.videoWidth}")
+//        Trace.debug(">> onConfigurationChanged() videoHeight = ${mMediaPlayer?.videoHeight}")
+//        Trace.debug(">> onConfigurationChanged() root.width = ${mBinding.root.width}")
+//        Trace.debug(">> onConfigurationChanged() root.height = ${mBinding.root.height}")
+//        Trace.debug(">> onConfigurationChanged() disp.width = ${resources.displayMetrics.widthPixels}")
+//        Trace.debug(">> onConfigurationChanged() disp.height = ${resources.displayMetrics.heightPixels}")
         super.onConfigurationChanged(newConfig)
 
-        if (mMediaPlayer.videoWidth > 0) {
+        if (mMediaPlayer == null) return
+
+        if (mMediaPlayer!!.videoWidth > 0) {
             val layoutParam: ViewGroup.LayoutParams = mBinding.vvPlayer.layoutParams
 
             if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 layoutParam.height = resources.displayMetrics.heightPixels
             } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-                layoutParam.height = resources.displayMetrics.widthPixels * mMediaPlayer.videoHeight / mMediaPlayer.videoWidth
+                layoutParam.height = resources.displayMetrics.widthPixels * mMediaPlayer!!.videoHeight / mMediaPlayer!!.videoWidth
             }
 
             mBinding.vvPlayer.layoutParams = layoutParam
@@ -295,27 +296,30 @@ class VideoPlayerActivity : AppCompatActivity(), SurfaceHolder.Callback
     }
 
     override fun onResume() {
-        Trace.debug("++ onResume()")
+        Trace.debug("++ onResume() Initialized = ${::mCheckPlayJob.isInitialized}")
         super.onResume()
 
         if (::mCheckPlayJob.isInitialized) {
-            startPlayer()
+            Trace.debug(">> onResume() Active = ${mCheckPlayJob.isActive}")
+
+            if (!mCheckPlayJob.isActive and (mMediaPlayer != null)) {
+                startPlayer()
+            }
         }
     }
 
     override fun onPause() {
         Trace.debug("++ onPause()")
         super.onPause()
-        pausePlayer()
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             if (isInPictureInPictureMode) {
-                Trace.debug(">> onPause() PictureInPictureMode")
+                Trace.debug(">> onPause() PictureInPictureMode true")
+                VideoPIPManager.getInstance().notifyModeChanged(isInPictureInPictureMode)
             } else {
-                Trace.debug(">> onPause() not PictureInPictureMode")
+                Trace.debug(">> onPause() PictureInPictureMode false")
+                pausePlayer()
             }
-
-            VideoPIPManager.getInstance().notifyModeChanged(isInPictureInPictureMode)
         }
     }
 
@@ -326,26 +330,15 @@ class VideoPlayerActivity : AppCompatActivity(), SurfaceHolder.Callback
         VideoPIPManager.getInstance().notifyModeChanged(isInPictureInPictureMode)
 
         if (isInPictureInPictureMode) {
-
+            mBinding.clControlView.visibility = View.GONE
         } else {
+            mBinding.clControlView.visibility = View.VISIBLE
+
             if (mbNextUrl) {
-                mMediaPlayer.stop()
-                mMediaPlayer.reset()
+                mMediaPlayer?.stop()
+                mMediaPlayer?.reset()
             }
         }
-
-//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-//            Trace.debug(">> onPictureInPictureModeChanged() this.PIPMode = ${this.isInPictureInPictureMode}")
-//            Trace.debug(">> onPictureInPictureModeChanged() AppProxy.PIPMode = ${ApplicationProxy.getInstance().getActivity()?.isInPictureInPictureMode}")
-//        }
-//
-//        Trace.debug(">> this.packageName : ${this.packageName}")
-//        Trace.debug(">> this.localClassName : ${this.localClassName}")
-//        Trace.debug(">> this.componentName : ${this.componentName}")
-//
-//        Trace.debug(">> AppProxy.getActivity.packageName : ${ApplicationProxy.getInstance().getActivity()?.packageName}")
-//        Trace.debug(">> AppProxy.getActivity.localClassName : ${ApplicationProxy.getInstance().getActivity()?.localClassName}")
-//        Trace.debug(">> AppProxy.getActivity.componentName : ${ApplicationProxy.getInstance().getActivity()?.componentName}")
     }
 
     fun onClick(v: View) {
@@ -373,6 +366,14 @@ class VideoPlayerActivity : AppCompatActivity(), SurfaceHolder.Callback
             R.id.iv_pip_screen -> {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     if (packageManager.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE)) {
+                        Trace.debug(">> onConfigurationChanged() videoWidth = ${mMediaPlayer?.videoWidth}")
+                        Trace.debug(">> onConfigurationChanged() videoHeight = ${mMediaPlayer?.videoHeight}")
+                        Trace.debug(">> onConfigurationChanged() disp.width = ${resources.displayMetrics.widthPixels}")
+                        Trace.debug(">> onConfigurationChanged() disp.height = ${resources.displayMetrics.heightPixels}")
+
+//                        val aspectRatio: Rational = Rational(mMediaPlayer!!.videoWidth, mMediaPlayer!!.videoHeight)
+//                        val pipParams: PictureInPictureParams = PictureInPictureParams.Builder().setAspectRatio(aspectRatio).build()
+//                        enterPictureInPictureMode(pipParams)
                         enterPictureInPictureMode(PictureInPictureParams.Builder().build())
                     }
                 }
@@ -402,10 +403,10 @@ class VideoPlayerActivity : AppCompatActivity(), SurfaceHolder.Callback
     }
 
     private fun initSeekBar() {
-        Trace.debug("++ initSeekBar totalTime = ${mMediaPlayer.seconds}")
-        mBinding.sbProgress.max = mMediaPlayer.seconds
+        Trace.debug("++ initSeekBar totalTime = ${mMediaPlayer!!.seconds}")
+        mBinding.sbProgress.max = mMediaPlayer!!.seconds
         mBinding.sbProgress.progress = 0
-        mBinding.tvTotalTime.text = mMediaPlayer.seconds.getTimeString()
+        mBinding.tvTotalTime.text = mMediaPlayer!!.seconds.getTimeString()
 
         mBinding.sbProgress.apply {
             setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener {
@@ -413,7 +414,7 @@ class VideoPlayerActivity : AppCompatActivity(), SurfaceHolder.Callback
 //                    Trace.debug("++ onProgressChanged()")
                     if (!fromUser) return
 
-                    mMediaPlayer.seekTo(progress * 1000)
+                    mMediaPlayer!!.seekTo(progress * 1000)
                 }
 
                 override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -424,17 +425,17 @@ class VideoPlayerActivity : AppCompatActivity(), SurfaceHolder.Callback
             })
         }
 
-        mMediaPlayer.setOnBufferingUpdateListener {
+        mMediaPlayer?.setOnBufferingUpdateListener {
             mp, percent -> mBinding.sbProgress.secondaryProgress = percent
         }
     }
 
     private fun updateSeekBar() {
 //        Trace.debug("++ updateSeekBar currentSeconds = ${mMediaPlayer?.currentSeconds}")
-        if (mMediaPlayer.currentSeconds < 0) return
+        if (mMediaPlayer!!.currentSeconds < 0) return
 
-        mBinding.tvElapsedTime.text = mMediaPlayer.currentSeconds.getTimeString()
-        mBinding.sbProgress.progress = mMediaPlayer.currentSeconds
+        mBinding.tvElapsedTime.text = mMediaPlayer!!.currentSeconds.getTimeString()
+        mBinding.sbProgress.progress = mMediaPlayer!!.currentSeconds
 
         if (mnFadeoutCount == 0) {
             mnFadeoutCount = -1
@@ -445,6 +446,12 @@ class VideoPlayerActivity : AppCompatActivity(), SurfaceHolder.Callback
     }
 
     private fun fadeControlView(bShow: Boolean, fEndTrans: ((Unit) -> (Unit))?) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            if (super.isInPictureInPictureMode()) {
+                return
+            }
+        }
+
         val transition: Transition = Fade()
         transition.duration = if (bShow) 300 else 500
         transition.addTarget(mBinding.clControlView)
@@ -467,7 +474,7 @@ class VideoPlayerActivity : AppCompatActivity(), SurfaceHolder.Callback
         })
 
         TransitionManager.beginDelayedTransition(mBinding.clVideoPlayerRoot, transition)
-        mBinding.clControlView?.visibility = if (bShow) View.VISIBLE else View.GONE
+        mBinding.clControlView.visibility = if (bShow) View.VISIBLE else View.GONE
     }
 
     private fun toggleIcon(to: View, from: View) {
@@ -483,11 +490,9 @@ class VideoPlayerActivity : AppCompatActivity(), SurfaceHolder.Callback
         Trace.debug("++ onDestroy()")
         super.onDestroy()
 
-        if (mMediaPlayer.isPlaying) {
-            mMediaPlayer.stop()
-        }
-
-        mMediaPlayer.release()
+        mMediaPlayer?.stop()
+        mMediaPlayer?.release()
+        mMediaPlayer = null
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {

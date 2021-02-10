@@ -5,20 +5,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AbsListView
+import androidx.core.view.children
 import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.lge.core.sys.Trace
+import com.lge.lgshoptimem.R
+import com.lge.lgshoptimem.databinding.CompHeadTextNumberBinding
 import com.lge.lgshoptimem.databinding.FragmentWatchnowBinding
-import com.lge.lgshoptimem.databinding.ViewLiveChannelsBinding
-import com.lge.lgshoptimem.databinding.ViewPopularShowsBinding
-import com.lge.lgshoptimem.model.dto.Curation
+import com.lge.lgshoptimem.databinding.ViewLiveChannelIconsBinding
+import com.lge.lgshoptimem.model.dto.WatchNow
 import com.lge.lgshoptimem.ui.common.AppConst
+import com.lge.lgshoptimem.ui.component.BaseListComponent
 import com.lge.lgshoptimem.ui.component.ComponentItemListener
-import com.lge.lgshoptimem.ui.component.VideoViewComponent
+import com.lge.lgshoptimem.ui.product.DetailActivity
 
 class WatchNowFragment : Fragment(), ComponentItemListener {
     private lateinit var mBinding: FragmentWatchnowBinding
@@ -51,11 +53,11 @@ class WatchNowFragment : Fragment(), ComponentItemListener {
             adapter = mAdapter
         }
 
-        mViewModel.mldDataList.observe(viewLifecycleOwner, this::onDataListChanged)
-        mViewModel.requestData()
+        mViewModel.mldWatchNow.observe(viewLifecycleOwner, this::onDataListChanged)
+        mViewModel.requestData("1", "QVC20210209080000")
     }
 
-    private fun onDataListChanged(itemList: ArrayList<Curation>) {
+    private fun onDataListChanged(itemList: WatchNow.Response.Data) {
         Trace.debug("++ onDataListChanged()")
         mAdapter.notifyDataSetChanged()
     }
@@ -65,33 +67,64 @@ class WatchNowFragment : Fragment(), ComponentItemListener {
 
         when (mAdapter.getItemViewType(pos)) {
             AppConst.VIEWTYPE.VT_LIVE_CHANNELS -> Trace.debug(">> viewType = VT_LIVE_CHANNEL_PRODUCT")
-            AppConst.VIEWTYPE.VT_NEXT_UPCOMING_HORIZONTAL -> Trace.debug(">> viewType = VT_NEXT_UPCOMING_HORIZONTAL")
+            AppConst.VIEWTYPE.VT_UPCOMING_HORIZONTAL -> Trace.debug(">> viewType = VT_NEXT_UPCOMING_HORIZONTAL")
             AppConst.VIEWTYPE.VT_TODAY_DEAL -> Trace.debug(">> viewType = VT_TODAY_DEAL")
             AppConst.VIEWTYPE.VT_POPULAR_SHOWS -> Trace.debug(">> viewType = VT_POPULAR_SHOWS")
             AppConst.VIEWTYPE.VT_YOU_MAY_LIKE -> Trace.debug(">> viewType = VT_YOU_MAY_LIKE")
             else -> Trace.debug(">> viewType = else")
         }
-
-        val intent = Intent(context, VideoPlayerActivity::class.java)
-        intent.putExtra("param", "https://wowzaprod134-i.akamaihd.net/hls/live/577814/ccddaf02/playlist.m3u8")
-        startActivity(intent)
     }
 
     override fun onItemClick(parent: View, parentPos: Int, item: View, pos: Int) {
         Trace.debug("++ onItemClick() parent = ${parent.id} parentPos = $parentPos item = ${item.id} pos = $pos")
+        var strPartnerId = ""
+        var strProductId = ""
+        var strCurationId = ""
 
         when (mAdapter.getItemViewType(parentPos)) {
             AppConst.VIEWTYPE.VT_LIVE_CHANNEL_ICONS -> {
-                item.isSelected = !item.isSelected
+                if (mAdapter.mShowInfoIndex == pos) return
+
+                mAdapter.mChannelIcons.forEach { it.selected = false }
+                mAdapter.mChannelIcons[pos].selected = true
+                mAdapter.mShowInfoIndex = pos
+                mBinding.wnRvMainList.getChildAt(parentPos).findViewById<BaseListComponent>(R.id.comp_list).refresh()
+
+                mViewModel.requestData(mViewModel.mldWatchNow.value!!.showInfos[pos].patnrId,
+                        mViewModel.mldWatchNow.value!!.showInfos[pos].showId)
             }
 
-            AppConst.VIEWTYPE.VT_LIVE_CHANNELS -> Trace.debug(">> viewType = VT_LIVE_CHANNEL_PRODUCT")
-            AppConst.VIEWTYPE.VT_NEXT_UPCOMING_HORIZONTAL -> Trace.debug(">> viewType = VT_NEXT_UPCOMING_HORIZONTAL")
+            AppConst.VIEWTYPE.VT_LIVE_CHANNELS -> {
+                strPartnerId = mViewModel.mldWatchNow.value!!.productInfos[pos].patnrId
+                strProductId = mViewModel.mldWatchNow.value!!.productInfos[pos].prdtId
+                strCurationId = mViewModel.mldWatchNow.value!!.productInfos[pos].curationId
+            }
+
+            AppConst.VIEWTYPE.VT_UPCOMING_HORIZONTAL -> Trace.debug(">> viewType = VT_NEXT_UPCOMING_HORIZONTAL")
+
             AppConst.VIEWTYPE.VT_TODAY_DEAL -> Trace.debug(">> viewType = VT_TODAY_DEAL")
-            AppConst.VIEWTYPE.VT_POPULAR_SHOWS -> Trace.debug(">> viewType = VT_POPULAR_SHOWS")
-            AppConst.VIEWTYPE.VT_YOU_MAY_LIKE -> Trace.debug(">> viewType = VT_YOU_MAY_LIKE")
+
+            AppConst.VIEWTYPE.VT_POPULAR_SHOWS -> {
+                val nIndex: Int = mAdapter.getPositionOf(AppConst.VIEWTYPE.VT_POPULAR_SHOWS, parentPos)
+                strPartnerId = mViewModel.mldWatchNow.value!!.topInfos[nIndex].patnrId
+                strProductId = mViewModel.mldWatchNow.value!!.topInfos[nIndex].productInfos[pos].prdtId
+            }
+
+            AppConst.VIEWTYPE.VT_YOU_MAY_LIKE -> {
+                strPartnerId = mViewModel.mldWatchNow.value!!.youmaylike[pos].patnrId
+                strProductId = mViewModel.mldWatchNow.value!!.youmaylike[pos].prdtId
+            }
+
             else -> Trace.debug(">> viewType = else")
         }
+
+        if (strPartnerId.isNullOrEmpty() or strProductId.isNullOrEmpty()) return
+
+        val intent = Intent(context, DetailActivity::class.java)
+        intent.putExtra(AppConst.KEY.PARTNER_ID, strPartnerId)
+        intent.putExtra(AppConst.KEY.PRODUCT_ID, strProductId)
+        intent.putExtra(AppConst.KEY.CURATION_ID, strCurationId)
+        startActivity(intent)
     }
 
     override fun onDestroyView() {

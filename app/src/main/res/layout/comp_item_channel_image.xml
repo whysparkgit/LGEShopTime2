@@ -13,28 +13,28 @@
             type="com.lge.lgshoptimem.ui.component.ComponentItemListener" />
         <variable
             name="viewdata"
-            type="int" />
+            type="com.lge.lgshoptimem.model.dto.ChannelIcon" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/comp_cl_item"
         android:layout_width="75dp"
-        android:layout_height="75dp"
+        android:layout_height="95dp"
         android:onClick="@{v -> listener.onClick(v, position)}">
 
-<!--        android:foreground="@color/dim_898989"-->
         <ImageView
             android:id="@+id/comp_iv_main_image"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_marginHorizontal="4dp"
             android:adjustViewBounds="true"
             android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:resource="@{viewdata}" />
+            app:selected="@{viewdata.selected}"
+            app:resource="@{viewdata.resourceId}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

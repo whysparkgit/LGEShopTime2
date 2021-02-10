@@ -2,7 +2,7 @@ package com.lge.lgshoptimem.model.dto
 
 import com.lge.core.net.HttpConst
 
-open class BaseResponse()
+open class BaseResponse
 {
     val retCode: Int = 0
     val retMsg: String = ""

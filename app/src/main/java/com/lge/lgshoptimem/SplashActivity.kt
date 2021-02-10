@@ -348,7 +348,7 @@ class SplashActivity : AppCompatActivity()
         if (ctInput == ctKey) {
             intent = Intent(getApplicationContext(), IndexActivity::class.java)
         } else {
-            if (Config.SUPPORT_DEBUG) {
+            if (Config.SUPPORT_DEV_MODE) {
                 intent = Intent(getApplicationContext(), IndexActivity::class.java)
             } else {
                 intent = Intent(getApplicationContext(), HomeActivity::class.java)

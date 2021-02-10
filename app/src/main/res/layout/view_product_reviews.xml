@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="position"
+            type="int" />
+        <variable
+            name="listener"
+            type="com.lge.lgshoptimem.ui.component.ComponentItemListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+<!--        android:onClick="@{v -> listener.onClick(v, position)}"-->
+        <com.lge.lgshoptimem.ui.component.HeaderListComponent
+            android:id="@+id/comp_list"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:headLayout="@layout/comp_head_text_number"
+            app:itemLayout="@layout/comp_item_review"
+            app:orientation="horizontal"
+            app:subject="NEXT UPCOMING"
+            app:showIndex="false"
+            app:showCount="false"
+            app:itemCount="1"
+            app:position="@{position}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <TextView
+            android:id="@+id/comp_tv_more"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="SEE MORE"
+            android:textColor="@color/gray_898989"
+            android:textSize="14sp"
+            android:onClick="@{v -> listener.onClick(v, position)}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/comp_list" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="14dp"
+            android:background="@color/gray_f2f2f2"
+            app:layout_constraintTop_toBottomOf="@+id/comp_tv_more"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

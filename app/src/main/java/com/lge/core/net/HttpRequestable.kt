@@ -24,6 +24,8 @@ interface HttpRequestable
 
     fun setResponseHeaderMap(responseHeaders: Map<String, List<String>>?)
 
+    fun getResponseHeader(strKey: String, nSubIndex: Int): String
+
     fun parse(responseBody: Any?)
 
     fun requestFailed(nError: Int, strMsg: String)

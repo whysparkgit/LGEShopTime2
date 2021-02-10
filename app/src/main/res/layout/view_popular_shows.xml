@@ -4,15 +4,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <data>
+        <import type="android.view.View" />
         <variable
             name="position"
+            type="int" />
+        <variable
+            name="index"
+            type="int" />
+        <variable
+            name="total_count"
             type="int" />
         <variable
             name="listener"
             type="com.lge.lgshoptimem.ui.component.ComponentItemListener" />
         <variable
             name="viewdata"
-            type="com.lge.lgshoptimem.model.dto.Curation" />
+            type="com.lge.lgshoptimem.model.dto.WatchNow.TopInfo" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -28,6 +35,7 @@
             android:textStyle="bold"
             android:textSize="20sp"
             android:text="POPULAR SHOWS"
+            android:visibility="@{index == 0 ? View.VISIBLE : View.GONE}"
             android:paddingBottom="10dp"
             android:layout_marginHorizontal="10dp"
             android:layout_marginVertical="10dp"
@@ -49,6 +57,7 @@
                 android:layout_height="wrap_content"
                 app:videoUrl="@{viewdata.showUrl}"
                 app:thumbnailUrl="@{viewdata.thumbnailUrl}"
+                app:viewdata="@{viewdata}"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
@@ -63,6 +72,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
+<!--            android:onClick="@{v -> listener.onClick(v, position)}"-->
             <com.lge.lgshoptimem.ui.component.HeaderListComponent
                 android:id="@+id/comp_list"
                 android:layout_width="0dp"
@@ -74,8 +84,51 @@
                 app:showIndex="true"
                 app:itemCount="10"
                 app:position="@{position}"
-                android:onClick="@{v -> listener.onClick(v, position)}"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <View
+                android:id="@+id/vw_h1"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@color/white"
+                app:layout_constraintTop_toBottomOf="@id/comp_list"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <View
+                android:id="@+id/vw_h2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gray_e9e9e9"
+                android:layout_marginHorizontal="10dp"
+                android:visibility="@{index == total_count - 1 ? View.VISIBLE : View.GONE}"
+                app:layout_constraintTop_toBottomOf="@id/vw_h1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/comp_tv_more"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:background="@color/white"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="SHOW MORE POPULAR SHOW"
+                android:textColor="@color/gray_898989"
+                android:textSize="14sp"
+                android:visibility="@{index == total_count - 1 ? View.VISIBLE : View.GONE}"
+                android:onClick="@{v -> listener.onClick(v, position)}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/vw_h2" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="14dp"
+                android:background="@color/gray_f2f2f2"
+                android:visibility="@{index == total_count - 1 ? View.VISIBLE : View.GONE}"
+                app:layout_constraintTop_toBottomOf="@+id/comp_tv_more"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 

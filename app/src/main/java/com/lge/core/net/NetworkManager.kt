@@ -46,7 +46,7 @@ class NetworkManager private constructor()
 
     fun init() {
         if (Config.SUPPORT_DEBUG) {
-            val interceptor = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.HEADERS)
+            val interceptor = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)  // HEADERS)
             mOkHttpClientBuilder.addInterceptor(interceptor)
         }
 
@@ -232,13 +232,14 @@ class NetworkManager private constructor()
     fun processResponse(protocol: HttpRequestable, response: Response<ResponseBody?>) {
         protocol.setResponseHeaderMap(response.headers().toMultimap())
 
-        when (response.body()?.contentType()?.toString()) {
+        when (protocol.getResponseHeader(HttpConst.HTTP_HEADER_CONTENT_TYPE, 0)) {
             HttpConst.HTTP_MIME_TYPE_JPEG,
             HttpConst.HTTP_MIME_TYPE_PNG,
+            HttpConst.HTTP_MIME_TYPE_GIF,
             HttpConst.HTTP_MIME_TYPE_JAR,
             HttpConst.HTTP_MIME_TYPE_APK,
             HttpConst.HTTP_MIME_TYPE_STREAM -> {
-                var inputStream: InputStream? = response.body()?.byteStream()
+                val inputStream: InputStream? = response.body()?.byteStream()
                 protocol.parse(inputStream)
             }
 

@@ -107,21 +107,39 @@ open class BaseListComponent @JvmOverloads constructor(
     }
 
     fun setSubject(strSubject: String) {
-        Trace.debug("++ setSubject()")
+        Trace.debug("++ setSubject() strSubject = $strSubject")
         mstrSubject = strSubject
-        findViewById<TextView>(R.id.comp_tv_subject)?.visibility = if (mstrSubject.isNullOrEmpty()) View.GONE else View.VISIBLE
+
+        if (mstrSubject.isNullOrEmpty()) {
+            findViewById<TextView>(R.id.comp_tv_subject)?.visibility = View.GONE
+        } else {
+            findViewById<TextView>(R.id.comp_tv_subject)?.visibility =  View.VISIBLE
+            findViewById<TextView>(R.id.comp_tv_subject)?.text = mstrSubject
+        }
     }
 
     fun setTitle(strTitle: String) {
-        Trace.debug("++ setTitle()")
+        Trace.debug("++ setTitle() strTitle = $strTitle")
         mstrTitle = strTitle
-        findViewById<TextView>(R.id.comp_tv_title)?.visibility = if (mstrTitle.isNullOrEmpty()) View.GONE else View.VISIBLE
+
+        if (mstrTitle.isNullOrEmpty()) {
+            findViewById<TextView>(R.id.comp_tv_title)?.visibility = View.GONE
+        } else {
+            findViewById<TextView>(R.id.comp_tv_title)?.visibility =  View.VISIBLE
+            findViewById<TextView>(R.id.comp_tv_title)?.text = mstrTitle
+        }
     }
 
     fun setSubtitle(strSubtitle: String) {
-        Trace.debug("++ setSubtitle()")
+        Trace.debug("++ setSubtitle() strSubtitle = $strSubtitle")
         mstrSubtitle = strSubtitle
-        findViewById<TextView>(R.id.comp_tv_subtitle)?.visibility = if (mstrSubtitle.isNullOrEmpty()) View.GONE else View.VISIBLE
+
+        if (mstrSubtitle.isNullOrEmpty()) {
+            findViewById<TextView>(R.id.comp_tv_subtitle)?.visibility = View.GONE
+        } else {
+            findViewById<TextView>(R.id.comp_tv_subtitle)?.visibility =  View.VISIBLE
+            findViewById<TextView>(R.id.comp_tv_subtitle)?.text = mstrSubtitle
+        }
     }
 
     fun getSubject() = mstrSubject
@@ -157,7 +175,7 @@ open class BaseListComponent @JvmOverloads constructor(
         mBinding.setVariable(BR.viewdata, data)
     }
 
-    fun <T> setItemList(items: ArrayList<T>) {
+    open fun <T> setItemList(items: ArrayList<T>) {
         mItemList = items
         mAdapter.notifyDataSetChanged()
     }
@@ -173,7 +191,7 @@ open class BaseListComponent @JvmOverloads constructor(
     }
 
     override fun onClick(v: View, pos: Int) {
-        Trace.debug("++ onClick() v = ${v.id} pos = $pos")
+//        Trace.debug("++ onClick() v = ${v.id} pos = $pos")
         mItemListener?.onItemClick(mBinding.root, mnPosition, v, pos)
     }
 
@@ -203,10 +221,11 @@ open class BaseListComponent @JvmOverloads constructor(
 
             if (!mItemList.isNullOrEmpty() && mItemList!!.size > position) {
                 binding.setVariable(BR.viewdata, mItemList?.get(position))
-            } else {
-                // fixme
-                binding.setVariable(BR.viewdata, mItemList?.last())
             }
+//            else {
+//                // fixme
+//                binding.setVariable(BR.viewdata, mItemList?.last())
+//            }
 
 //            val lp = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
 //            val compRvList: RecyclerView = mBinding.root.findViewById(R.id.comp_rv_list)
@@ -216,13 +235,14 @@ open class BaseListComponent @JvmOverloads constructor(
         }
 
         override fun getItemCount(): Int {
-            if (mnItemCountLimit > -1) {
-                Trace.debug("++ getItemCount() mnItemCountLimit = $mnItemCountLimit this = $this")
-                return mnItemCountLimit
-            }
+            Trace.debug("++ getItemCount() mnItemCountLimit = $mnItemCountLimit size = ${mItemList!!.size}")
 
-            var nCount = if (mItemList.isNullOrEmpty()) {
+            val nCount = if (mItemList.isNullOrEmpty()) {
                 0
+            } else if (mnItemCountLimit == -1) {
+                mItemList!!.size
+            } else if (mItemList!!.size > mnItemCountLimit) {
+                mnItemCountLimit
             } else {
                 mItemList!!.size
             }

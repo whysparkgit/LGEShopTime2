@@ -18,17 +18,26 @@ interface AppConst {
             const val VT_LIVE_CHANNEL_ICONS = 0
             const val VT_LIVE_CHANNELS = 1
             const val VT_POPULAR_SHOWS = 2
-            const val VT_PRODUCT_IMAGE = 3
-            const val VT_TODAY_DEAL = 4
-            const val VT_HOT_PICKS = 5
-            const val VT_NEXT_UPCOMING_HORIZONTAL = 6
-            const val VT_NEXT_UPCOMING_VERTICAL = 7
-            const val VT_YOU_MAY_LIKE = 8
-            const val VT_CATEGORY_REMINDER = 9
-            const val VT_KEYWORD_REMINDER = 10
-            const val VT_MY_FAVORITES = 11
-            const val VT_RECENTLY_VIEWED = 12
-            const val VT_COUPON = 13
+            const val VT_TODAY_DEAL = 3
+            const val VT_HOT_PICKS = 4
+            const val VT_UPCOMING_HORIZONTAL = 5
+            const val VT_UPCOMING_VERTICAL = 6
+            const val VT_YOU_MAY_LIKE = 7
+            const val VT_FAVORITE_CATEGORY = 8
+            const val VT_FAVORITE_KEYWORD = 9
+            const val VT_MY_FAVORITES = 10
+            const val VT_RECENTLY_VIEWED = 11
+            const val VT_COUPON = 12
+            const val VT_PRODUCT_DETAIL = 13
+            const val VT_PRODUCT_REVIEW = 14
+        }
+    }
+
+    interface KEY {
+        companion object {
+            const val PARTNER_ID = "PartnerId"
+            const val PRODUCT_ID = "ProductId"
+            const val CURATION_ID = "CurationId"
         }
     }
 }

@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.graphics.Bitmap
+import android.media.MediaCodecList
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -29,16 +30,14 @@ import com.lge.core.net.ProtocolFactory
 import com.lge.core.sys.Const
 import com.lge.core.sys.Device
 import com.lge.core.sys.Trace
-import com.lge.lgshoptimem.model.dto.BaseResponse
-import com.lge.lgshoptimem.model.dto.CurationList
-import com.lge.lgshoptimem.model.dto.Login
-import com.lge.lgshoptimem.model.http.ImageLinkProtocol
-import com.lge.lgshoptimem.model.http.LoginProtocol
-import com.lge.lgshoptimem.model.http.MainCurationProtocol
+import com.lge.lgshoptimem.model.dto.*
+import com.lge.lgshoptimem.model.http.*
+import com.lge.lgshoptimem.ui.common.AppConst
 import com.lge.lgshoptimem.ui.common.SinglePopupDialog
 import com.lge.lgshoptimem.ui.home.HomeActivity
 import com.lge.lgshoptimem.ui.home.TodayDealsDialog
 import com.lge.lgshoptimem.ui.home.VideoPlayerActivity
+import com.lge.lgshoptimem.ui.product.DetailActivity
 import java.io.BufferedReader
 import java.io.File
 import java.io.IOException
@@ -160,11 +159,19 @@ class IndexActivity : AppCompatActivity()
                 R.id.btn_33 -> launchActivity(VideoPlayerActivity::class.java, "http://sites.google.com/site/ubiaccessmobile/sample_video.mp4")
                 R.id.btn_34 -> TodayDealsDialog().show(supportFragmentManager, null)
                 R.id.btn_35 -> {
+                    val intent = Intent(applicationContext, DetailActivity::class.java)
+                    intent.putExtra(AppConst.KEY.PARTNER_ID, "1")
+                    intent.putExtra(AppConst.KEY.PRODUCT_ID, "A391331")
+                    startActivity(intent)
                 }
                 R.id.btn_36 -> launchActivity(MainActivity::class.java)
                 R.id.btn_41 -> requestLogin()
                 R.id.btn_42 -> requestCuration()
-//                R.id.btn_43 -> launchService(ForegroundService::class.java)
+                R.id.btn_43 -> {
+                    requestWatchNow()
+                    requestHotPicks()
+                    requestForYou()
+                }
                 R.id.btn_44 -> {
                 }
                 R.id.btn_45 -> {
@@ -200,12 +207,16 @@ class IndexActivity : AppCompatActivity()
                 R.id.btn_73 -> openImages()
                 R.id.btn_74 -> openChooser()
                 R.id.btn_75 -> openGallery()
-                R.id.btn_76 -> {  }
+                R.id.btn_76 -> {
+                    if (Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                        getCodecInfo()
+                    }
+                }
 //                R.id.btn_81 -> wsOpen()
 //                R.id.btn_82 -> wsLogin()
 //                R.id.btn_83 -> wsClose()
                 R.id.btn_84 -> logToView()
-                R.id.btn_85 -> mTextView!!.text = ""
+                R.id.btn_85 -> mTextView.text = ""
                 R.id.btn_86 -> {
                 }
                 else -> {  }
@@ -217,19 +228,27 @@ class IndexActivity : AppCompatActivity()
         try {
 //            Process process = Runtime.getRuntime().exec("logcat -d -s main");
             val process = Runtime.getRuntime().exec("logcat -d")
-            val bufferedReader = BufferedReader(
-                    InputStreamReader(process.inputStream))
-            var line = ""
+            val bufferedReader = BufferedReader(InputStreamReader(process.inputStream))
+            var line: String? = ""
 
             while (bufferedReader.readLine().also { line = it } != null) {
-                mTextView!!.append("$line".trimIndent())
+                mTextView.append(line?.trimIndent())
             }
 
-            val svLog = mTextView!!.parent as ScrollView
+            val svLog = mTextView.parent as ScrollView
             svLog.post { svLog.fullScroll(View.FOCUS_DOWN) }
         } catch (e: IOException) {
             e.printStackTrace()
         }
+    }
+
+    companion object {
+        private const val APP_CONTROL = "com.sdi.control.mobile"
+        const val UNKNOWN_APP_SOURCE = 500
+        const val INSTALL_COMPLETE = 600
+        const val QRCODE_SCAN_RESULT = 49374
+        const val CAMERA_SNAPSHOT = 700
+        const val REQ_CODE_GALLERY = 800
     }
 
     fun inactivateAppControl() {
@@ -474,6 +493,57 @@ class IndexActivity : AppCompatActivity()
 
         NetworkManager.getInstance().asyncRequest(loginProtocol)
     }
+
+    fun requestWatchNow() {
+        val protocol: WatchNowProtocol = ProtocolFactory.create(WatchNowProtocol::class.java)
+        protocol.setPartnerId("1")
+        protocol.setShowId("QVC20210202000000")
+
+        protocol.setHttpResponsable(object : HttpResponsable<WatchNow.Response> {
+            override fun onResponse(response: WatchNow.Response) {
+                Trace.debug(">> requestWatchNow() onResponse() : $response")
+            }
+
+            override fun onFailure(nError: Int, strMsg: String) {
+                Trace.debug(">> requestWatchNow() onFailure($nError) : $strMsg")
+            }
+        })
+
+        NetworkManager.getInstance().asyncRequest(protocol)
+    }
+
+    fun requestHotPicks() {
+        val protocol: HotPicksProtocol = ProtocolFactory.create(HotPicksProtocol::class.java)
+
+        protocol.setHttpResponsable(object : HttpResponsable<HotPicks.Response> {
+            override fun onResponse(response: HotPicks.Response) {
+                Trace.debug(">> requestHotPicks() onResponse() : $response")
+            }
+
+            override fun onFailure(nError: Int, strMsg: String) {
+                Trace.debug(">> requestHotPicks() onFailure($nError) : $strMsg")
+            }
+        })
+
+        NetworkManager.getInstance().asyncRequest(protocol)
+    }
+
+    fun requestForYou() {
+        val protocol: ForYouProtocol = ProtocolFactory.create(ForYouProtocol::class.java)
+
+        protocol.setHttpResponsable(object : HttpResponsable<ForYou.Response> {
+            override fun onResponse(response: ForYou.Response) {
+                Trace.debug(">> requestForYou() onResponse() : $response")
+            }
+
+            override fun onFailure(nError: Int, strMsg: String) {
+                Trace.debug(">> requestForYou() onFailure($nError) : $strMsg")
+            }
+        })
+
+        NetworkManager.getInstance().asyncRequest(protocol)
+    }
+
 
     fun requestCuration() {
         val protocol: MainCurationProtocol = ProtocolFactory.create(MainCurationProtocol::class.java)
@@ -796,12 +866,22 @@ class IndexActivity : AppCompatActivity()
 //        //        ProtocolFactory.removeAll();
 //    }
 
-    companion object {
-        private const val APP_CONTROL = "com.sdi.control.mobile"
-        const val UNKNOWN_APP_SOURCE = 500
-        const val INSTALL_COMPLETE = 600
-        const val QRCODE_SCAN_RESULT = 49374
-        const val CAMERA_SNAPSHOT = 700
-        const val REQ_CODE_GALLERY = 800
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    fun getCodecInfo() {
+        val mediaCodec = MediaCodecList(MediaCodecList.ALL_CODECS)
+
+        Trace.debug(">> getCodecInfo() count = ${MediaCodecList.getCodecCount()}")
+
+        mediaCodec.codecInfos.forEach {
+            var types = ""
+
+            it.supportedTypes.forEach {
+                types += "$it "
+            }
+
+            Trace.debug(">> CodecInfo name = ${it.name} ( $types)")
+//            Trace.debug(">> CodecInfo canonicalName = ${it.canonicalName}")
+//            Trace.debug(">> CodecInfo inDevice = ${it.isVendor}")
+        }
     }
 }
