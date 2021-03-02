@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="listener"
+            type="com.lge.lgshoptimem.ui.component.ComponentItemListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/iv_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:onClick="@{v -> listener.onClick(v, 0)}"
+            app:srcCompat="@drawable/sel_btn_close_b"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <com.lge.lgshoptimem.ui.component.HeaderListComponent
+            android:id="@+id/comp_list"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:headLayout="@layout/comp_head_text_products_fixed"
+            app:itemLayout="@layout/comp_item_product_image_horizontal"
+            app:orientation="vertical"
+            app:itemCount="10"
+            app:position="0"
+            app:subject="LIST"
+            app:showIndex="false"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/comp_tv_more"/>
+
+        <TextView
+            android:id="@+id/comp_tv_more"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="SEE MORE"
+            android:textColor="@color/gray_898989"
+            android:textSize="14sp"
+            android:onClick="@{v -> listener.onClick(v, 0)}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/vw_h1"/>
+
+        <View
+            android:id="@+id/vw_h1"
+            android:layout_width="0dp"
+            android:layout_height="14dp"
+            android:background="@color/gray_f2f2f2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

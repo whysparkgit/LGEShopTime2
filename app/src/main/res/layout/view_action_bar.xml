@@ -18,6 +18,22 @@
 
 <!--        android:layout_width="38dp"-->
 <!--        android:layout_height="38dp"-->
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="10dp"
+            android:gravity="center"
+            android:text="@{actionbar.getTitle}"
+            android:textAlignment="@{actionbar.titleAlign}"
+            android:textColor="@{actionbar.getTitleColor()}"
+            android:textSize="22dp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:text="메인화면" />
+
         <ImageButton
             android:id="@+id/iv_left"
             android:layout_width="wrap_content"
@@ -30,19 +46,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"/>
-
-        <TextView
-            android:id="@+id/tv_title"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:textSize="22dp"
-            android:textColor="@{actionbar.getTitleColor()}"
-            android:text="@{actionbar.getTitle}"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            tools:text="메인화면"/>
 
         <ImageView
             android:id="@+id/iv_right"

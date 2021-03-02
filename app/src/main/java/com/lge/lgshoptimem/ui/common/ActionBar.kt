@@ -15,13 +15,18 @@ class ActionBar(var listener: onActionBarListener)
         const val ACTION_MENU = 3
         const val ACTION_NOTI = 4
         const val ACTION_INFO = 5
+
+        const val ALIGN_LEFT = 5
+        const val ALIGN_CENTER = 0
+        const val ALIGN_RIGHT = 6
     }
 
     var darkMode = false
     var title: String? = null
     var leftBtn = 0
     var rightBtn = 0
-    private var mCount = 0
+    var mCount = 0
+    var mTitleAlign = ALIGN_CENTER
 
     private var actionBarListener: onActionBarListener? = null
 
@@ -38,15 +43,23 @@ class ActionBar(var listener: onActionBarListener)
         mCount = count
     }
 
+    fun setAlign(align: Int) {
+        mTitleAlign = align
+    }
+
     fun onClickLeft(view: View?) {
         if (actionBarListener != null) {
-            actionBarListener!!.onLeft()
+            if (leftBtn != ACTION_NONE) {
+                actionBarListener!!.onLeft()
+            }
         }
     }
 
     fun onClickRight(view: View?) {
         if (actionBarListener != null) {
-            actionBarListener!!.onRight()
+            if (rightBtn != ACTION_NONE) {
+                actionBarListener!!.onRight()
+            }
         }
     }
 
@@ -61,18 +74,19 @@ class ActionBar(var listener: onActionBarListener)
 
     fun getImage(direction: Int): Int {
         return when (direction) {
-            ACTION_BACK -> R.drawable.btn_back
-//            ACTION_BACK -> R.drawable.sel_btn_back
-            ACTION_CLOSE -> if (darkMode) {
-                R.drawable.btn_close_b
-            } else {
-                R.drawable.btn_close_b
-            }
-            ACTION_MENU -> R.drawable.btn_close_b
+//            ACTION_BACK -> R.drawable.btn_back
+            ACTION_BACK -> R.drawable.sel_btn_back
+            ACTION_CLOSE -> R.drawable.sel_btn_close_b
+//                if (darkMode) {
+//                R.drawable.btn_close_b
+//            } else {
+//                R.drawable.btn_close_b
+//            }
+            ACTION_MENU -> R.drawable.sel_btn_close_b
             ACTION_NOTI -> if (mCount > 0) {
-                R.drawable.btn_close_b
+                R.drawable.sel_btn_close_b
             } else {
-                R.drawable.btn_close_b
+                R.drawable.sel_btn_close_b
             }
             ACTION_INFO, ACTION_NONE -> 0
             else -> 0
@@ -117,4 +131,15 @@ class ActionBar(var listener: onActionBarListener)
             ApplicationProxy.getContext().getColor(R.color.black_141414)
         }
     }
+
+    fun getTitleAlign() = mTitleAlign
+
+//    fun getTitleAlign(): String {
+//        return when (mTitleAlign) {
+//            ALIGN_LEFT -> "viewStart"
+//            ALIGN_CENTER -> "center"
+//            ALIGN_RIGHT -> "viewEnd"
+//            else -> "center"
+//        }
+//    }
 }

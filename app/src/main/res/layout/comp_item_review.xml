@@ -55,7 +55,7 @@
             android:layout_marginTop="12dp"
             android:isIndicator="true"
             android:progressTint="@color/pink_e32e70"
-            android:rating="@{viewdata.revwGrd == null ? 0f : Float.parseFloat(viewdata.revwGrd)}"
+            android:rating="@{viewdata.reviewGrade}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/comp_tv_phone_number" />
 

@@ -1,8 +1,6 @@
 package com.lge.lgshoptimem.model.dto
 
 data class YouMayLike(
-    val patnrId: String,
-    val patncLogoPath: String,
     val price: String,
     val Price1: String,
     val Price2: String,

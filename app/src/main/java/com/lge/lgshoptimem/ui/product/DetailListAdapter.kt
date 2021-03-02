@@ -8,20 +8,25 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.lge.core.sys.Trace
 import com.lge.lgshoptimem.BR
 import com.lge.lgshoptimem.R
 import com.lge.lgshoptimem.databinding.*
+import com.lge.lgshoptimem.model.dto.ChannelIcon
+import com.lge.lgshoptimem.model.dto.ProductMedia
+import com.lge.lgshoptimem.model.dto.Video
 import com.lge.lgshoptimem.ui.common.AppConst
 import com.lge.lgshoptimem.ui.component.BaseListComponent
 import com.lge.lgshoptimem.ui.component.ComponentItemListener
 import java.util.*
 
-class DetailListAdapter(mActivity: AppCompatActivity):
+class DetailListAdapter(mFragment: Fragment, val videoSupport: Boolean):
         RecyclerView.Adapter<DetailListAdapter.ItemViewHolder<*>>()
 {
-    private val mViewModel = mActivity.run {
+    private val mViewModel = mFragment.run {
         val viewModel: DetailViewModel by viewModels()
         viewModel
     }
@@ -32,7 +37,8 @@ class DetailListAdapter(mActivity: AppCompatActivity):
         AppConst.VIEWTYPE.VT_YOU_MAY_LIKE
     )
 
-    private val mListener: ComponentItemListener = mActivity as ComponentItemListener
+    private val mListener: ComponentItemListener = mFragment as ComponentItemListener
+    val mProductMedias: ArrayList<ProductMedia> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder<*> {
 //        Trace.debug("++ onCreateViewHolder() viewType = $viewType")
@@ -76,8 +82,35 @@ class DetailListAdapter(mActivity: AppCompatActivity):
         when (getItemViewType(position)) {
             AppConst.VIEWTYPE.VT_PRODUCT_DETAIL -> {
                 binding?.setVariable(BR.viewdata, mViewModel.mldDetail.value!!.product[position])
-//                baseCompList?.setHeadData(mViewModel.mldWatchNow.value!!.productInfos)
-                baseCompList?.setItemList(mViewModel.mldDetail.value!!.product[position].imgUrls)
+
+                if (mProductMedias.size == 0) {
+                    mViewModel.mldDetail.value!!.product[position].imgUrls.forEach {
+                        mProductMedias.add(ProductMedia(true, it, null))
+                    }
+
+                    if (videoSupport && !mViewModel.mldDetail.value!!.product[position].prdtMediaUrl.isNullOrEmpty()) {
+                        val video: Video = Video()
+                        video.showNm = if (mViewModel.mldDetail.value!!.product[position].prdtMediaNm.isNullOrEmpty()) {
+                            mViewModel.mldDetail.value!!.product[position].prdtNm
+                        } else {
+                            mViewModel.mldDetail.value!!.product[position].prdtMediaNm
+                        }
+
+                        video.patncLogoPath = mViewModel.mldDetail.value!!.product[position].patncLogoPath
+                        video.patncNm = mViewModel.mldDetail.value!!.product[position].patncNm
+                        video.showUrl = mViewModel.mldDetail.value!!.product[position].prdtMediaUrl
+                        video.thumbnailUrl = mViewModel.mldDetail.value!!.product[position].thumbnailUrl
+                        video.fromDetail = 1
+
+                        if (!mViewModel.mldDetail.value!!.product[position].prdtMediaSubtitlUrl.isNullOrEmpty()) {
+                            video.showSubtitlUrl = mViewModel.mldDetail.value!!.product[position].prdtMediaSubtitlUrl
+                        }
+
+                        mProductMedias.add(ProductMedia(false, mViewModel.mldDetail.value!!.product[position].thumbnailUrl, video))
+                    }
+                }
+
+                baseCompList?.setItemList(mProductMedias)
             }
 
             AppConst.VIEWTYPE.VT_PRODUCT_REVIEW -> {

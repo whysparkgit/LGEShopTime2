@@ -5,12 +5,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto" >
 
     <data>
+        <import type="android.view.View" />
         <variable
             name="component"
             type="com.lge.lgshoptimem.ui.component.VideoViewComponent" />
         <variable
             name="viewdata"
-            type="com.lge.lgshoptimem.model.dto.WatchNow.Video" />
+            type="com.lge.lgshoptimem.model.dto.Video" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -123,6 +124,7 @@
                     android:id="@+id/iv_channel_logo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:visibility="@{viewdata.fromDetail == 0 ? (viewdata.live ? View.GONE : View.VISIBLE) : View.GONE}"
                     app:layout_constraintStart_toStartOf="@id/gl_v1"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/img_rangking_tag_01" />
@@ -151,6 +153,16 @@
                     app:srcCompat="@drawable/sel_btn_pause" />
 
                 <ImageView
+                    android:id="@+id/iv_bottom_dim"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:scaleType="fitXY"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:srcCompat="@drawable/img_bottom_dim" />
+
+                <ImageView
                     android:id="@+id/iv_full_screen"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -164,24 +176,49 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingEnd="8dp"
+                    android:visibility="@{viewdata == null ? View.GONE : (viewdata.live ? View.VISIBLE : View.GONE)}"
                     app:layout_constraintTop_toTopOf="@+id/tv_elapsed_time"
                     app:layout_constraintBottom_toBottomOf="@id/tv_elapsed_time"
                     app:layout_constraintStart_toStartOf="@id/gl_v1"
                     app:layout_constraintEnd_toStartOf="@+id/tv_elapsed_time"
-                    app:srcCompat="@drawable/ic_live"/>
+                    app:srcCompat="@drawable/ic_live" />
 
                 <TextView
                     android:id="@+id/tv_elapsed_time"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_rect_fill_black_r2"
-                    android:paddingHorizontal="7dp"
+                    android:background="@{viewdata == null ? null : (viewdata.live ? @drawable/bg_rect_fill_black_r2 : null)}"
+                    android:paddingHorizontal="5dp"
                     android:paddingVertical="2dp"
                     android:text="00:00:00"
                     android:textColor="@color/white"
                     android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="@id/gl_h2"
                     app:layout_constraintStart_toEndOf="@+id/iv_live" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="2dp"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:text="/"
+                    android:visibility="@{viewdata == null ? View.VISIBLE : (viewdata.live ? View.GONE : View.VISIBLE)}"
+                    app:layout_constraintBottom_toBottomOf="@id/gl_h2"
+                    app:layout_constraintStart_toEndOf="@id/tv_elapsed_time" />
+
+                <TextView
+                    android:id="@+id/tv_total_time"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:paddingVertical="2dp"
+                    android:textColor="#acacac"
+                    android:textSize="12sp"
+                    android:text="00:00:00"
+                    android:visibility="@{viewdata == null ? View.VISIBLE : (viewdata.live ? View.GONE : View.VISIBLE)}"
+                    app:layout_constraintBottom_toBottomOf="@id/gl_h2"
+                    app:layout_constraintStart_toEndOf="@id/tv_elapsed_time" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -206,6 +243,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:paddingBottom="10dp"
+            android:visibility="@{viewdata.fromDetail == 0 ? View.VISIBLE : View.GONE}"
             app:layout_constraintTop_toBottomOf="@+id/comp_cl_video_view"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
@@ -219,7 +257,7 @@
                 android:layout_marginHorizontal="10dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:imageUrl="@{viewdata.patncLogoPath}" />
+                app:imageUrl="@{viewdata == null ? null : viewdata.patncLogoPath}" />
 
             <TextView
                 android:id="@+id/comp_tv_product_title"
@@ -232,7 +270,7 @@
                 android:maxLines="2"
                 android:layout_marginTop="3dp"
                 android:layout_marginHorizontal="10dp"
-                android:text="@{viewdata.showNm}"
+                android:text="@{viewdata == null ? `` : viewdata.showNm}"
                 app:layout_constraintTop_toTopOf="@+id/comp_iv_logo"
                 app:layout_constraintStart_toEndOf="@+id/comp_iv_logo"
                 app:layout_constraintEnd_toEndOf="parent"/>

@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.core.view.children
+import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
@@ -13,9 +15,9 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lge.core.sys.Trace
 import com.lge.lgshoptimem.R
-import com.lge.lgshoptimem.databinding.CompHeadTextNumberBinding
 import com.lge.lgshoptimem.databinding.FragmentWatchnowBinding
 import com.lge.lgshoptimem.databinding.ViewLiveChannelIconsBinding
+import com.lge.lgshoptimem.databinding.ViewLiveChannelsBinding
 import com.lge.lgshoptimem.model.dto.WatchNow
 import com.lge.lgshoptimem.ui.common.AppConst
 import com.lge.lgshoptimem.ui.component.BaseListComponent
@@ -54,7 +56,8 @@ class WatchNowFragment : Fragment(), ComponentItemListener {
         }
 
         mViewModel.mldWatchNow.observe(viewLifecycleOwner, this::onDataListChanged)
-        mViewModel.requestData("1", "QVC20210209080000")
+//        mViewModel.requestData("", "")
+        mViewModel.requestData("1", "QVC20210202000000")
     }
 
     private fun onDataListChanged(itemList: WatchNow.Response.Data) {
@@ -66,7 +69,29 @@ class WatchNowFragment : Fragment(), ComponentItemListener {
         Trace.debug("++ onClick() v = ${v.id} pos = $pos")
 
         when (mAdapter.getItemViewType(pos)) {
-            AppConst.VIEWTYPE.VT_LIVE_CHANNELS -> Trace.debug(">> viewType = VT_LIVE_CHANNEL_PRODUCT")
+            AppConst.VIEWTYPE.VT_LIVE_CHANNELS -> {
+                Trace.debug(">> viewType = VT_LIVE_CHANNEL_PRODUCT")
+
+                when (v.id) {
+                    R.id.comp_tv_more -> {
+                        val itemBinding: ViewDataBinding? = (mBinding.wnRvMainList.findViewHolderForAdapterPosition(pos) as WatchNowListAdapter.ItemViewHolder<*>).getBinding()
+                        var nCount = itemBinding?.root?.findViewById<BaseListComponent>(R.id.comp_list)?.mAdapter?.itemCount
+
+                        Trace.debug(">> mAdapter.itemCount = $nCount")
+                        Trace.debug(">> productInfos.size = ${mViewModel.mldWatchNow.value!!.productInfos.size}")
+
+                        if (mViewModel.mldWatchNow.value!!.productInfos.size > nCount!! + 10) {
+                            itemBinding?.root?.findViewById<BaseListComponent>(R.id.comp_list)?.setItemCountLimit(nCount + 10)
+                        } else if (mViewModel.mldWatchNow.value!!.productInfos.size > nCount) {
+                            nCount = mViewModel.mldWatchNow.value!!.productInfos.size
+                            itemBinding?.root?.findViewById<BaseListComponent>(R.id.comp_list)?.setItemCountLimit(nCount)
+                        }
+
+                        itemBinding?.root?.findViewById<BaseListComponent>(R.id.comp_list)?.refresh()
+                        mAdapter.notifyDataSetChanged()
+                    }
+                }
+            }
             AppConst.VIEWTYPE.VT_UPCOMING_HORIZONTAL -> Trace.debug(">> viewType = VT_NEXT_UPCOMING_HORIZONTAL")
             AppConst.VIEWTYPE.VT_TODAY_DEAL -> Trace.debug(">> viewType = VT_TODAY_DEAL")
             AppConst.VIEWTYPE.VT_POPULAR_SHOWS -> Trace.debug(">> viewType = VT_POPULAR_SHOWS")

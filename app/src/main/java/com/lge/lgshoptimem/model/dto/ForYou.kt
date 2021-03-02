@@ -55,8 +55,6 @@ class ForYou()
 
     data class Favorite(
         val dataTp: String,
-        val patnrId: String,
-        val patncLogoPath: String,
         val showId: String,
         val showNm: String,
         val thumbnailUrl: String,

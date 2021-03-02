@@ -1,5 +1,7 @@
 package com.lge.lgshoptimem.model.dto
 
+import com.lge.core.sys.Trace
+
 class WatchNow
 {
     data class Response(val data: Data): BaseResponse()
@@ -27,7 +29,6 @@ class WatchNow
     data class TopInfo(
         val tvCategoryNm: String,
         val disclaimer: String,
-        val productInfos: ArrayList<Product>
     ): Video()
 
     data class UpComing(
@@ -57,25 +58,9 @@ class WatchNow
         val strtDt: String,
         val endDt: String,
         val showTimesec: String,
-        val liveFlag: String,
         val timezone: String,
         val hstNm: String,
         val dfltThumbnailImgPath: String,
         val chanExpsTpCd: String
     ): Video()
-
-    open class Video {
-        val showId: String = ""
-        val showNm: String = ""
-        val showUrl: String = ""
-        val patnrId: String = ""
-        val patncNm: String = ""
-        val patncLogoPath: String = ""
-        val catCd: String = ""
-        val catNm: String = ""
-        val orderPhnNo: String = ""
-        val expsOrd: String = ""
-        val thumbnailUrl: String = ""
-        val showSubtitlUrl: String = ""
-    }
 }

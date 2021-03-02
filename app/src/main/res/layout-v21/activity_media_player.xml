@@ -5,18 +5,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto" >
 
     <data>
+        <import type="android.view.View" />
         <variable
             name="listener"
-            type="com.lge.lgshoptimem.ui.home.VideoPlayerActivity" />
+            type="com.lge.lgshoptimem.ui.product.MediaPlayerActivity" />
+        <variable
+            name="viewdata"
+            type="com.lge.lgshoptimem.model.dto.Video" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_video_player_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:onClick="@{listener::onClick}"
         android:background="?attr/fullscreenBackgroundColor"
         android:theme="@style/ThemeOverlay.LGEShopTime.FullscreenContainer"
-        tools:context=".ui.home.VideoPlayerActivity" >
+        tools:context=".ui.product.MediaPlayerActivity" >
 
         <VideoView
             android:id="@+id/vv_player"
@@ -32,6 +37,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="#66000000"
+            android:onClick="@{listener::onClick}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -66,6 +72,16 @@
                 app:layout_constraintGuide_percent="0.98"/>
 
             <ImageView
+                android:id="@+id/iv_top_dim"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:scaleType="fitXY"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:srcCompat="@drawable/lm_dim_top" />
+
+            <ImageView
                 android:id="@+id/iv_close"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -81,31 +97,38 @@
                 android:layout_marginEnd="20dp"
                 android:textColor="@color/white"
                 android:textSize="18sp"
-                android:text="Nike-Women Sportswear Icon Clash Collection"
+                android:text="@{viewdata.showNm}"
                 app:layout_constraintTop_toTopOf="@id/gl_h1"
                 app:layout_constraintStart_toStartOf="@id/gl_v1"
                 app:layout_constraintEnd_toStartOf="@id/iv_close" />
 
-            <ImageView
-                android:id="@+id/iv_channel_logo"
+            <LinearLayout
+                android:id="@+id/ll_channel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:layout_marginTop="10dp"
-                app:srcCompat="@drawable/ic_player_hsn"
+                android:onClick="@{listener::onClick}"
                 app:layout_constraintStart_toStartOf="@id/gl_v1"
-                app:layout_constraintTop_toBottomOf="@id/tv_title" />
+                app:layout_constraintTop_toBottomOf="@id/tv_title" >
 
-            <TextView
-                android:id="@+id/tv_channel_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:text="HSN"
-                app:layout_constraintTop_toTopOf="@+id/iv_channel_logo"
-                app:layout_constraintBottom_toBottomOf="@+id/iv_channel_logo"
-                app:layout_constraintStart_toEndOf="@id/iv_channel_logo" />
+                <ImageView
+                    android:id="@+id/iv_channel_logo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_player_hsn"
+                    app:imageUrl="@{viewdata.channelIconUrl}"/>
+
+                <TextView
+                    android:id="@+id/tv_channel_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:text="@{viewdata.patncNm}" />
+
+            </LinearLayout>
 
             <ImageView
                 android:id="@+id/iv_play"
@@ -129,6 +152,16 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/sel_btn_pause" />
+
+            <ImageView
+                android:id="@+id/iv_bottom_dim"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:scaleType="fitXY"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:srcCompat="@drawable/lm_dim_bottom" />
 
             <ImageView
                 android:id="@+id/iv_half_screen"
@@ -165,6 +198,7 @@
                 android:layout_height="wrap_content"
                 android:paddingEnd="10dp"
                 app:srcCompat="@drawable/ic_live"
+                android:visibility="@{viewdata == null ? View.GONE : (viewdata.live ? View.VISIBLE : View.GONE)}"
                 app:layout_constraintEnd_toStartOf="@+id/tv_elapsed_time"
                 app:layout_constraintBottom_toBottomOf="@id/tv_elapsed_time"
                 app:layout_constraintStart_toStartOf="@id/gl_v1" />
@@ -218,6 +252,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="@{listener::onClick}"
+                android:padding="10dp"
                 app:srcCompat="@drawable/sel_btn_pm_pop"
                 app:layout_constraintTop_toBottomOf="@id/gl_h2"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -228,7 +263,7 @@
                 android:id="@+id/iv_menu_landscape"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
+                android:padding="10dp"
                 android:onClick="@{listener::onClick}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@id/gl_v2"
@@ -293,10 +328,229 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_call_to_order" />
 
-
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:id="@+id/vw_setting_dim"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="#66000000"
+            android:visibility="gone"
+            android:onClick="@{listener::onClick}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_setting_view"
+            android:layout_width="0dp"
+            android:layout_height="250dp"
+            android:background="@color/black_E62C2C2C"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="parent">
+<!--            app:layout_constraintBottom_toBottomOf="parent">-->
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/gl_h3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.3"/>
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/gl_h4"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.6"/>
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/gl_v3"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.04"/>
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/gl_v4"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.96"/>
+
+            <TextView
+                android:id="@+id/tv_setting_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:text="PLAYER SETTING"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="@id/gl_v3" />
+
+            <ImageView
+                android:id="@+id/iv_setting_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:onClick="@{listener::onClick}"
+                app:srcCompat="@drawable/sel_btn_close_w"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/gl_v4" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toTopOf="@id/gl_h3"
+                app:layout_constraintStart_toStartOf="@id/gl_v3"
+                app:layout_constraintEnd_toEndOf="@id/gl_v4">
+
+                <TextView
+                    android:id="@+id/tv_setting_quality"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/gray_acacac"
+                    android:textSize="16sp"
+                    android:text="Quality"/>
+
+                <TextView
+                    android:id="@+id/tv_quality_sd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:text="SD"
+                    android:onClick="@{listener::onClick}"/>
+
+                <TextView
+                    android:id="@+id/tv_quality_hd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:text="HD"
+                    android:onClick="@{listener::onClick}"/>
+
+                <TextView
+                    android:id="@+id/tv_quality_fhd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="FHD"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/pink_e32e70"
+                    android:textSize="16sp"
+                    android:onClick="@{listener::onClick}" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_setting_cc"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray_acacac"
+                android:textSize="16sp"
+                android:text="CC"
+                app:layout_constraintTop_toTopOf="@id/gl_h4"
+                app:layout_constraintStart_toStartOf="@id/gl_v3" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/sw_setting_cc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@id/gl_v4"
+                app:layout_constraintTop_toTopOf="@id/gl_h4"
+                app:thumbTint="@color/colorPrimary"
+                app:track="@drawable/bg_rect_fill_white_r20"
+                app:trackTint="@color/pink_e32e70"
+                tools:checked="true"
+                android:onClick="@{listener::onClick}"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_channel_view"
+            android:layout_width="0dp"
+            android:layout_height="300dp"
+            android:background="@color/black_E62C2C2C"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="parent">
+<!--            app:layout_constraintBottom_toBottomOf="parent">-->
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/gl_v5"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.04"/>
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/gl_v6"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.96"/>
+
+<!--            <TextView-->
+<!--                android:id="@+id/tv_channel_title"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:textColor="@color/white"-->
+<!--                android:textStyle="bold"-->
+<!--                android:textSize="18sp"-->
+<!--                android:text="LIVE CHANNELS"-->
+<!--                app:layout_constraintTop_toTopOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="@id/gl_v5" />-->
+
+            <ImageView
+                android:id="@+id/iv_channel_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:onClick="@{listener::onClick}"
+                app:srcCompat="@drawable/sel_btn_close_w"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/gl_v6" />
+
+            <com.lge.lgshoptimem.ui.component.HeaderListComponent
+                android:id="@+id/comp_list"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:headLayout="@layout/comp_head_text_number_fixed"
+                app:itemLayout="@layout/comp_item_channel_image_horizontal"
+                app:orientation="vertical"
+                app:subject="LIVE CHANNELS"
+                app:itemCount="4"
+                app:showIndex="false"
+                app:position="0"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fc_product_list"
+            android:layout_width="0dp"
+            android:layout_height="450dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

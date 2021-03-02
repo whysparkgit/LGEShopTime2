@@ -6,11 +6,12 @@ import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ComponentActivity
+import androidx.multidex.MultiDexApplication
 import com.lge.core.fs.StorageManager
 import com.lge.core.net.NetworkManager
 import com.lge.core.sys.Trace
 
-class ApplicationProxy : Application()
+class ApplicationProxy : MultiDexApplication()
 {
     private var mbInitLaunch = false;
     private lateinit var mActivity: Activity

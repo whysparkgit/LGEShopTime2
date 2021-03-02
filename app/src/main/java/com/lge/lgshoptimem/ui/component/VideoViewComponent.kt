@@ -18,8 +18,8 @@ import com.lge.core.app.ApplicationProxy
 import com.lge.core.sys.Trace
 import com.lge.lgshoptimem.R
 import com.lge.lgshoptimem.databinding.CompVideoViewBinding
-import com.lge.lgshoptimem.model.dto.WatchNow
-import com.lge.lgshoptimem.ui.home.VideoPlayerActivity
+import com.lge.lgshoptimem.model.dto.Video
+import com.lge.lgshoptimem.ui.product.ExoPlayerActivity
 import kotlinx.coroutines.*
 
 class VideoViewComponent @JvmOverloads constructor(
@@ -51,7 +51,7 @@ class VideoViewComponent @JvmOverloads constructor(
     private var mMediaPlayer: MediaPlayer? = null
     private var mstrVideoUrl: String? = null
     private var mstrThumbnailUrl: String? = null
-    private var mViewdata: WatchNow.Video? = null
+    private var mViewdata: Video? = null
     private var mbCheckPlay: Boolean = false
     private var mlDelayMillis = CHECK_PLAYABLE_MS
     private var mRestartPosition: Int = 0
@@ -100,7 +100,7 @@ class VideoViewComponent @JvmOverloads constructor(
     fun setThumbnailUrl(strUrl: String?) {
         Trace.debug("++ setThumbnailUrl() strUrl = $strUrl")
 
-        if (strUrl.isNullOrEmpty()) return
+        if (mstrVideoUrl.isNullOrEmpty() or strUrl.isNullOrEmpty()) return
 
         mstrThumbnailUrl = strUrl
         CommonBindingAdapter.setImageUrl(mBinding.compIvThumbnail, mstrThumbnailUrl)
@@ -118,8 +118,10 @@ class VideoViewComponent @JvmOverloads constructor(
 
     fun getThumbnailUrl() = mstrThumbnailUrl
 
-    fun setViewdata(viewdata: WatchNow.Video) {
-        Trace.debug("++ setViewdata() url = ${viewdata.patncLogoPath}")
+    fun setViewdata(viewdata: Video?) {
+        if (viewdata == null) return
+
+        Trace.debug("++ setViewdata() fromDetail = ${viewdata.fromDetail}")
         mViewdata = viewdata
         mBinding.viewdata = mViewdata
 //        CommonBindingAdapter.setImageUrl(mBinding.compIvLogo, viewdata.patncLogoPath)
@@ -155,6 +157,12 @@ class VideoViewComponent @JvmOverloads constructor(
 
     override fun onPIPModeChanged(bPIPMode: Boolean) {
         Trace.debug(">> onPIPModeChanged() bPIPMode = $bPIPMode")
+
+        if (bPIPMode) {
+            pause()
+        } else {
+            start()
+        }
     }
 
     override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
@@ -168,10 +176,7 @@ class VideoViewComponent @JvmOverloads constructor(
             Trace.debug(">> onWindowFocusChanged() mJob.isActive = ${mCheckPlayJob.isActive}")
 
             if (!mCheckPlayJob.isActive) {
-                if (mMediaPlayer?.seconds == 0) {
-                    stop()
-                }
-
+                stop()
                 start()
             }
         } else {
@@ -290,8 +295,10 @@ class VideoViewComponent @JvmOverloads constructor(
                         mnFadeoutCount = FADEOUT_SECONDS
                         mRestartPosition = 0
                     }
-                } catch (e: IllegalStateException) {
-                    e.printStackTrace()
+                } catch (e1: IllegalStateException) {
+                    e1.printStackTrace()
+                } catch (e2: RuntimeException) {
+                    e2.printStackTrace()
                 }
             }
 
@@ -331,8 +338,9 @@ class VideoViewComponent @JvmOverloads constructor(
             }
 
             R.id.iv_full_screen -> {
-                val intent = Intent(context, VideoPlayerActivity::class.java)
-                intent.putExtra("param", mstrVideoUrl)
+//                val intent = Intent(context, VideoPlayerActivity::class.java)
+                val intent = Intent(context, ExoPlayerActivity::class.java)
+                intent.putExtra("param", mBinding.viewdata)
                 ApplicationProxy.getInstance().getActivity()?.startActivity(intent)
             }
 
@@ -360,6 +368,10 @@ class VideoViewComponent @JvmOverloads constructor(
         Trace.debug("++ initSeekBar totalTime = ${mMediaPlayer?.seconds}")
         mBinding.sbProgress.max = mMediaPlayer!!.seconds
         mBinding.sbProgress.progress = 0
+
+        if (mMediaPlayer!!.seconds > 0) {
+            mBinding.tvTotalTime?.text = mMediaPlayer!!.seconds.getTimeString()
+        }
 
         mBinding.sbProgress.apply {
             setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener {

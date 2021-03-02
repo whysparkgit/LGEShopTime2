@@ -72,7 +72,7 @@ open class BaseListComponent @JvmOverloads constructor(
 //        Trace.debug(">> mstrSubtitle = $mstrSubtitle")
 //        Trace.debug(">> mstrDataClass = $mstrDataClass")
 //        Trace.debug(">> mnPosition = $mnPosition")
-//        Trace.debug(">> mnItemCountLimit = $mnItemCountLimit")
+        Trace.debug(">> mnItemCountLimit = $mnItemCountLimit")
 
         mBinding = DataBindingUtil.inflate(LayoutInflater.from(context), mHeadLayout, this, true)
         mAdapter = ComponentAdapter(this)
@@ -154,6 +154,12 @@ open class BaseListComponent @JvmOverloads constructor(
 
     fun getPosition() = mnPosition
 
+    fun setItemCountLimit(nCount: Int) {
+        mnItemCountLimit = nCount
+    }
+
+    fun getItemCountLimit() = mnItemCountLimit
+
     fun setViewModel(viewModel: Any) {
         Trace.debug(">> setViewModel()")
 //        mViewModel = viewModel
@@ -178,6 +184,7 @@ open class BaseListComponent @JvmOverloads constructor(
     open fun <T> setItemList(items: ArrayList<T>) {
         mItemList = items
         mAdapter.notifyDataSetChanged()
+//        mBinding.setVariable(BR.adapter, mAdapter)
     }
 
     fun getViewModel() = mViewModel
@@ -188,6 +195,7 @@ open class BaseListComponent @JvmOverloads constructor(
 //        Trace.debug(">> comp_cl_header = ${findViewById<ConstraintLayout>(R.id.comp_cl_header)}")
 //        Trace.debug(">> comp_rv_list = ${findViewById<RecyclerView>(R.id.comp_rv_list)}")
         mAdapter.notifyDataSetChanged()
+        mBinding.setVariable(BR.adapter, mAdapter)
     }
 
     override fun onClick(v: View, pos: Int) {
@@ -235,7 +243,7 @@ open class BaseListComponent @JvmOverloads constructor(
         }
 
         override fun getItemCount(): Int {
-            Trace.debug("++ getItemCount() mnItemCountLimit = $mnItemCountLimit size = ${mItemList!!.size}")
+            Trace.debug("++ getItemCount() mnItemCountLimit = $mnItemCountLimit itemListSize = ${mItemList!!.size}")
 
             val nCount = if (mItemList.isNullOrEmpty()) {
                 0

@@ -1,13 +1,57 @@
 package com.lge.lgshoptimem.model.dto
 
-open class Product {
-    val prdtId: String = ""
-    val prdtNm: String = ""
-    val priceInfo: String = ""
-    val prdtFavorCnt: String = ""
-    val imgUrl: String = ""
-    val revwGrd: String = ""
+import android.os.Parcel
+import android.os.Parcelable
 
+open class Product() : Parcelable {
+    var prdtId: String = ""
+    var prdtNm: String = ""
+    var priceInfo: String = ""
+    var prdtFavorCnt: String = ""
+    var imgUrl: String = ""
+    var revwGrd: String = ""
+    var patnrId: String = ""
+    var patncLogoPath: String = ""
+
+    companion object CREATOR : Parcelable.Creator<Product> {
+        override fun createFromParcel(parcel: Parcel): Product {
+            return Product(parcel)
+        }
+
+        override fun newArray(size: Int): Array<Product?> {
+            return arrayOfNulls(size)
+        }
+    }
+
+    constructor(parcel: Parcel) : this() {
+        parcel.run {
+            prdtId = readString().toString()
+            prdtNm = readString().toString()
+            priceInfo = readString().toString()
+            prdtFavorCnt = readString().toString()
+            imgUrl = readString().toString()
+            revwGrd = readString().toString()
+            patnrId = readString().toString()
+            patncLogoPath = readString().toString()
+        }
+    }
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.run {
+            writeString(prdtId)
+            writeString(prdtNm)
+            writeString(priceInfo)
+            writeString(prdtFavorCnt)
+            writeString(imgUrl)
+            writeString(revwGrd)
+            writeString(patnrId)
+            writeString(patncLogoPath)
+        }
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
 
     open fun getProductThumbnail(): String {
         return imgUrl
@@ -16,16 +60,6 @@ open class Product {
     open fun isSoldOut(): Boolean {
         return false
     }
-
-//    fun getPrice(nIndex: Int): String {
-//        if (priceInfo.isNullOrEmpty()) return ""
-//
-//        val arrPrices = priceInfo.split("|")
-//
-//        if (arrPrices.size <= nIndex) return ""
-//
-//        return arrPrices[nIndex]
-//    }
 
     open fun getOriginPrice(): String {
         if (priceInfo.isNullOrEmpty()) return ""
@@ -55,5 +89,13 @@ open class Product {
         if (arrPrices.size < 5) return ""
 
         return arrPrices[4]
+    }
+
+    fun getReviewGrade(): Float {
+        if (revwGrd.isNullOrEmpty()) return 0f
+
+        if (revwGrd == "null") return 0f
+
+        return revwGrd.toFloat()
     }
 }

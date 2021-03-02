@@ -77,7 +77,7 @@
                 android:id="@+id/comp_list"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:headLayout="@layout/comp_head_text_products"
+                app:headLayout="@layout/comp_head_text_products_wrap"
                 app:itemLayout="@layout/comp_item_product_image"
                 app:orientation="horizontal"
                 app:subtitle="Item on the show"

@@ -36,8 +36,9 @@ import com.lge.lgshoptimem.ui.common.AppConst
 import com.lge.lgshoptimem.ui.common.SinglePopupDialog
 import com.lge.lgshoptimem.ui.home.HomeActivity
 import com.lge.lgshoptimem.ui.home.TodayDealsDialog
-import com.lge.lgshoptimem.ui.home.VideoPlayerActivity
+import com.lge.lgshoptimem.ui.product.MediaPlayerActivity
 import com.lge.lgshoptimem.ui.product.DetailActivity
+import com.lge.lgshoptimem.ui.product.ExoPlayerActivity
 import java.io.BufferedReader
 import java.io.File
 import java.io.IOException
@@ -155,8 +156,8 @@ class IndexActivity : AppCompatActivity()
                 R.id.btn_25 -> showPopup()
                 R.id.btn_26 -> nTPServer
                 R.id.btn_31 -> launchActivity(HomeActivity::class.java)
-                R.id.btn_32 -> launchActivity(VideoPlayerActivity::class.java, "https://wowzaprod134-i.akamaihd.net/hls/live/577814/ccddaf02/playlist.m3u8")
-                R.id.btn_33 -> launchActivity(VideoPlayerActivity::class.java, "http://sites.google.com/site/ubiaccessmobile/sample_video.mp4")
+                R.id.btn_32 -> launchActivity(MediaPlayerActivity::class.java, "https://wowzaprod134-i.akamaihd.net/hls/live/577814/ccddaf02/playlist.m3u8")
+                R.id.btn_33 -> launchActivity(ExoPlayerActivity::class.java)
                 R.id.btn_34 -> TodayDealsDialog().show(supportFragmentManager, null)
                 R.id.btn_35 -> {
                     val intent = Intent(applicationContext, DetailActivity::class.java)

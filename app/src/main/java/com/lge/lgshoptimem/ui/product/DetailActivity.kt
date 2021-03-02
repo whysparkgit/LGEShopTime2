@@ -1,10 +1,17 @@
 package com.lge.lgshoptimem.ui.product
 
+import android.content.pm.ActivityInfo
+import android.content.res.Configuration
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.add
+import androidx.fragment.app.commit
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lge.core.sys.Trace
 import com.lge.lgshoptimem.R
@@ -18,8 +25,6 @@ import com.lge.lgshoptimem.ui.component.ComponentItemListener
 class DetailActivity : AppCompatActivity(), ActionBar.onActionBarListener, ComponentItemListener
 {
     private lateinit var mBinding: ActivityDetailBinding
-    private lateinit var mAdapter: DetailListAdapter
-    private val mViewModel: DetailViewModel by viewModels()
 
     private var mPartnerId: String = ""
     private var mProductId: String = ""
@@ -27,6 +32,7 @@ class DetailActivity : AppCompatActivity(), ActionBar.onActionBarListener, Compo
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_detail)
 
         mPartnerId = intent.getStringExtra(AppConst.KEY.PARTNER_ID).let { if (it.isNullOrEmpty()) "" else it }
@@ -39,17 +45,15 @@ class DetailActivity : AppCompatActivity(), ActionBar.onActionBarListener, Compo
     fun init() {
         initActionBar()
 
-        if (mProductId.isNullOrEmpty()) return
+        val bundle: Bundle = Bundle()
+        bundle.putString(AppConst.KEY.PARTNER_ID, mPartnerId)
+        bundle.putString(AppConst.KEY.PRODUCT_ID, mProductId)
+        bundle.putString(AppConst.KEY.CURATION_ID, mCurationId)
+        bundle.putBoolean(AppConst.KEY.LAUNCH_FROM, false)
 
-        mAdapter = DetailListAdapter(this)
-
-        mBinding.dtRvMainList.apply {
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            adapter = mAdapter
+        supportFragmentManager.commit {
+            add<DetailFragment>(R.id.fc_product_detail, null, bundle)
         }
-
-        mViewModel.mldDetail.observe(this, this::onDataListChanged)
-        mViewModel.requestData(mPartnerId, mProductId, mCurationId)
     }
 
     private fun initActionBar() {
@@ -59,16 +63,12 @@ class DetailActivity : AppCompatActivity(), ActionBar.onActionBarListener, Compo
         mBinding.actionbar = actionBar
     }
 
-    private fun onDataListChanged(itemList: ProductDetail.Response.Data) {
-        Trace.debug("++ onDataListChanged()")
-        mAdapter.notifyDataSetChanged()
-    }
-
     override fun onLeft() {
         finish()
     }
 
     override fun onRight() {
+        finish()
     }
 
     override fun onClick(v: View, pos: Int) {

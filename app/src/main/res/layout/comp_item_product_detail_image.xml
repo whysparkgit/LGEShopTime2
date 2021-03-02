@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View" />
         <variable
             name="position"
             type="int" />
@@ -13,13 +14,14 @@
             type="com.lge.lgshoptimem.ui.component.ComponentItemListener" />
         <variable
             name="viewdata"
-            type="String" />
+            type="com.lge.lgshoptimem.model.dto.ProductMedia" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/comp_cl_item"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="410dp"
+        android:background="@{viewdata.image ? 0 : @color/black}"
         android:onClick="@{v -> listener.onClick(v, position)}">
 
         <ImageView
@@ -28,11 +30,37 @@
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:scaleType="fitXY"
-            app:imageUrl="@{viewdata}"
+            android:visibility="@{viewdata.image ? View.VISIBLE : View.GONE}"
+            app:imageUrl="@{viewdata.imageUrl}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/comp_cl_video_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:visibility="@{viewdata.image ? View.GONE : View.VISIBLE}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <com.lge.lgshoptimem.ui.component.VideoViewComponent
+                android:id="@+id/vv_video_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:visibility="@{viewdata.image ? View.GONE : View.VISIBLE}"
+                app:videoUrl="@{viewdata.video.showUrl}"
+                app:thumbnailUrl="@{viewdata.video.thumbnailUrl}"
+                app:viewdata="@{viewdata.video}"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

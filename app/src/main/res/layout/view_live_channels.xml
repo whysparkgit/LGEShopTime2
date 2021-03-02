@@ -4,8 +4,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <data>
+        <import type="android.view.View" />
         <variable
             name="position"
+            type="int" />
+        <variable
+            name="current_count"
+            type="int" />
+        <variable
+            name="total_count"
             type="int" />
         <variable
             name="listener"
@@ -43,7 +50,7 @@
                 android:id="@+id/comp_list"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:headLayout="@layout/comp_head_text_products"
+                app:headLayout="@layout/comp_head_text_products_wrap"
                 app:itemLayout="@layout/comp_item_product_image_horizontal"
                 app:orientation="vertical"
                 app:itemCount="10"
@@ -63,6 +70,7 @@
                 android:textColor="@color/gray_898989"
                 android:textSize="14sp"
                 android:onClick="@{v -> listener.onClick(v, position)}"
+                android:visibility="@{total_count - current_count > 0 ? View.VISIBLE : View.GONE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/comp_list" />

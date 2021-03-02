@@ -115,6 +115,8 @@ class WatchNowListAdapter(mFragment: Fragment):
             AppConst.VIEWTYPE.VT_LIVE_CHANNELS -> {
                 binding?.setVariable(BR.viewdata, mViewModel.mldWatchNow.value!!.showInfos[mShowInfoIndex])
                 baseCompList?.setItemList(mViewModel.mldWatchNow.value!!.productInfos)
+                binding?.setVariable(BR.current_count, baseCompList?.mAdapter?.itemCount)
+                binding?.setVariable(BR.total_count, mViewModel.mldWatchNow.value!!.productInfos.size)
             }
 
             AppConst.VIEWTYPE.VT_UPCOMING_HORIZONTAL -> {

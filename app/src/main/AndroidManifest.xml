@@ -40,16 +40,22 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.product.DetailActivity"
-            android:screenOrientation="portrait"
+            android:launchMode="singleTask"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".ui.home.VideoPlayerActivity"
+            android:name=".ui.product.MediaPlayerActivity"
             android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout"
-            android:label="@string/title_activity_video_player"
             android:launchMode="singleTask"
             android:supportsPictureInPicture="true"
             android:theme="@style/AppTheme.Fullscreen"
             tools:targetApi="O" />
+        <activity android:name=".ui.product.ExoPlayerActivity"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout"
+            android:label="@string/title_activity_video_player"
+            android:launchMode="singleTask"
+            android:supportsPictureInPicture="true"
+            android:theme="@style/AppTheme.Fullscreen"
+            tools:targetApi="O"/>
     </application>
 
 </manifest>

@@ -1,17 +1,15 @@
 package com.lge.lgshoptimem.ui.home
 
-import androidx.databinding.ObservableInt
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.lge.core.net.HttpResponsable
 import com.lge.core.net.NetworkManager
 import com.lge.core.net.ProtocolFactory
 import com.lge.core.sys.Trace
-import com.lge.lgshoptimem.model.dto.Curation
-import com.lge.lgshoptimem.model.dto.CurationList
+import com.lge.lgshoptimem.model.dto.Video
 import com.lge.lgshoptimem.model.dto.WatchNow
-import com.lge.lgshoptimem.model.http.MainCurationProtocol
 import com.lge.lgshoptimem.model.http.WatchNowProtocol
+import com.lge.lgshoptimem.ui.common.CommonData
 
 class WatchNowViewModel : ViewModel() {
     val mldWatchNow: MutableLiveData<WatchNow.Response.Data> = MutableLiveData()

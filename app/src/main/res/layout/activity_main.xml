@@ -31,7 +31,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:background="@color/pink_e32e70"
-                    app:headLayout="@layout/comp_head_text_number"
+                    app:headLayout="@layout/comp_head_text_number_wrap"
                     app:itemLayout="@layout/comp_item_upcoming"
                     app:orientation="horizontal"
                     app:showIndex="true"

@@ -1,5 +1,6 @@
-package com.lge.lgshoptimem.ui.home
+package com.lge.lgshoptimem.ui.product
 
+import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.app.PictureInPictureParams
 import android.content.Intent
@@ -18,11 +19,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.MediaController
 import android.widget.SeekBar
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.add
+import androidx.fragment.app.commit
 import com.lge.core.sys.Trace
 import com.lge.lgshoptimem.R
-import com.lge.lgshoptimem.databinding.ActivityVideoPlayerBinding
+import com.lge.lgshoptimem.databinding.ActivityMediaPlayerBinding
+import com.lge.lgshoptimem.model.dto.Video
+import com.lge.lgshoptimem.model.dto.WatchNow
+import com.lge.lgshoptimem.ui.component.ComponentItemListener
 import com.lge.lgshoptimem.ui.component.VideoPIPManager
 import kotlinx.coroutines.*
 import java.lang.Runnable
@@ -31,7 +38,7 @@ import java.lang.Runnable
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
-class VideoPlayerActivity : AppCompatActivity(), SurfaceHolder.Callback
+class MediaPlayerActivity : AppCompatActivity(), SurfaceHolder.Callback, ComponentItemListener
 {
     companion object {
         /**
@@ -57,7 +64,7 @@ class VideoPlayerActivity : AppCompatActivity(), SurfaceHolder.Callback
         private const val FADEOUT_SECONDS = 3
     }
 
-    private lateinit var mBinding: ActivityVideoPlayerBinding
+    private lateinit var mBinding: ActivityMediaPlayerBinding
     private var mMediaPlayer: MediaPlayer? = null
 
     private val MediaPlayer.seconds: Int
@@ -84,12 +91,13 @@ class VideoPlayerActivity : AppCompatActivity(), SurfaceHolder.Callback
 
     private val hideRunnable = Runnable { hide() }
 
-    private var mstrVideoUrl: String? = null
     private var mbCheckPlay: Boolean = false
     private var mRestartPosition: Int = 0
     private lateinit var mCheckPlayJob: Job
     private var mnFadeoutCount = -1
     private var mbNextUrl = false
+    private var mVideo: Video? = null
+    private val mViewModel: VideoPlayerViewModel by viewModels()
 
     /**
      * Touch listener to use for in-layout UI controls to delay hiding the
@@ -111,20 +119,27 @@ class VideoPlayerActivity : AppCompatActivity(), SurfaceHolder.Callback
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_video_player)
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_media_player)
         mBinding.listener = this
 
 //        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         isFullscreen = true
 
-        mstrVideoUrl = intent.getStringExtra("param")
-        Trace.debug(">> mstrVideoUrl = $mstrVideoUrl")
+        mVideo = intent.getParcelableExtra<Video>("param")
+
+        if (mVideo != null) {
+            mBinding.viewdata = mVideo
+            Trace.debug(">> mstrVideoUrl = ${mVideo?.showUrl}")
+        }
 
         mBinding.vvPlayer.holder.addCallback(this)
+        mViewModel.mldVideoProduct.observe(this, this::onDataListChanged)
     }
 
     override fun surfaceCreated(holder: SurfaceHolder) {
         Trace.debug(">> surfaceCreated()")
+
+        if (mBinding.vwSettingDim?.visibility == View.VISIBLE) return
 
         if (mMediaPlayer == null){
             playByMediaPlayer()
@@ -150,6 +165,11 @@ class VideoPlayerActivity : AppCompatActivity(), SurfaceHolder.Callback
     }
 
     private fun startPlayer() {
+        if (mMediaPlayer == null){
+            playByMediaPlayer()
+            return
+        }
+
         mMediaPlayer?.start()
         toggleIcon(mBinding.ivPlay, mBinding.ivPause)
         mbCheckPlay = true
@@ -163,6 +183,22 @@ class VideoPlayerActivity : AppCompatActivity(), SurfaceHolder.Callback
         updateSeekBar()
         mRestartPosition = mMediaPlayer!!.currentPosition
         mbCheckPlay = false
+
+        if (::mCheckPlayJob.isInitialized) {
+            if (mCheckPlayJob.isActive) mCheckPlayJob.cancel()
+        }
+    }
+
+    private fun stopPlayer() {
+        mbCheckPlay = false
+
+        if (::mCheckPlayJob.isInitialized) {
+            if (mCheckPlayJob.isActive) mCheckPlayJob.cancel()
+        }
+
+        mMediaPlayer?.stop()
+        mMediaPlayer?.release()
+        mMediaPlayer = null
     }
 
     private fun updatePlayer() {
@@ -204,13 +240,12 @@ class VideoPlayerActivity : AppCompatActivity(), SurfaceHolder.Callback
     fun playByMediaPlayer() {
         Trace.debug("++ playByMediaPlayer()")
 
-        if (mstrVideoUrl.isNullOrBlank()) return
+        if (mVideo?.showUrl.isNullOrBlank()) return
 
         mMediaPlayer = MediaPlayer()
 
         mMediaPlayer?.apply {
-//            reset()
-            setDataSource(mstrVideoUrl)
+            setDataSource(mVideo?.showUrl)
             setDisplay(mBinding.vvPlayer.holder)
             prepareAsync()
 
@@ -232,9 +267,14 @@ class VideoPlayerActivity : AppCompatActivity(), SurfaceHolder.Callback
                     mBinding.vvPlayer.layoutParams = layoutParam
                 }
 
-                setVideoScalingMode(MediaPlayer.VIDEO_SCALING_MODE_SCALE_TO_FIT)    // RuntimeException
+                try {
+                    setVideoScalingMode(MediaPlayer.VIDEO_SCALING_MODE_SCALE_TO_FIT)
+                } catch (e: RuntimeException) {
+                    e.printStackTrace()
+                }
+
+
                 initSeekBar()
-//                if (mRestartPosition != 0) seekTo(mRestartPosition)
                 startPlayer()
                 mRestartPosition = 0
             }
@@ -244,7 +284,7 @@ class VideoPlayerActivity : AppCompatActivity(), SurfaceHolder.Callback
                 pausePlayer()
 
                 if (mbNextUrl) {
-                    setDataSource(mstrVideoUrl)
+                    setDataSource(mVideo?.showUrl)
                     prepareAsync()
                     mbNextUrl = false
                 } else {
@@ -289,8 +329,7 @@ class VideoPlayerActivity : AppCompatActivity(), SurfaceHolder.Callback
         val strUrl = intent?.getStringExtra("param")
         Trace.debug(">> onNewIntent() strUrl = $strUrl")
 
-        if (mstrVideoUrl != strUrl) {
-            mstrVideoUrl = strUrl
+        if (mVideo?.showUrl != strUrl) {
             mbNextUrl = true
         }
     }
@@ -298,6 +337,8 @@ class VideoPlayerActivity : AppCompatActivity(), SurfaceHolder.Callback
     override fun onResume() {
         Trace.debug("++ onResume() Initialized = ${::mCheckPlayJob.isInitialized}")
         super.onResume()
+
+        if (mBinding.vwSettingDim?.visibility == View.VISIBLE) return
 
         if (::mCheckPlayJob.isInitialized) {
             Trace.debug(">> onResume() Active = ${mCheckPlayJob.isActive}")
@@ -311,6 +352,8 @@ class VideoPlayerActivity : AppCompatActivity(), SurfaceHolder.Callback
     override fun onPause() {
         Trace.debug("++ onPause()")
         super.onPause()
+
+        if (mBinding.vwSettingDim?.visibility == View.VISIBLE) return
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             if (isInPictureInPictureMode) {
@@ -380,10 +423,83 @@ class VideoPlayerActivity : AppCompatActivity(), SurfaceHolder.Callback
             }
 
             R.id.iv_setting -> {
+                ObjectAnimator.ofFloat(mBinding.clSettingView, "translationY", mBinding.clSettingView?.height!! * -1f).apply {
+                    duration = 300
+                    start()
+                }
 
+                mBinding.vwSettingDim?.visibility = View.VISIBLE
+                pausePlayer()
+            }
+
+            R.id.iv_setting_close -> {
+                ObjectAnimator.ofFloat(mBinding.clSettingView, "translationY", mBinding.clSettingView?.height!! * 1f).apply {
+                    duration = 300
+                    start()
+                }
+
+                mBinding.vwSettingDim?.visibility = View.GONE
+                startPlayer()
+            }
+
+            R.id.ll_channel -> {
+                if (mVideo?.isLive() == false) {
+                    Trace.debug("onClick() video.isLive() = ${mVideo?.isLive()}")
+                    return
+                }
+
+                ObjectAnimator.ofFloat(mBinding.clChannelView, "translationY",mBinding.clChannelView?.height!! * -1f).apply {
+                    duration = 300
+                    start()
+                }
+
+                mBinding.vwSettingDim?.visibility = View.VISIBLE
+                pausePlayer()
+                mViewModel.requestData(mVideo!!)
+            }
+
+            R.id.iv_channel_close -> {
+                ObjectAnimator.ofFloat(mBinding.clChannelView, "translationY", mBinding.clChannelView?.height!! * 1f).apply {
+                    duration = 300
+                    start()
+                }
+
+                mBinding.vwSettingDim?.visibility = View.GONE
+                startPlayer()
             }
 
             R.id.iv_menu_portrait -> {
+                mBinding.vwSettingDim?.visibility = View.VISIBLE
+                pausePlayer()
+
+                if (!mVideo?.productInfos.isNullOrEmpty()) {
+                    Trace.debug(">> mVideo.productInfos.size = ${mVideo?.productInfos?.size}")
+
+                    mVideo?.productInfos?.forEach {
+                        it.patnrId = mVideo!!.patnrId
+                        it.patncLogoPath = mVideo!!.patncLogoPath
+                    }
+
+                    val bundle: Bundle = Bundle()
+                    bundle.putParcelableArrayList("products", mVideo?.productInfos)
+
+                    supportFragmentManager.commit {
+                        setCustomAnimations(R.anim.slide_up, R.anim.slide_down)
+                        setReorderingAllowed(true)
+                        add<PlayerPopupFragment>(R.id.fc_product_list, null, bundle)
+                    }
+                } else {
+                    supportFragmentManager.commit {
+                        setCustomAnimations(R.anim.slide_up, R.anim.slide_down)
+                        setReorderingAllowed(true)
+                        add<PlayerPopupFragment>(R.id.fc_product_list)
+                    }
+
+                    mViewModel.requestData(mVideo!!)
+                }
+            }
+
+            R.id.iv_menu_landscape -> {
 
             }
 
@@ -406,7 +522,10 @@ class VideoPlayerActivity : AppCompatActivity(), SurfaceHolder.Callback
         Trace.debug("++ initSeekBar totalTime = ${mMediaPlayer!!.seconds}")
         mBinding.sbProgress.max = mMediaPlayer!!.seconds
         mBinding.sbProgress.progress = 0
-        mBinding.tvTotalTime.text = mMediaPlayer!!.seconds.getTimeString()
+
+        if (mMediaPlayer!!.seconds > 0) {
+            mBinding.tvTotalTime.text = mMediaPlayer!!.seconds.getTimeString()
+        }
 
         mBinding.sbProgress.apply {
             setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener {
@@ -483,16 +602,32 @@ class VideoPlayerActivity : AppCompatActivity(), SurfaceHolder.Callback
     }
 
     override fun onBackPressed() {
+        Trace.debug("++ onBackPressed() fragment size =  ${supportFragmentManager.fragments.size}")
+
+        if (supportFragmentManager.fragments.size > 0) {
+            supportFragmentManager.commit {
+                setCustomAnimations(R.anim.slide_up, R.anim.slide_down)
+                remove(supportFragmentManager.fragments[0])
+            }
+
+            mBinding.vwSettingDim?.visibility = View.GONE
+            startPlayer()
+            return
+        }
+
         super.onBackPressed()
+    }
+
+    override fun onStop() {
+        Trace.debug("++ onStop()")
+        super.onStop()
+        stopPlayer()
     }
 
     override fun onDestroy() {
         Trace.debug("++ onDestroy()")
         super.onDestroy()
-
-        mMediaPlayer?.stop()
-        mMediaPlayer?.release()
-        mMediaPlayer = null
+        stopPlayer()
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
@@ -537,5 +672,49 @@ class VideoPlayerActivity : AppCompatActivity(), SurfaceHolder.Callback
     private fun delayedHide(delayMillis: Int) {
         hideHandler.removeCallbacks(hideRunnable)
         hideHandler.postDelayed(hideRunnable, delayMillis.toLong())
+    }
+
+    override fun onClick(v: View, pos: Int) {
+        Trace.debug("++ onClick() v = ${v.id} pos = $pos")
+    }
+
+    override fun onItemClick(parent: View, parentPos: Int, item: View, pos: Int) {
+        Trace.debug("++ onItemClick() parent = ${parent.id} parentPos = $parentPos item = ${item.id} pos = $pos")
+
+        if (mViewModel.mldVideoProduct.value!!.showInfos.size <= 0) return
+
+        if (mVideo?.showUrl == mViewModel.mldVideoProduct.value!!.showInfos[pos].showUrl) return
+
+        stopPlayer()
+        mVideo = mViewModel.mldVideoProduct.value!!.showInfos[pos]
+        mBinding.viewdata = mVideo
+        playByMediaPlayer()
+
+        ObjectAnimator.ofFloat(mBinding.clChannelView, "translationY", mBinding.clChannelView?.height!! * 1f).apply {
+            duration = 300
+            start()
+        }
+
+        mBinding.vwSettingDim?.visibility = View.GONE
+    }
+
+    private fun onDataListChanged(itemList: WatchNow.Response.Data) {
+        Trace.debug("++ onDataListChanged()")
+
+        if (itemList.showInfos.size > 0) {
+            itemList.showInfos.forEach {
+                it.selected = (it.showUrl == mVideo?.showUrl)
+
+                when (it.patnrId.toInt()) {
+                    1 -> { it.resourceId = R.drawable.sel_pop_qvc }     // QVC
+                    2 -> { it.resourceId = R.drawable.sel_pop_hsn }     // HSN
+                    3 -> { it.resourceId = R.drawable.sel_pop_jtv }     // JTV
+                    4 -> { it.resourceId = R.drawable.sel_pop_ontv }    // onTV
+                }
+            }
+
+            mBinding.compList?.setItemList(itemList.showInfos)
+            mBinding.compList?.addItemListener(this)
+        }
     }
 }

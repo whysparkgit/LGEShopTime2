@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="position"
+            type="int" />
+        <variable
+            name="listener"
+            type="com.lge.lgshoptimem.ui.component.ComponentItemListener" />
+        <variable
+            name="viewdata"
+            type="com.lge.lgshoptimem.model.dto.Video" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/comp_cl_item"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:onClick="@{v -> listener.onClick(v, position)}">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_v1"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.15"/>
+
+        <ImageView
+            android:id="@+id/comp_iv_main_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="4dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/gl_v1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:selected="@{viewdata.selected}"
+            app:resource="@{viewdata.resourceId}" />
+
+        <TextView
+            android:id="@+id/comp_tv_channel_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:textColor="@color/gray_acacac"
+            android:textSize="12sp"
+            android:text="@{viewdata.patncNm}"
+            app:layout_constraintStart_toStartOf="@+id/gl_v1"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:textColor="@{viewdata.selected ? @color/pink_e32e70 : @color/white}"
+            android:textSize="16sp"
+            android:text="@{viewdata.showNm}"
+            android:ellipsize="end"
+            android:maxLines="1"
+            app:layout_constraintStart_toStartOf="@+id/gl_v1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/comp_tv_channel_name" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -38,6 +38,14 @@ interface AppConst {
             const val PARTNER_ID = "PartnerId"
             const val PRODUCT_ID = "ProductId"
             const val CURATION_ID = "CurationId"
+            const val LAUNCH_FROM = "LaunchFrom"
+        }
+    }
+
+    interface VALUE {
+        companion object {
+            const val LIST = "List"
+            const val PLAYER = "Player"
         }
     }
 }
