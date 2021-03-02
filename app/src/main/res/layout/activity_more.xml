@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    
+    <data>
+
+        <variable
+            name="listener"
+            type="com.lge.lgshoptimem.ui.more.MoreActivity" />
+
+    </data>
+    
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_v1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.05"
+            />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_v2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.95"
+            />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/am_cl_my_info"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:onClick="@{listener::onItemClick}"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/gl_v1"
+            app:layout_constraintRight_toLeftOf="@id/gl_v2">
+
+            <TextView
+                android:id="@+id/am_tv_my_info"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:gravity="center_vertical"
+                android:textSize="18sp"
+                android:text="@string/my_info"
+                android:textColor="@color/black_141414"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                />
+
+            <TextView
+                android:id="@+id/am_tv_cellphone"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_marginTop="4dp"
+                android:gravity="center_vertical"
+                android:textSize="30sp"
+                android:text="@string/cellphone_number"
+                android:textColor="@color/black_141414"
+                android:textStyle="bold"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintTop_toBottomOf="@id/am_tv_my_info"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        
+        <TextView
+            android:id="@+id/am_tv_connected_device"
+            android:layout_width="wrap_content"
+            android:layout_height="18dp"
+            android:layout_marginTop="17.5dp"
+            android:gravity="center_vertical"
+            android:textSize="16sp"
+            android:textColor="@color/gray_505050"
+            android:text="@string/connected_device"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintTop_toBottomOf="@id/am_cl_my_info"
+            app:layout_constraintLeft_toRightOf="@id/gl_v1"
+            app:layout_constraintRight_toLeftOf="@id/gl_v2"
+            />
+
+        <TextView
+            android:id="@+id/am_tv_connected_count"
+            android:layout_width="wrap_content"
+            android:layout_height="18dp"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="17.5dp"
+            android:textSize="16sp"
+            android:textColor="@color/pink_ff00ff"
+            android:text="3"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintTop_toBottomOf="@id/am_cl_my_info"
+            app:layout_constraintLeft_toRightOf="@id/am_tv_connected_device"
+            app:layout_constraintRight_toLeftOf="@id/gl_v2"
+            />
+
+        <LinearLayout
+            android:id="@+id/am_ll_coupon"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:orientation="horizontal"
+            android:onClick="@{listener::onItemClick}"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintTop_toBottomOf="@id/am_tv_connected_device"
+            app:layout_constraintLeft_toRightOf="@id/gl_v1"
+            app:layout_constraintRight_toLeftOf="@id/gl_v2">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/ic_my_coupons"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="12dp"
+                />
+
+            <TextView
+                android:id="@+id/am_tv_coupon"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/black_141414"
+                android:textSize="18sp"
+                android:text="@string/coupon"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/am_ll_alarm"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:orientation="horizontal"
+            android:onClick="@{listener::onItemClick}"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintTop_toBottomOf="@id/am_ll_coupon"
+            app:layout_constraintLeft_toRightOf="@id/gl_v1"
+            app:layout_constraintRight_toLeftOf="@id/gl_v2">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/ic_push_alarm"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="12dp"
+                />
+
+            <TextView
+                android:id="@+id/am_tv_alarm"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/black_141414"
+                android:textSize="18sp"
+                android:text="@string/alarm"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/am_ll_recently"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:orientation="horizontal"
+            android:onClick="@{listener::onItemClick}"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintTop_toBottomOf="@id/am_ll_alarm"
+            app:layout_constraintLeft_toRightOf="@id/gl_v1"
+            app:layout_constraintRight_toLeftOf="@id/gl_v2">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/ic_recently_viewed"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="12dp"
+                />
+
+            <TextView
+                android:id="@+id/am_tv_recently"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/black_141414"
+                android:textSize="18sp"
+                android:text="@string/recently_viewed"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/am_ll_for_you"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:orientation="horizontal"
+            android:onClick="@{listener::onItemClick}"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintTop_toBottomOf="@id/am_ll_recently"
+            app:layout_constraintLeft_toRightOf="@id/gl_v1"
+            app:layout_constraintRight_toLeftOf="@id/gl_v2">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/ic_alert_setting"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="12dp"
+                />
+
+            <TextView
+                android:id="@+id/am_tv_for_you"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/black_141414"
+                android:textSize="18sp"
+                android:text="@string/for_you_setting"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/am_ll_favorites"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:orientation="horizontal"
+            android:onClick="@{listener::onItemClick}"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintTop_toBottomOf="@id/am_ll_for_you"
+            app:layout_constraintLeft_toRightOf="@id/gl_v1"
+            app:layout_constraintRight_toLeftOf="@id/gl_v2">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/ic_favorites"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="12dp"
+                />
+
+            <TextView
+                android:id="@+id/am_tv_favorites"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/black_141414"
+                android:textSize="18sp"
+                android:text="@string/favorites"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/am_ll_app_version"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:orientation="horizontal"
+            android:onClick="@{listener::onItemClick}"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintTop_toBottomOf="@id/am_ll_favorites"
+            app:layout_constraintLeft_toRightOf="@id/gl_v1"
+            app:layout_constraintRight_toLeftOf="@id/gl_v2">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/ic_app_version"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="12dp"
+                />
+
+            <TextView
+                android:id="@+id/am_tv_app_version"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/black_141414"
+                android:textSize="18sp"
+                android:text="@string/app_version"
+                android:layout_marginEnd="9.5dp"
+                />
+
+            <TextView
+                android:id="@+id/am_tv_app_version_code"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_gravity="bottom"
+                android:textColor="@color/pink_e32e70"
+                android:textSize="14sp"
+                android:text="v 1.0.0"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/am_ll_support"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:orientation="horizontal"
+            android:onClick="@{listener::onItemClick}"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintTop_toBottomOf="@id/am_ll_app_version"
+            app:layout_constraintLeft_toRightOf="@id/gl_v1"
+            app:layout_constraintRight_toLeftOf="@id/gl_v2">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/ic_app_support"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="12dp"
+                />
+
+            <TextView
+                android:id="@+id/am_tv_support"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/black_141414"
+                android:textSize="18sp"
+                android:text="@string/support"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/am_ll_terms_service"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:orientation="horizontal"
+            android:onClick="@{listener::onItemClick}"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintTop_toBottomOf="@id/am_ll_support"
+            app:layout_constraintLeft_toRightOf="@id/gl_v1"
+            app:layout_constraintRight_toLeftOf="@id/gl_v2">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/ic_terms_settings"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="12dp"
+                />
+
+            <TextView
+                android:id="@+id/am_tv_terms_service"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/black_141414"
+                android:textSize="18sp"
+                android:text="@string/terms_service"
+                />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/am_tv_app_name"
+            android:layout_width="wrap_content"
+            android:layout_height="14dp"
+            android:textColor="@color/gray_acacac"
+            android:textSize="12sp"
+            android:text="@string/lg_electronics_shop_time"
+            android:layout_marginBottom="17dp"
+            app:layout_constraintVertical_bias="1"
+            app:layout_constraintTop_toBottomOf="@id/am_ll_terms_service"
+            app:layout_constraintLeft_toRightOf="@id/gl_v1"
+            app:layout_constraintRight_toLeftOf="@id/gl_v2"
+            app:layout_constraintBottom_toTopOf="@id/inc_bottom"
+            />
+
+
+        <include
+            android:id="@+id/inc_bottom"
+            layout="@layout/view_bottom_bar"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

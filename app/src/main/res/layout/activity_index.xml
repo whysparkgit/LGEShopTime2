@@ -440,7 +440,7 @@
                     android:autoSizeMaxTextSize="14sp"
                     android:autoSizeMinTextSize="6sp"
                     android:autoSizeTextType="uniform"
-                    android:text="" />
+                    android:text="more" />
 
                 <Button
                     android:id="@+id/btn_64"

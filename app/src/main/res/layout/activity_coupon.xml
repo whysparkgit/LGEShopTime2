@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+        <import type="androidx.databinding.ObservableArrayList" />
+        <import type="com.lge.lgshoptimem.model.dto.Product" />
+
+        <variable
+            name="actionbar"
+            type="com.lge.lgshoptimem.ui.common.ActionBar" />
+
+        <!-- 임시 처리 데이터 -->
+        <variable
+            name="couponList"
+            type="ObservableArrayList&lt;Product>" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_v1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.05"
+            />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_v2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.95"
+            />
+
+        <include
+            android:id="@+id/ami_inc_top"
+            layout="@layout/view_action_bar"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            app:actionbar="@{actionbar}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/ac_rv_coupons"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toBottomOf="@id/ami_inc_top"
+            app:layout_constraintLeft_toRightOf="@id/gl_v1"
+            app:layout_constraintRight_toLeftOf="@id/gl_v2"
+            app:layout_constraintBottom_toTopOf="@id/inc_bottom"
+            tools:listitem="@layout/comp_item_coupon"
+            />
+
+        <ImageView
+            android:id="@+id/ac_iv_notice"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:layout_marginTop="274.5dp"
+            android:background="@drawable/ic_notice"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="@id/gl_v1"
+            app:layout_constraintRight_toRightOf="@id/gl_v2"
+            android:visibility="gone"
+            />
+
+        <TextView
+            android:id="@+id/ac_tv_nothing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22.5dp"
+            android:textSize="16sp"
+            android:textColor="@color/gray_acacac"
+            android:text="@string/nothing_in_here"
+            app:layout_constraintTop_toBottomOf="@id/ac_iv_notice"
+            app:layout_constraintLeft_toLeftOf="@id/gl_v1"
+            app:layout_constraintRight_toRightOf="@id/gl_v2"
+            android:visibility="gone"
+            />
+
+        <include
+            android:id="@+id/inc_bottom"
+            layout="@layout/view_bottom_bar"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -6,6 +6,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_NUMBERS"/>
 
     <application
         android:name="com.lge.core.app.ApplicationProxy"
@@ -56,6 +58,34 @@
             android:supportsPictureInPicture="true"
             android:theme="@style/AppTheme.Fullscreen"
             tools:targetApi="O"/>
+            tools:targetApi="O" />
+
+        <activity
+            android:name="com.lge.lgshoptimem.ui.more.MoreActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name="com.lge.lgshoptimem.ui.more.MyInfoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name="com.lge.lgshoptimem.ui.more.EditZipCodeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name="com.lge.lgshoptimem.ui.more.CouponActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name="com.lge.lgshoptimem.ui.more.AlarmActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+
+
     </application>
 
 </manifest>

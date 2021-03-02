@@ -13,4 +13,118 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <!-- popup -->
+    <string name="save_eng">SAVE</string>
+    <string name="cancel_eng">CANCEL</string>
+    <string name="delete_eng">DELETE</string>
+    <string name="close_eng">CLOSE</string>
+    <string name="button">button</string>
+    <!-- popup -->
+
+    <!-- MoreActivity MAIN STR -->
+    <string name="my_info">MY INFO</string>
+    <string name="connected_device">Connected Device</string>
+    <string name="coupon">COUPON</string>
+    <string name="alarm">ALARM</string>
+    <string name="recently_viewed">RECENTLY VIEWED</string>
+    <string name="for_you_setting">FOR YOU SETTING</string>
+    <string name="favorites">FAVORITES</string>
+    <string name="app_version">APP VERSION</string>
+    <string name="support">SUPPORT</string>
+    <string name="terms_service">TERMS &amp; SERVICE</string>
+    <string name="lg_electronics_shop_time">LG Electronics SHOP TIME</string>
+    <!-- MoreActivity MAIN END -->
+
+    <!-- MyInfoActivity STR -->
+    <string name="cellphone_number">CELLPHONE NUMBER</string>
+    <string name="cellphone_guide">If you want to change your cellphone number, re login with new cellphone number as new account and delete your previous if you don\'t use it no longer</string>
+    <string name="zip_code">ZIP CODE</string>
+    <string name="tv">TV</string>
+    <string name="cellphone">CellPhone</string>
+    <string name="log_out">LOG OUT</string>
+    <string name="delete_my_info">DELETE MY INFORMATION</string>
+    <string name="edit">EDIT</string>
+    <string name="pared">Pared</string>
+    <string name="connected_device_cap">CONNECTED DEVICES</string>
+    <string name="not_pared">Not Pared</string>
+    <string name="not_pared_guide">If you login your cellphone number on LG SHOP TIME App on LG smart TV, the account data will be automatically pared</string>
+    <!-- MyInfoActivity END -->
+
+    <!-- EditZipCodeFragment STR -->
+    <string name="edit_zip_code">EDIT ZIP CODE</string>
+    <string name="only_numbers">ONLY NUMBERS</string>
+    <!-- EditZipCodeFragment END -->
+
+    <!-- DeleteMyInfoDialog STR -->
+    <string name="delete_info_guide">Do you want to delete the device?\nIf you do, the data on it will be deleted.</string>
+    <string name="delete_my_info_guide">Do you want to delete your information?\nIf you do, the data on cellphone will be deleted, only.\n\If you have TV app, you can still use it. </string>
+    <!-- DeleteMyInfo Dialog END -->
+
+    <!-- DeletedMyInfoDialog STR -->
+    <string name="deleted_your_account">DELETED YOUR ACCOUNT</string>
+    <string name="deleted_guide">LG SHOP TIME will be waiting for you to come back\non our service with more exciting news a lot.</string>
+    <!-- DeletedMyInfoDialog END -->
+
+    <!-- CouponActivity STR -->
+    <string name="code">Code : </string>
+    <string name="nothing_in_here">Nothing in here</string>
+    <!-- CouponActivity END -->
+
+    <!-- CouponDetailFragment STR -->
+    <string name="coupon_detail">COUPON DETAIL</string>
+    <!-- CouponDetailFragment END -->
+
+    <!-- AlarmActivity STR -->
+    <string name="push_alarm">Push Alarm</string>
+    <string name="all">All</string>
+    <string name="delete_all">DELETE ALL</string>
+    <string name="alarm_guide">Despite off state, you can check all push alarm lists stimulated on Pus Alarm screen</string>
+    <!-- AlarmActivity END -->
+
+    <!-- RecentlyViewedActivity STR -->
+    <string name="shows">SHOWS</string>
+    <string name="products">PRODUCTS</string>
+    <!-- RecentlyViewedActivity END -->
+
+    <!-- RecentlyViewedDeleteDialog STR -->
+    <string name="delete_recently_guide">Do you want to delete all lists in here?</string>
+    <!-- RecentlyViewedDeleteDialog END -->
+
+    <!-- ForYouSettingActivity STR -->
+    <string name="categories">CATEGORIES</string>
+    <string name="keywords">KEYWORDS</string>
+    <!-- ForYouSettingActivity END -->
+
+    <!-- FavoritesActivity STR -->
+    <string name="delete_favorites">Delete Favorites</string>
+    <!-- FavoritesActivity END -->
+
+    <!-- AppVersionActivity STR -->
+    <string name="current_auto_version">CURRENT AUTO VERSION</string>
+    <string name="update_new_version">UPDATE NEW VERSION</string>
+    <!-- AppVersionActivity END -->
+
+    <!-- AppVersionUpdateDialog STR -->
+    <string name="app_version_update_guide">You must update our latest app version.\nSelect </string>
+    <!-- AppVersionUpdateDialog END -->
+
+    <!-- SupportActivity STR -->
+    <string name="faq">FAQ</string>
+    <string name="contact">CONTACT</string>
+    <string name="notice">NOTICE</string>
+    <!-- SupportActivity END -->
+
+    <!-- TermsAndServiceActivity STR -->
+    <string name="select_all">Select All</string>
+    <string name="title">Title</string>
+    <string name="required">Required</string>
+    <string name="not_required">Not required</string>
+    <!-- TermsAndServiceActivity END -->
+
+    <!-- TermsAndServiceDialog STR -->
+    <string name="term_agree_guide_first">If you do not select </string>
+    <string name="term_agree_guide_second">button, you cannot use LG SHOP TIME app no longer. Do you really want to do it?</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <!-- TermsAndServiceDialog END -->
+
 </resources>
