@@ -37,7 +37,9 @@ import com.lge.lgshoptimem.model.http.ImageLinkProtocol
 import com.lge.lgshoptimem.model.http.LoginProtocol
 import com.lge.lgshoptimem.model.http.MainCurationProtocol
 import com.lge.lgshoptimem.ui.common.SinglePopupDialog
+import com.lge.lgshoptimem.ui.home.ForYouSettingActivity
 import com.lge.lgshoptimem.ui.home.HomeActivity
+import com.lge.lgshoptimem.ui.home.ScheduleActivity
 import com.lge.lgshoptimem.ui.home.TodayDealsDialog
 import com.lge.lgshoptimem.ui.product.MediaPlayerActivity
 import com.lge.lgshoptimem.ui.product.DetailActivity
@@ -191,10 +193,13 @@ class IndexActivity : AppCompatActivity()
                 R.id.btn_61 -> {
                 }
                 R.id.btn_62 -> {
+                    launchActivity(ScheduleActivity::class.java)
                 }
                 R.id.btn_63 -> {
+                    launchActivity(MoreActivity::class.java)
                 }
                 R.id.btn_64 -> {
+                    launchActivity(ForYouSettingActivity::class.java)
                 }
                 R.id.btn_65 -> {
                 }

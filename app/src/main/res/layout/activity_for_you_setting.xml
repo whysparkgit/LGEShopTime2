@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="android.view.View" />
+        <variable
+            name="activity"
+            type="com.lge.lgshoptimem.ui.home.ForYouSettingActivity" />
+
+        <variable
+            name="actionbar"
+            type="com.lge.lgshoptimem.ui.common.ActionBar" />
+
+        <variable
+            name="buffer"
+            type="androidx.databinding.ObservableField&lt;String>" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_v1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.05"
+            />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_v2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.95"
+            />
+
+        <include
+            android:id="@+id/fys_inc_top"
+            layout="@layout/view_action_bar"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            app:actionbar="@{actionbar}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/fys_cl_name"
+            android:layout_width="0dp"
+            android:layout_height="22dp"
+            android:layout_marginTop="30dp"
+            app:layout_constraintLeft_toRightOf="@id/gl_v1"
+            app:layout_constraintRight_toRightOf="@id/gl_v2"
+            app:layout_constraintTop_toBottomOf="@id/fys_inc_top"
+            >
+
+            <TextView
+                android:id="@+id/fys_tv_favorite_keyword"
+                android:layout_width="wrap_content"
+                android:layout_height="22dp"
+                android:textSize="20sp"
+                android:textColor="@color/black_141414"
+                android:text="@string/favorite_keyword"
+                android:textStyle="bold"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+
+            <TextView
+                android:id="@+id/fys_tv_page_count"
+                android:layout_width="wrap_content"
+                android:layout_height="22dp"
+                android:layout_marginLeft="7.5dp"
+                android:textSize="12sp"
+                android:textColor="@color/black_141414"
+                android:text="1"
+                android:textStyle="bold"
+                android:gravity="bottom"
+                app:layout_constraintLeft_toRightOf="@id/fys_tv_favorite_keyword"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
+
+            <TextView
+                android:id="@+id/fys_tv_page_total"
+                android:layout_width="wrap_content"
+                android:layout_height="22dp"
+                android:layout_marginLeft="1dp"
+                android:textSize="12sp"
+                android:textColor="@color/gray_898989"
+                android:text="/2"
+                android:textStyle="bold"
+                android:gravity="bottom"
+                app:layout_constraintLeft_toRightOf="@id/fys_tv_page_count"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_h1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="124dp"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/fys_rv_recyclerview"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="30dp"
+            app:layout_constraintTop_toBottomOf="@id/gl_h1"
+            app:layout_constraintLeft_toRightOf="@id/gl_v1"
+            app:layout_constraintRight_toLeftOf="@id/gl_v2"
+            app:layout_constraintBottom_toTopOf="@id/fys_btn_save"
+            />
+
+<!--        <Button-->
+<!--            android:id="@+id/fys_btn_item1"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="36dp"-->
+<!--            android:layout_marginTop="12dp"-->
+<!--            android:text="#GIFT"-->
+<!--            android:textColor="@color/white"-->
+<!--            android:background="@color/black_141414"-->
+<!--            app:layout_constraintLeft_toRightOf="@id/gl_v1"-->
+<!--            app:layout_constraintRight_toLeftOf="@id/gl_v2"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/gl_h1"-->
+<!--            app:layout_constraintHorizontal_bias="0"-->
+<!--            />-->
+
+<!--        <Button-->
+<!--            android:id="@+id/fys_btn_item2"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="36dp"-->
+<!--            android:layout_marginTop="12dp"-->
+<!--            android:layout_marginLeft="12dp"-->
+<!--            android:text="#GIFTTTTTTTT"-->
+<!--            android:textColor="@color/black_141414"-->
+<!--            android:background="@drawable/bg_rect_fill_white"-->
+<!--            app:layout_constraintLeft_toRightOf="@id/fys_btn_item1"-->
+<!--            app:layout_constraintRight_toLeftOf="@id/gl_v2"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/gl_h1"-->
+<!--            app:layout_constraintHorizontal_bias="0"-->
+<!--            />-->
+
+<!--        <Button-->
+<!--            android:id="@+id/fys_btn_item3"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="36dp"-->
+<!--            android:layout_marginTop="12dp"-->
+<!--            android:layout_marginLeft="12dp"-->
+<!--            android:text="#GIFTTTTTTTT"-->
+<!--            android:textColor="@color/black_141414"-->
+<!--            android:background="@drawable/bg_rect_fill_white"-->
+<!--            app:layout_constraintLeft_toRightOf="@id/fys_btn_item2"-->
+<!--            app:layout_constraintRight_toLeftOf="@id/gl_v2"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/gl_h1"-->
+<!--            app:layout_constraintHorizontal_bias="0"-->
+<!--            />-->
+
+<!--        <Button-->
+<!--            android:id="@+id/fys_btn_item4"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="36dp"-->
+<!--            android:layout_marginTop="12dp"-->
+<!--            android:text="#GIFTTTTTTTT"-->
+<!--            android:textColor="@color/black_141414"-->
+<!--            android:background="@drawable/bg_rect_fill_white"-->
+<!--            app:layout_constraintLeft_toRightOf="@id/gl_v1"-->
+<!--            app:layout_constraintRight_toLeftOf="@id/gl_v2"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/fys_btn_item1"-->
+<!--            app:layout_constraintHorizontal_bias="0"-->
+<!--            />-->
+
+        <Button
+            android:id="@+id/fys_btn_save"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:text="@string/next"
+            android:onClick="@{activity::onBtnClick}"
+            android:background="@drawable/sel_btn_edit"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/fys_btn_cancel"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+        <View
+            android:id="@+id/fys_v_line_top"
+            android:layout_width="1dp"
+            android:layout_height="15dp"
+            android:background="@color/black_141414"
+            app:layout_constraintBottom_toTopOf="@id/fys_v_line_mid"
+            app:layout_constraintLeft_toRightOf="@id/fys_btn_save"
+            app:layout_constraintRight_toLeftOf="@id/fys_btn_cancel"
+            />
+
+        <View
+            android:id="@+id/fys_v_line_mid"
+            android:layout_width="1dp"
+            android:layout_height="26dp"
+            android:background="@color/gray_989898"
+            app:layout_constraintBottom_toTopOf="@id/fys_v_line_btm"
+            app:layout_constraintLeft_toRightOf="@id/fys_btn_save"
+            app:layout_constraintRight_toLeftOf="@id/fys_btn_cancel"
+            />
+
+        <View
+            android:id="@+id/fys_v_line_btm"
+            android:layout_width="1dp"
+            android:layout_height="15dp"
+            android:background="@color/black_141414"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/fys_btn_save"
+            app:layout_constraintRight_toLeftOf="@id/fys_btn_cancel"
+            />
+
+        <Button
+            android:id="@+id/fys_btn_cancel"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:text="@string/complete"
+            android:onClick="@{activity::onBtnClick}"
+            android:background="@drawable/sel_btn_edit"
+            app:layout_constraintStart_toEndOf="@id/fys_btn_save"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -127,4 +127,20 @@
     <!-- TODO: Remove or change this placeholder text -->
     <!-- TermsAndServiceDialog END -->
 
+    <!-- ForYouSettingActivity STR -->
+    <string name="favorite_keyword">2. FAVORITE KEYWORD</string>
+    <string name="gift">GIFT</string>
+    <string name="holiday">HOLIDAY</string>
+    <string name="complete">COMPLETE</string>
+    <string name="next">NEXT</string>
+    <!-- ForYouSettingActivity END -->
+
+    <!-- ScheduleActivity STR -->
+    <string name="schedule">SCHEDULE</string>
+    <!-- SchduleActivity END -->
+
+    <!-- SearchKeywordActivity STR -->
+    <string name="title1">WHAT ARE YOU</string>
+    <string name="title2">LOOKING FOR?</string>
+    <string name="search_keyword">SEARCH KEYWORD</string>
 </resources>

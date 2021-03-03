@@ -85,6 +85,16 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
 
+        <activity
+            android:name="com.lge.lgshoptimem.ui.home.ForYouSettingActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name="com.lge.lgshoptimem.ui.home.ScheduleActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+
 
     </application>
 

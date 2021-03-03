@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View" />
+
+        <variable
+            name="activity"
+            type="com.lge.lgshoptimem.ui.home.ScheduleActivity" />
+
+        <variable
+            name="actionbar"
+            type="com.lge.lgshoptimem.ui.common.ActionBar" />
+
+        <variable
+            name="listener"
+            type="com.lge.lgshoptimem.ui.home.ScheduleActivity" />
+
+        <variable
+            name="viewmodel"
+            type="com.lge.lgshoptimem.ui.home.ScheduleActivity" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        tools:context=".ui.home.ScheduleActivity">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_v1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.05"
+            />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_v2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.95"
+            />
+
+        <include
+            android:id="@+id/asc_inc_top"
+            layout="@layout/view_action_bar"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            app:actionbar="@{actionbar}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/asc_rv_main_list"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/asc_inc_top"
+            app:layout_constraintBottom_toTopOf="@id/inc_bottom"/>
+
+<!--        <TextView-->
+<!--            android:id="@+id/asc_tv_month"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="18dp"-->
+<!--            android:layout_marginTop="26dp"-->
+<!--            android:text="November"-->
+<!--            android:textSize="16sp"-->
+<!--            android:textStyle="bold"-->
+<!--            android:textColor="@color/black_141414"-->
+<!--            app:layout_constraintHorizontal_bias="0"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/asc_inc_top"-->
+<!--            app:layout_constraintLeft_toLeftOf="@id/gl_v1"-->
+<!--            app:layout_constraintRight_toRightOf="@id/gl_v2"-->
+<!--            />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/asc_tv_year"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="18dp"-->
+<!--            android:layout_marginTop="26dp"-->
+<!--            android:layout_marginStart="2dp"-->
+<!--            android:text="2021"-->
+<!--            android:textSize="16sp"-->
+<!--            android:textStyle="bold"-->
+<!--            android:textColor="@color/black_141414"-->
+<!--            app:layout_constraintHorizontal_bias="0"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/asc_inc_top"-->
+<!--            app:layout_constraintLeft_toRightOf="@id/asc_tv_month"-->
+<!--            app:layout_constraintRight_toRightOf="@id/gl_v2"-->
+<!--            />-->
+
+<!--        <androidx.recyclerview.widget.RecyclerView-->
+<!--            android:id="@+id/asc_rv_date"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="41dp"-->
+<!--            android:layout_marginTop="18dp"-->
+<!--            android:orientation="horizontal"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/asc_tv_year"-->
+<!--            app:layout_constraintLeft_toRightOf="@id/gl_v1"-->
+<!--            app:layout_constraintRight_toLeftOf="@id/gl_v2"-->
+<!--            />-->
+
+<!--        <View-->
+<!--            android:id="@+id/asc_v_h1"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="14dp"-->
+<!--            android:layout_marginTop="18dp"-->
+<!--            android:background="@color/gray_f2f2f2"-->
+<!--            app:layout_constraintLeft_toLeftOf="parent"-->
+<!--            app:layout_constraintRight_toRightOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/asc_rv_date"-->
+<!--            />-->
+
+        <include
+            android:id="@+id/inc_bottom"
+            layout="@layout/view_bottom_bar"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="position"
+            type="int" />
+
+        <variable
+            name="listener"
+            type="com.lge.lgshoptimem.ui.component.ComponentItemListener" />
+
+        <variable
+            name="viewdata"
+            type="com.lge.lgshoptimem.model.dto.Schedule" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="34dp"
+        android:layout_height="41dp"
+        android:layout_marginEnd="17dp">
+<!--        android:onClick="@{v-> listener.onClick(v.position)}">-->
+
+        <TextView
+            android:id="@+id/cis_tv_date_string"
+            android:layout_width="wrap_content"
+            android:layout_height="14dp"
+            android:layout_marginTop="3dp"
+            android:textColor="@color/black_141414"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:text="@{viewdata.dateString}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:selected="@{viewdata.selected}"
+            />
+
+        <TextView
+            android:id="@+id/cis_tv_date_num"
+            android:layout_width="wrap_content"
+            android:layout_height="18dp"
+            android:layout_marginTop="3dp"
+            android:textColor="@color/pink_e32e70"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:text="@{viewdata.dateInt}"
+            app:layout_constraintTop_toBottomOf="@id/cis_tv_date_string"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:selected="@{viewdata.selected}"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

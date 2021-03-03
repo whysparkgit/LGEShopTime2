@@ -14,7 +14,7 @@ import com.lge.core.app.ApplicationProxy
 import com.lge.core.sys.Trace
 import com.lge.lgshoptimem.R
 
-class SinglePopupDialog private constructor(builder: Builder): DialogFragment(), View.OnClickListener
+class  SinglePopupDialog private constructor(builder: Builder): DialogFragment(), View.OnClickListener
 {
     private var mstrTitle: String? = null
     private var mstrMessage: String? = null
