@@ -7,9 +7,7 @@
         <variable
             name="listener"
             type="com.lge.lgshoptimem.ui.component.ComponentItemListener" />
-<!--        <variable-->
-<!--            name="viewmodel"-->
-<!--            type="com.lge.lgshoptimem.model.dto.Curation" />-->
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -27,8 +25,8 @@
             app:headLayout="@layout/comp_head_text_number_wrap"
             app:itemLayout="@layout/comp_item_schedule"
             app:orientation="horizontal"
-            app:subject="LIVE CHANNELS"
-            app:itemCount="4"
+            app:subject="@string/schedule"
+            app:itemCount="7"
             app:showIndex="false"
             app:position="@{position}"
             app:layout_constraintTop_toTopOf="parent"

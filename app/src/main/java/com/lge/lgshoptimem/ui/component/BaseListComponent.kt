@@ -195,7 +195,7 @@ open class BaseListComponent @JvmOverloads constructor(
 //        Trace.debug(">> comp_cl_header = ${findViewById<ConstraintLayout>(R.id.comp_cl_header)}")
 //        Trace.debug(">> comp_rv_list = ${findViewById<RecyclerView>(R.id.comp_rv_list)}")
         mAdapter.notifyDataSetChanged()
-        mBinding.setVariable(BR.adapter, mAdapter)
+//        mBinding.setVariable(BR.adapter, mAdapter)
     }
 
     override fun onClick(v: View, pos: Int) {

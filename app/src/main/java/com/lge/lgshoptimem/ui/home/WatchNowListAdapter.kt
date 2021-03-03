@@ -152,12 +152,12 @@ class WatchNowListAdapter(mFragment: Fragment):
             nVal -> nCount += getItemCount(nVal)
         }
 
-//        Trace.debug("++ getItemCount() nCount = $nCount")
+        Trace.debug("++ getItemCount() nCount = $nCount")
         return nCount
     }
 
     fun getItemCount(viewType: Int): Int {
-//        Trace.debug("++ getItemCount() viewType = $viewType")
+        Trace.debug("++ getItemCount() viewType = $viewType")
 
         if (mViewModel.mldWatchNow.value == null) return 0
 
@@ -196,7 +196,7 @@ class WatchNowListAdapter(mFragment: Fragment):
 
         marrViewTypes.forEach {
             nVal -> if (position in nIndex until nIndex + getItemCount(nVal)) {
-//                Trace.debug("++ getItemViewType() position = $position ViewType = $nVal")
+                Trace.debug("++ getItemViewType() position = $position ViewType = $nVal")
                 return nVal
             }
 

@@ -1,24 +1,28 @@
 package com.lge.lgshoptimem.ui.home
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.ViewGroup
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SimpleItemAnimator
+import com.lge.core.sys.Trace
 import com.lge.lgshoptimem.R
 import com.lge.lgshoptimem.databinding.ActivityScheduleBinding
-import com.lge.lgshoptimem.databinding.CompItemScheduleBinding
+import com.lge.lgshoptimem.model.dto.Schedule
 import com.lge.lgshoptimem.ui.common.ActionBar
+import com.lge.lgshoptimem.ui.common.AppConst
+import com.lge.lgshoptimem.ui.component.BaseListComponent
+import com.lge.lgshoptimem.ui.component.ComponentItemListener
 
-class ScheduleActivity : AppCompatActivity(), ActionBar.onActionBarListener {
+
+class ScheduleActivity : AppCompatActivity(), ActionBar.onActionBarListener , ComponentItemListener{
 
     private lateinit var mBinding: ActivityScheduleBinding
-//    private val scheduleAdapter: ScheduleAdapter = ScheduleAdapter()
+    private lateinit var mAdapter: ScheduleListAdapter
+
+    val mSchedules: ArrayList<Schedule> = ArrayList()
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,59 +35,77 @@ class ScheduleActivity : AppCompatActivity(), ActionBar.onActionBarListener {
         actionBar.title = getString(R.string.schedule)
         actionBar.setButton(ActionBar.ACTION_BACK, ActionBar.ACTION_NONE)
         mBinding.actionbar = actionBar
+        mBinding.listener = this
 
-//        mBinding.ascRvDate.apply {
-//            layoutManager = LinearLayoutManager(applicationContext, LinearLayoutManager.HORIZONTAL, false)
-//            adapter = scheduleAdapter
-//        }
+        mAdapter = ScheduleListAdapter(this)
+
+//        mBinding.ascRvMainList.itemAnimator = null
+        mBinding.ascRvMainList.apply {
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            adapter = mAdapter
+        }
+
+        //viewmodel
     }
 
-
-
-
-//    class ScheduleItem(dataString : String, dataNum : Int) {
-//        var dataString: String? = dataString
-//        var dataNum: Int? = dataNum
+//    private fun onDataListChanged(itemList: WatchNow.Response.Data) {
+//        Trace.debug("++ onDataListChanged()")
+//        mAdapter.notifyDataSetChanged()
 //    }
+
+    override fun onClick(v: View, pos: Int) {
+        Trace.debug("++ onClick() v = ${v.id} pos = $pos")
+
+        when (mAdapter.getItemViewType(pos)) {
+            AppConst.VIEWTYPE.VT_LIVE_CHANNELS -> {
+                Trace.debug(">> viewType = VT_LIVE_CHANNEL_PRODUCT")
+
+//                when (v.id) {
+//                    R.id.comp_tv_more -> {
+//                        val itemBinding: ViewDataBinding? = (mBinding.ascRvMainList.findViewHolderForAdapterPosition(pos) as WatchNowListAdapter.ItemViewHolder<*>).getBinding()
+//                        var nCount = itemBinding?.root?.findViewById<BaseListComponent>(R.id.comp_list)?.mAdapter?.itemCount
+
+//                        Trace.debug(">> mAdapter.itemCount = $nCount")
+//                        Trace.debug(">> productInfos.size = ${mViewModel.mldWatchNow.value!!.productInfos.size}")
 //
-//    class ScheduleAdapter() : RecyclerView.Adapter<ScheduleAdapter.ScheduleViewHolder>() {
-//        //set Item of swipe recyclerView
-//        private val items: MutableList<ScheduleItem> = mutableListOf<ScheduleItem>().apply {
-//            for (i in 0..10)
-//                add(ScheduleItem("MON", i))
-//        }
+//                        if (mViewModel.mldWatchNow.value!!.productInfos.size > nCount!! + 10) {
+//                            itemBinding?.root?.findViewById<BaseListComponent>(R.id.comp_list)?.setItemCountLimit(nCount + 10)
+//                        } else if (mViewModel.mldWatchNow.value!!.productInfos.size > nCount) {
+//                            nCount = mViewModel.mldWatchNow.value!!.productInfos.size
+//                            itemBinding?.root?.findViewById<BaseListComponent>(R.id.comp_list)?.setItemCountLimit(nCount)
+//                        }
 //
-//        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScheduleViewHolder = ScheduleViewHolder(
-//                CompItemScheduleBinding.inflate(
-//                        LayoutInflater.from(parent.context),
-//                        parent,
-//                        false
-//                )
-//        )
-//
-//        override fun onBindViewHolder(holder: ScheduleViewHolder, position: Int) {
-//            holder.bind(items[position])
-//
-//        }
-//
-//        override fun getItemCount(): Int = items.size
-//
-//        inner class ScheduleViewHolder(private val binding: CompItemScheduleBinding) : RecyclerView.ViewHolder(binding.root) {
-//            fun bind(scheduleItem: ScheduleItem) {
-//                binding.dateString = scheduleItem.dataString
-//                binding.dateNum = scheduleItem.dataNum.toString()
-//
-//                binding.ciaIvDelete.setOnClickListener {
-//                    Snackbar.make(it, "delete button of $date click $adapterPosition", Snackbar.LENGTH_SHORT).show()
-//
-//                    items.removeAt(adapterPosition)
-//                    notifyDataSetChanged()
+//                        itemBinding?.root?.findViewById<BaseListComponent>(R.id.comp_list)?.refresh()
+//                        mAdapter.notifyDataSetChanged()
+//                    }
 //                }
-//            }
+            }
+            AppConst.VIEWTYPE.VT_UPCOMING_HORIZONTAL -> Trace.debug(">> viewType = VT_NEXT_UPCOMING_HORIZONTAL")
+            AppConst.VIEWTYPE.VT_TODAY_DEAL -> Trace.debug(">> viewType = VT_TODAY_DEAL")
+            AppConst.VIEWTYPE.VT_POPULAR_SHOWS -> Trace.debug(">> viewType = VT_POPULAR_SHOWS")
+            AppConst.VIEWTYPE.VT_YOU_MAY_LIKE -> Trace.debug(">> viewType = VT_YOU_MAY_LIKE")
+            else -> Trace.debug(">> viewType = else")
+        }
+    }
 
-//        }
-//    }
+    override fun onItemClick(parent: View, parentPos: Int, item: View, pos: Int) {
+        Trace.debug("++ onItemClick() parent = ${parent.id} parentPos = $parentPos item = ${item.id} pos = $pos")
 
+        when (mAdapter.getItemViewType(parentPos)) {
+            AppConst.VIEWTYPE.VT_LIVE_CHANNEL_ICONS -> {
+                if (mAdapter.mShowInfoIndex == pos) return
+
+                mAdapter.mSchedules.forEach { it.selected = false }
+                mAdapter.mSchedules[pos].selected = true
+                mAdapter.mShowInfoIndex = pos
+                mBinding.ascRvMainList.getChildAt(parentPos).findViewById<BaseListComponent>(R.id.comp_list).refresh()
+//                mAdapter.notifyDataSetChanged()
+
+            }
+
+            else -> Trace.debug(">> viewType = else")
+        }
+    }
 
     //Top ActionBar clickListener
     override fun onLeft() {

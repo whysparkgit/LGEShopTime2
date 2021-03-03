@@ -20,17 +20,19 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cis_cl_container"
         android:layout_width="34dp"
         android:layout_height="41dp"
-        android:layout_marginEnd="17dp">
-<!--        android:onClick="@{v-> listener.onClick(v.position)}">-->
+        android:layout_marginEnd="17dp"
+        android:layout_marginTop="18dp"
+        android:onClick="@{v-> listener.onClick(v,position)}">
 
         <TextView
             android:id="@+id/cis_tv_date_string"
             android:layout_width="wrap_content"
             android:layout_height="14dp"
             android:layout_marginTop="3dp"
-            android:textColor="@color/black_141414"
+            android:textColor="@drawable/sel_text_color_date2"
             android:textSize="12sp"
             android:textStyle="bold"
             android:gravity="center"
@@ -38,19 +40,18 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:selected="@{viewdata.selected}"
-            />
+            app:selected="@{viewdata.selected}" />
 
         <TextView
             android:id="@+id/cis_tv_date_num"
             android:layout_width="wrap_content"
             android:layout_height="18dp"
             android:layout_marginTop="3dp"
-            android:textColor="@color/pink_e32e70"
+            android:textColor="@drawable/sel_text_color_date"
+            android:text="@{viewdata.dateNum}"
             android:textSize="16sp"
             android:gravity="center"
             android:textStyle="bold"
-            android:text="@{viewdata.dateInt}"
             app:layout_constraintTop_toBottomOf="@id/cis_tv_date_string"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
