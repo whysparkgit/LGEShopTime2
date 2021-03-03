@@ -2,23 +2,36 @@ package com.lge.lgshoptimem.model.dto
 
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.Ignore
+import androidx.room.PrimaryKey
 import com.lge.core.sys.Trace
 
+@Entity
 open class Video() : ChannelIcon(false, 0, ""), Parcelable {
+    @PrimaryKey(autoGenerate = true)
+    var index: Int = 0
     var showId: String = ""
     var showNm: String = ""
     var showUrl: String = ""
     var patnrId: String = ""
     var patncNm: String = ""
     var patncLogoPath: String = ""
+    @Ignore
     var catCd: String = ""
+    @Ignore
     var catNm: String = ""
     var orderPhnNo: String = ""
+    @Ignore
     var expsOrd: String = ""
+    @Ignore
     var thumbnailUrl: String = ""
     var showSubtitlUrl: String = ""
     var liveFlag: String = "N"
+    @Ignore
     var productInfos: ArrayList<Product> = arrayListOf()
+    @Ignore
     var fromDetail: Int = 0
 
     companion object CREATOR : Parcelable.Creator<Video> {

@@ -14,4 +14,17 @@ class ForYouProtocol : AbstractHttpProtocol<ForYou.Response>()
             CommonHeader.getInstance().getHeaders()
         }
     }
+
+    fun setCategoryList(strIds: List<String>) {
+        var categoryList: String = ""
+
+        if (strIds.isNullOrEmpty()) return
+
+        strIds.forEach {
+            categoryList += "$it,"
+        }
+
+        categoryList = categoryList.substring(0, categoryList.lastIndex - 1)
+        addQuery("catCdList", categoryList)
+    }
 }

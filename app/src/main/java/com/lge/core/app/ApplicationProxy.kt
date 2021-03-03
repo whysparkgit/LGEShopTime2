@@ -7,6 +7,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ComponentActivity
 import androidx.multidex.MultiDexApplication
+import com.lge.core.db.DatabaseManager
 import com.lge.core.fs.StorageManager
 import com.lge.core.net.NetworkManager
 import com.lge.core.sys.Trace
@@ -59,7 +60,7 @@ class ApplicationProxy : MultiDexApplication()
         // TODO initialize
         StorageManager.getInstance().init()
         NetworkManager.getInstance().init()
-//        DatabaseManager.getInstance().init()
+        DatabaseManager.getInstance().init()
 //        DatabaseManager.getInstance().printStatus()
     }
 

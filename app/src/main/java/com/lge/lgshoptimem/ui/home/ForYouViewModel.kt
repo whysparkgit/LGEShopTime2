@@ -2,6 +2,8 @@ package com.lge.lgshoptimem.ui.home
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.lge.core.db.AppDatabase
+import com.lge.core.db.DatabaseManager
 import com.lge.core.net.HttpResponsable
 import com.lge.core.net.NetworkManager
 import com.lge.core.net.ProtocolFactory
@@ -26,6 +28,10 @@ class ForYouViewModel: ViewModel() {
     /** Custom Component Data Query */
     fun requestData() {
         val protocol: ForYouProtocol = ProtocolFactory.create(ForYouProtocol::class.java)
+
+        // TODO
+        DatabaseManager.getInstance().getDatabase().getCategoryDao()
+
 
         protocol.setHttpResponsable(object : HttpResponsable<ForYou.Response> {
             override fun onResponse(response: ForYou.Response) {

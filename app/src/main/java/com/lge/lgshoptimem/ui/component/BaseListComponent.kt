@@ -243,7 +243,7 @@ open class BaseListComponent @JvmOverloads constructor(
         }
 
         override fun getItemCount(): Int {
-            Trace.debug("++ getItemCount() mnItemCountLimit = $mnItemCountLimit itemListSize = ${mItemList!!.size}")
+            Trace.debug("++ getItemCount() mnItemCountLimit = $mnItemCountLimit")   // itemListSize = ${mItemList!!.size}")
 
             val nCount = if (mItemList.isNullOrEmpty()) {
                 0

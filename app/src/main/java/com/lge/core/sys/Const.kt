@@ -12,7 +12,7 @@ class Const
             companion object {
 //                const val DOMAIN = "https://qt2-aic.lgshopsvc.lgappstv.com/"
 //                const val PATH = "lgsp/v1/"
-                const val DOMAIN = "https://qt-aic-m.lgshopsvc.lgappstv.com/"
+                const val DOMAIN = "https://qt2-aic-m.lgshopsvc.lgappstv.com/"
                 const val PATH = "lgsp/m/v1/"
             }
         }
