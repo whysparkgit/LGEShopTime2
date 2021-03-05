@@ -22,7 +22,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cis_cl_container"
         android:layout_width="34dp"
-        android:layout_height="41dp"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="17dp"
         android:layout_marginTop="18dp"
         android:onClick="@{v-> listener.onClick(v,position)}">

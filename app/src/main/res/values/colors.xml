@@ -33,7 +33,9 @@
     <color name="dim_898989">#AA898989</color>
     <color name="pink_e32e70">#e32e70</color>
     <color name="pink_ff00ff">#ff00ff</color>
+    <color name="pink_fceaf0">#fceaf0</color>
     <color name="gray_f8f8f8">#f8f8f8</color>
+    <color name="white_d8d8d8">#d8d8d8</color>
 
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>

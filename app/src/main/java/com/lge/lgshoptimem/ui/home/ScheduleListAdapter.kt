@@ -7,18 +7,23 @@ import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.lge.core.sys.Trace
+import com.lge.core.sys.Util.Companion.GetNowDateFormat
+import com.lge.core.sys.Util.Companion.toDateFormat
 import com.lge.lgshoptimem.BR
 import com.lge.lgshoptimem.R
 import com.lge.lgshoptimem.databinding.*
-import com.lge.lgshoptimem.model.dto.ChannelIcon
 import com.lge.lgshoptimem.model.dto.Schedule
 import com.lge.lgshoptimem.ui.common.AppConst
 import com.lge.lgshoptimem.ui.component.BaseListComponent
 import com.lge.lgshoptimem.ui.component.ComponentItemListener
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.*
+import kotlin.collections.ArrayList
 
 class ScheduleListAdapter(mActivity:Activity):
         RecyclerView.Adapter<ScheduleListAdapter.ItemViewHolder<*>>()
@@ -76,19 +81,20 @@ class ScheduleListAdapter(mActivity:Activity):
                 if (mSchedules.size == 0) {
 //                if(true) {
                     //선택, 요일, 날짜
-                    mSchedules.add(Schedule(false,"-1-","1"))
-                    mSchedules.add(Schedule(false,"-2-","2"))
-                    mSchedules.add(Schedule(false,"-3-","3"))
-                    mSchedules.add(Schedule(false,"-4-","4"))
-                    mSchedules.add(Schedule(false,"-5-","5"))
-                    mSchedules.add(Schedule(false,"-6-","6"))
-                    mSchedules.add(Schedule(false,"-7-","7"))
+                    mSchedules.add(Schedule(false,getConvertedDate(0),getDate(0)))
+                    mSchedules.add(Schedule(false,getConvertedDate(1),getDate(1)))
+                    mSchedules.add(Schedule(false,getConvertedDate(2),getDate(2)))
+                    mSchedules.add(Schedule(false,getConvertedDate(3),getDate(3)))
+                    mSchedules.add(Schedule(false,getConvertedDate(4),getDate(4)))
+                    mSchedules.add(Schedule(false,getConvertedDate(5),getDate(5)))
+                    mSchedules.add(Schedule(false,getConvertedDate(6),getDate(6)))
                 } else {
                     mSchedules.forEach { it.selected = false }
                 }
 
                 mSchedules[mShowInfoIndex].selected = true
                 baseCompList?.setItemList(mSchedules)
+                baseCompList?.setSubject(getDate(10))
 //                baseCompList?.mBinding?.root?.findViewById<RecyclerView>(R.id.comp_rv_list)!!.setItemViewCacheSize(10)
             }
 
@@ -96,6 +102,67 @@ class ScheduleListAdapter(mActivity:Activity):
         }
 
         holder.setItemListener()
+    }
+
+    private fun getDate(indicator: Int): String {
+
+        when {
+            indicator == 10 -> {
+//                Trace.debug(">>>>>>> time " + System.currentTimeMillis().toDateFormat("yyyy"))
+                val year = GetNowDateFormat("yyyy")
+                val cal = Calendar.getInstance()
+                val month = (cal.get(Calendar.MONTH) + 1)
+
+                return "$year ${convertMonth(month)}"
+            }
+            indicator != 10 -> {
+                val cal = Calendar.getInstance()
+
+                cal.time = Date()
+                val df: DateFormat = SimpleDateFormat("dd")
+                cal.add(Calendar.DATE, + indicator)
+
+                return df.format(cal.time)
+            }
+            else -> {
+                return ""
+            }
+        }
+    }
+
+    private fun getConvertedDate(indicator: Int) : String {
+        val cal = Calendar.getInstance()
+        cal.time = Date()
+        cal.add(Calendar.DATE, +indicator)
+
+        return when (cal.get(Calendar.DAY_OF_WEEK)) {
+            1 -> "SUN"
+            2 -> "MON"
+            3 -> "TUE"
+            4 -> "WED"
+            5 -> "THR"
+            6 -> "FRI"
+            7 -> "SAT"
+            else -> "---"
+        }
+    }
+
+    private fun convertMonth(month: Int): String {
+        return when(month) {
+            1 -> "January"
+            2 -> "February"
+            3 -> "March"
+            4 -> "April"
+            5 -> "May"
+            6 -> "June"
+            7 -> "July"
+            8 -> "August"
+            9 -> "September"
+            10 -> "October"
+            11 -> "November"
+            12 -> "December"
+            else -> ""
+        }
     }
 
     override fun getItemCount(): Int {

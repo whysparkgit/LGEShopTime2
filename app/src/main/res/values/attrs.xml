@@ -23,4 +23,8 @@
         <attr name="rowCount" format="integer" />
         <attr name="position" format="integer" />
     </declare-styleable>
+
+    <declare-styleable name="ToggleLayoutComponentAttrs" >
+        <attr name="imgResource" format="integer" />
+    </declare-styleable>
 </resources>

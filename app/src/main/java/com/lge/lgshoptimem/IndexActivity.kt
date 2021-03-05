@@ -30,22 +30,19 @@ import com.lge.core.net.ProtocolFactory
 import com.lge.core.sys.Const
 import com.lge.core.sys.Device
 import com.lge.core.sys.Trace
-import com.lge.lgshoptimem.model.dto.BaseResponse
 import com.lge.lgshoptimem.model.dto.CurationList
 import com.lge.lgshoptimem.model.dto.Login
 import com.lge.lgshoptimem.model.http.ImageLinkProtocol
 import com.lge.lgshoptimem.model.http.LoginProtocol
 import com.lge.lgshoptimem.model.http.MainCurationProtocol
 import com.lge.lgshoptimem.ui.common.SinglePopupDialog
-import com.lge.lgshoptimem.ui.home.ForYouSettingActivity
-import com.lge.lgshoptimem.ui.home.HomeActivity
-import com.lge.lgshoptimem.ui.home.ScheduleActivity
-import com.lge.lgshoptimem.ui.home.TodayDealsDialog
+import com.lge.lgshoptimem.ui.home.*
 import com.lge.lgshoptimem.ui.product.MediaPlayerActivity
-import com.lge.lgshoptimem.ui.product.DetailActivity
 import com.lge.lgshoptimem.ui.product.ExoPlayerActivity
 
 import com.lge.lgshoptimem.ui.more.MoreActivity
+import com.lge.lgshoptimem.ui.search.CategoryActivity
+import com.lge.lgshoptimem.ui.search.SearchMainActivity
 import java.io.BufferedReader
 import java.io.File
 import java.io.IOException
@@ -202,8 +199,10 @@ class IndexActivity : AppCompatActivity()
                     launchActivity(ForYouSettingActivity::class.java)
                 }
                 R.id.btn_65 -> {
+                    launchActivity(SearchMainActivity::class.java)
                 }
                 R.id.btn_66 -> {
+                    launchActivity(CategoryActivity::class.java)
                 }
                 R.id.btn_71 -> launchDatePicker()
                 R.id.btn_72 -> launchNotes()

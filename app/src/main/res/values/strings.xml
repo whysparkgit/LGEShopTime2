@@ -139,8 +139,12 @@
     <string name="schedule">SCHEDULE</string>
     <!-- SchduleActivity END -->
 
-    <!-- SearchKeywordActivity STR -->
-    <string name="title1">WHAT ARE YOU</string>
-    <string name="title2">LOOKING FOR?</string>
+    <!-- Search STR -->
+    <string name="search_title1">WHAT ARE YOU</string>
+    <string name="search_title2">LOOKING FOR?</string>
     <string name="search_keyword">SEARCH KEYWORD</string>
+    <string name="recommend_keyword">Recommend Keywords</string>
+    <string name="shows_non_capital">Shows</string>
+    <string name="filter">FILTER</string>
+    <string name="live_channels">Live Channels</string>
 </resources>
