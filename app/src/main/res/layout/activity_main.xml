@@ -18,51 +18,50 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_01"
+            <com.lge.lgshoptimem.ui.component.HeaderListComponent
+                android:id="@+id/comp_thlist"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:background="@color/pink_e32e70"
+                app:headLayout="@layout/comp_head_text_number_wrap"
+                app:itemLayout="@layout/comp_item_upcoming"
+                app:orientation="horizontal"
+                app:showIndex="true"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
+                app:layout_constraintEnd_toEndOf="parent"/>
 
-                <com.lge.lgshoptimem.ui.component.HeaderListComponent
-                    android:id="@+id/comp_thlist"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:background="@color/pink_e32e70"
-                    app:headLayout="@layout/comp_head_text_number_wrap"
-                    app:itemLayout="@layout/comp_item_upcoming"
-                    app:orientation="horizontal"
-                    app:showIndex="true"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_02"
+            <com.lge.lgshoptimem.ui.component.HeaderListComponent
+                android:id="@+id/comp_hilist"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:background="@color/blue_0c4ca3"
+                app:headLayout="@layout/comp_head_product_images"
+                app:itemLayout="@layout/comp_item_product_detail_image"
+                app:orientation="horizontal"
+                app:showIndex="true"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <com.lge.lgshoptimem.ui.component.ToggleLayoutComponent
+                android:id="@+id/comp_toggle_layout"
+                android:layout_width="300dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="20dp"
+                app:imgResource="@drawable/img_filter_hsn"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cl_01" >
+                app:layout_constraintTop_toBottomOf="@+id/comp_hilist"/>
 
-                <com.lge.lgshoptimem.ui.component.HeaderListComponent
-                    android:id="@+id/comp_hilist"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:background="@color/blue_0c4ca3"
-                    app:headLayout="@layout/comp_head_product_images"
-                    app:itemLayout="@layout/comp_item_product_detail_image"
-                    app:orientation="horizontal"
-                    app:showIndex="true"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            <com.lge.lgshoptimem.ui.component.ToggleLayoutComponent
+                android:id="@+id/comp_toggle_layout2"
+                android:layout_width="300dp"
+                android:layout_height="100dp"
+                app:imgResource="@drawable/img_filter_hsn"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/comp_toggle_layout"/>
 
             <!--        <com.lge.lgshoptimem.ui.component.TitleHeaderListComponent-->
             <!--            android:id="@+id/comp_today_deals"-->
@@ -121,23 +120,23 @@
             <!--            app:layout_constraintStart_toStartOf="parent"-->
             <!--            app:layout_constraintEnd_toEndOf="parent"/>-->
 
-            <Button
-                android:id="@+id/btn_list1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="list1"
-                android:onClick="@{listener::onClick}"
-                app:layout_constraintTop_toBottomOf="@id/cl_02"
-                app:layout_constraintStart_toStartOf="parent" />
+<!--            <Button-->
+<!--                android:id="@+id/btn_list1"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="list1"-->
+<!--                android:onClick="@{listener::onClick}"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/cl_02"-->
+<!--                app:layout_constraintStart_toStartOf="parent" />-->
 
-            <Button
-                android:id="@+id/btn_list2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="list2"
-                android:onClick="@{listener::onClick}"
-                app:layout_constraintTop_toBottomOf="@id/cl_02"
-                app:layout_constraintEnd_toEndOf="parent"/>
+<!--            <Button-->
+<!--                android:id="@+id/btn_list2"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="list2"-->
+<!--                android:onClick="@{listener::onClick}"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/cl_02"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"/>-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -46,6 +46,11 @@ interface AppConst {
         companion object {
             const val LIST = "List"
             const val PLAYER = "Player"
+
+            const val INITIAL = 1
+            const val CATEGORY = 2
+            const val KEYWORD = 3
+            const val MORE = 4
         }
     }
 }

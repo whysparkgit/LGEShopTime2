@@ -94,7 +94,8 @@ open class BaseListComponent @JvmOverloads constructor(
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
         Trace.debug("++ onLayout() l=$l t=$t r=$r b=$b root = ${mBinding.root}")
-        mBinding.root.layout(l, t, r, b)
+        super.onLayout(changed, l, t, r, b)
+//        mBinding.root.layout(l, t, r, b)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -196,6 +197,10 @@ open class BaseListComponent @JvmOverloads constructor(
 //        Trace.debug(">> comp_rv_list = ${findViewById<RecyclerView>(R.id.comp_rv_list)}")
         mAdapter.notifyDataSetChanged()
 //        mBinding.setVariable(BR.adapter, mAdapter)
+    }
+
+    fun refreshItem(position: Int) {
+        mAdapter.notifyItemChanged(position)
     }
 
     override fun onClick(v: View, pos: Int) {

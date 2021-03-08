@@ -16,7 +16,7 @@ class WatchNow
                 val adExpsFlag: String,
                 val productInfos: ArrayList<ProductInfo>,
                 val youmaylike: ArrayList<YouMayLike>,
-                val upcomingItems: ArrayList<UpComing>,
+                val upcomingItems: ArrayList<Show>,
                 val lstChgDt: String,
                 val adInfo: ArrayList<AdInfo>,
                 val showInfos: ArrayList<Show>,
@@ -31,36 +31,27 @@ class WatchNow
         val disclaimer: String,
     ): Video()
 
-    data class UpComing(
-        val patncNm: String,
-        val liveFlag: String,
-        val strtDt: String,
-        val timezone: String,
-        val hstNm: String,
-        val showDesc: String,
-        val endDt: String,
-        val showUrl: String,
-        val alamDispFlag: String,
-        val patncLogoPath: String,
-        val showId: String,
-        val patnrId: Int,
-        val showTimesec: String,
-        val showNm: String,
-        val lgCatNm: String,
-        val chanId: String,
-        val lgCatCd: String,
-        val thumbnailUrl: String
-    )
-
-    data class Show(
-        val chanId: String,
-        val showDesc: String,
-        val strtDt: String,
-        val endDt: String,
-        val showTimesec: String,
-        val timezone: String,
-        val hstNm: String,
-        val dfltThumbnailImgPath: String,
-        val chanExpsTpCd: String
-    ): Video()
+//    data class UpComing(
+//        val patncNm: String,
+//        val liveFlag: String,
+//        val strtDt: String,
+//        val timezone: String,
+//        val hstNm: String,
+//        val showDesc: String,
+//        val endDt: String,
+//        val showUrl: String,
+//        val alamDispFlag: String,
+//        val patncLogoPath: String,
+//        val showId: String,
+//        val patnrId: Int,
+//        val showTimesec: String,
+//        val showNm: String,
+//        val lgCatNm: String,
+//        val chanId: String,
+//        val lgCatCd: String,
+//        val thumbnailUrl: String
+//
+////        regDt
+////        dfltThumbnailImgPath
+//    ): Show()
 }

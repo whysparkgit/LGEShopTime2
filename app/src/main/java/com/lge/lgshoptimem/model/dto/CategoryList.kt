@@ -15,10 +15,11 @@ class CategoryList
     }
 
     data class Tag(
-        val lgTagCatCd: String,
-        val expsOrd: String,
-        val catNm: String,
-        val iconImgPath: String,
-        val lgCatCdList: ArrayList<String>
+            val lgTagCatCd: String,
+            val expsOrd: String,
+            val catNm: String,
+            val iconImgPath: String,
+            val lgCatCdList: ArrayList<String>,
+            var bFavorite: Boolean = false,
     )
 }

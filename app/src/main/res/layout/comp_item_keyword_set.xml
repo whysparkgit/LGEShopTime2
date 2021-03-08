@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View" />
+        <import type="java.util.ArrayList" />
+        <variable
+            name="position"
+            type="int" />
+        <variable
+            name="listener"
+            type="com.lge.lgshoptimem.ui.more.ForYouSettingKeywordFragment" />
+        <variable
+            name="viewdata"
+            type="ArrayList&lt;com.lge.lgshoptimem.model.dto.KeywordList.Keyword>"/>
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+
+        <include
+            android:id="@+id/inc_item_keyword1"
+            layout="@layout/comp_item_keyword"
+            android:visibility="@{(viewdata.size() > 0) ? View.VISIBLE : View.GONE}"
+            app:position="@{position}"
+            app:viewdata="@{(viewdata.size() > 0) ? viewdata.get(0) : null}"
+            app:listener="@{listener}"/>
+
+        <include
+            android:id="@+id/inc_item_keyword2"
+            layout="@layout/comp_item_keyword"
+            android:visibility="@{(viewdata.size() > 1) ? View.VISIBLE : View.GONE}"
+            app:position="@{position + 1}"
+            app:viewdata="@{(viewdata.size() > 1) ? viewdata.get(1) : null}"
+            app:listener="@{listener}"/>
+
+        <include
+            android:id="@+id/inc_item_keyword3"
+            layout="@layout/comp_item_keyword"
+            android:visibility="@{(viewdata.size() > 2) ? View.VISIBLE : View.GONE}"
+            app:position="@{position + 2}"
+            app:viewdata="@{(viewdata.size() > 2) ? viewdata.get(2) : null}"
+            app:listener="@{listener}"/>
+
+    </LinearLayout>
+
+<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="12dp"-->
+<!--        android:layout_marginEnd="12dp">-->
+
+<!--&lt;!&ndash;        android:textOff="@{`#` + viewdata.catNm}"&ndash;&gt;-->
+<!--&lt;!&ndash;        android:textOn="@{`#` + viewdata.catNm}"&ndash;&gt;-->
+<!--        <ToggleButton-->
+<!--            android:id="@+id/tb_keyword"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:background="@drawable/sel_keyword_background"-->
+<!--            android:text="@{`#` + viewdata.catNm}"-->
+<!--            android:textColor="@drawable/sel_keyword_text_color"-->
+<!--            android:onClick="@{v -> listener.onClick(v, position)}"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+</layout>

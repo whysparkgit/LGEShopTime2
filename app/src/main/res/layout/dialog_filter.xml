@@ -126,10 +126,12 @@
                 android:layout_columnWeight="1"/>
 
             <com.lge.lgshoptimem.ui.component.ToggleLayoutComponent
+                android:id="@+id/comp_toggle_layout"
                 android:layout_width="0dp"
                 android:layout_height="54dp"
                 app:imgResource="@drawable/img_filter_hsn"
-                android:layout_columnWeight="1" />
+                android:layout_columnWeight="1"/>
+
         </GridLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -95,12 +95,21 @@ class ScheduleActivity : AppCompatActivity(), ActionBar.onActionBarListener , Co
             AppConst.VIEWTYPE.VT_LIVE_CHANNEL_ICONS -> {
                 if (mAdapter.mShowInfoIndex == pos) return
 
-                mAdapter.mSchedules.forEach { it.selected = false }
-                mAdapter.mSchedules[pos].selected = true
-                mAdapter.mShowInfoIndex = pos
-                mBinding.ascRvMainList.getChildAt(parentPos).findViewById<BaseListComponent>(R.id.comp_list).refresh()
-//                mAdapter.notifyDataSetChanged()
+                for (i in 0 until mAdapter.mSchedules.size) {
+                    if (i == pos) {
+                        mAdapter.mSchedules[i].selected = true
+                        mBinding.ascRvMainList.getChildAt(parentPos).findViewById<BaseListComponent>(R.id.comp_list).refreshItem(i)
+                    } else if (mAdapter.mSchedules[i].selected) {
+                        mAdapter.mSchedules[i].selected = false
+                        mBinding.ascRvMainList.getChildAt(parentPos).findViewById<BaseListComponent>(R.id.comp_list).refreshItem(i)
+                    }
+                }
 
+//                mAdapter.mSchedules.forEach { it.selected = false }
+//                mAdapter.mSchedules[pos].selected = true
+                mAdapter.mShowInfoIndex = pos
+//                mBinding.ascRvMainList.getChildAt(parentPos).findViewById<BaseListComponent>(R.id.comp_list).refreshItem(pos)
+//                mAdapter.notifyDataSetChanged()
             }
 
             else -> Trace.debug(">> viewType = else")

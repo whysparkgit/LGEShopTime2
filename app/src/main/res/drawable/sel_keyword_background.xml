@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_checked="true" android:drawable="@drawable/bg_rect_fill_black_r2_c141414" />
+    <item android:drawable="@drawable/bg_rect_border_gray_r2" />
+</selector>

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SnapHelper
 import com.lge.core.sys.Trace
+import com.lge.lgshoptimem.BR
 import com.lge.lgshoptimem.R
 import kotlin.math.abs
 
@@ -119,6 +120,11 @@ class HeaderListComponent @JvmOverloads constructor(
                 })
             }
 
+//            if (mnItemCountLimit > 0) {
+//                setHasFixedSize(true)
+//                setItemViewCacheSize(mnItemCountLimit)
+//            }
+
             adapter = mAdapter
 
 //            val lp: ConstraintLayout.LayoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
@@ -153,7 +159,8 @@ class HeaderListComponent @JvmOverloads constructor(
         mItemList = items
 
         if ((mItemList as ArrayList<*>).size > 0) {
-            findViewById<TextView>(R.id.comp_tv_current_index).text = "1"
+            findViewById<TextView>(R.id.comp_tv_current_index)?.text = "1"
+            mBinding.setVariable(BR.total_count, mAdapter.itemCount)
         }
 
         mAdapter.notifyDataSetChanged()

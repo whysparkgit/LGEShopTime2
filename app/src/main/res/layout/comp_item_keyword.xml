@@ -1,38 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
-            name="keyword"
-            type="String"/>
-
+            name="position"
+            type="int" />
         <variable
-            name="selected"
-            type="boolean"/>
-
+            name="listener"
+            type="com.lge.lgshoptimem.ui.component.ComponentItemListener" />
+        <variable
+            name="viewdata"
+            type="com.lge.lgshoptimem.model.dto.KeywordList.Keyword"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
-        android:layout_height="36dp"
-        android:layout_marginEnd="12dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+        android:layout_marginEnd="12dp">
 
-        <Button
-            android:id="@+id/keyword_item"
+        <ToggleButton
+            android:id="@+id/tb_keyword"
             android:layout_width="wrap_content"
-            android:layout_height="36dp"
-            android:text="#GIFTTTTTTssssssssssssTT"
-            android:textColor="@color/black_141414"
-            android:background="@drawable/bg_rect_border_greyacacac"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            />
+            android:layout_height="wrap_content"
+            android:background="@drawable/sel_keyword_background"
+            android:textSize="16sp"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:text="@{`#` + viewdata.keywd}"
+            android:textOff="@{`#` + viewdata.keywd}"
+            android:textOn="@{`#` + viewdata.keywd}"
+            android:textColor="@drawable/sel_keyword_text_color"
+            android:checked="@={viewdata.bFavorite}"
+            android:paddingHorizontal="5dp"
+            android:paddingVertical="2dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

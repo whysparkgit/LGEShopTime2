@@ -26,9 +26,9 @@ class ForYouListAdapter(mFragment: Fragment):
     }
 
     val marrViewTypes = arrayOf(
-        AppConst.VIEWTYPE.VT_UPCOMING_HORIZONTAL,
         AppConst.VIEWTYPE.VT_FAVORITE_CATEGORY,
         AppConst.VIEWTYPE.VT_FAVORITE_KEYWORD,
+        AppConst.VIEWTYPE.VT_UPCOMING_HORIZONTAL,
         AppConst.VIEWTYPE.VT_MY_FAVORITES,
         AppConst.VIEWTYPE.VT_RECENTLY_VIEWED,
         AppConst.VIEWTYPE.VT_COUPON
@@ -41,11 +41,6 @@ class ForYouListAdapter(mFragment: Fragment):
         val inflater = LayoutInflater.from(parent.context)
 
         return when (viewType) {
-            AppConst.VIEWTYPE.VT_UPCOMING_HORIZONTAL -> {
-                val binding: ViewUpcomingHorizontalBinding = DataBindingUtil.inflate(inflater, R.layout.view_upcoming_horizontal, parent, false)
-                ItemViewHolder<ViewUpcomingHorizontalBinding>(binding.root)
-            }
-
             AppConst.VIEWTYPE.VT_FAVORITE_CATEGORY -> {
                 val binding: ViewFavoriteCategoryBinding = DataBindingUtil.inflate(inflater, R.layout.view_favorite_category, parent, false)
                 ItemViewHolder<ViewFavoriteCategoryBinding>(binding.root)
@@ -54,6 +49,11 @@ class ForYouListAdapter(mFragment: Fragment):
             AppConst.VIEWTYPE.VT_FAVORITE_KEYWORD -> {
                 val binding: ViewFavoriteKeywordBinding = DataBindingUtil.inflate(inflater, R.layout.view_favorite_keyword, parent, false)
                 ItemViewHolder<ViewFavoriteKeywordBinding>(binding.root)
+            }
+
+            AppConst.VIEWTYPE.VT_UPCOMING_HORIZONTAL -> {
+                val binding: ViewUpcomingHorizontalBinding = DataBindingUtil.inflate(inflater, R.layout.view_upcoming_horizontal, parent, false)
+                ItemViewHolder<ViewUpcomingHorizontalBinding>(binding.root)
             }
 
             AppConst.VIEWTYPE.VT_MY_FAVORITES -> {
@@ -91,17 +91,13 @@ class ForYouListAdapter(mFragment: Fragment):
         val baseCompList = binding?.root?.findViewById<BaseListComponent>(R.id.comp_list)
 
         when (getItemViewType(position)) {
-            AppConst.VIEWTYPE.VT_UPCOMING_HORIZONTAL -> {
-//                baseCompList?.setHeadData(mViewModel.mldForYou.value!!.alerts)
-                baseCompList?.setItemList(mViewModel.mldForYou.value!!.alerts)
-            }
-
             AppConst.VIEWTYPE.VT_FAVORITE_CATEGORY -> {
                 val nIndex: Int = getPositionOf(AppConst.VIEWTYPE.VT_FAVORITE_CATEGORY, position)
+                Trace.debug(">> VT_FAVORITE_CATEGORY nIndex = $nIndex")
                 binding?.setVariable(BR.index, nIndex)
                 binding?.setVariable(BR.total_count, getItemCount(AppConst.VIEWTYPE.VT_FAVORITE_CATEGORY))
-//                baseCompList?.setHeadData(mViewModel.mldForYou.value!!.alerts)
-                baseCompList?.setItemList(mViewModel.mldForYou.value!!.alerts)
+                baseCompList?.setHeadData(mViewModel.mldForYou.value!!.categoryAlertShow[nIndex])
+                baseCompList?.setItemList(mViewModel.mldForYou.value!!.categoryAlertShow[nIndex].categoryItems)
             }
 
             AppConst.VIEWTYPE.VT_FAVORITE_KEYWORD -> {
@@ -112,6 +108,11 @@ class ForYouListAdapter(mFragment: Fragment):
                 baseCompList?.setItemList(mViewModel.mldForYou.value!!.alerts[nIndex].showList)
             }
 
+            AppConst.VIEWTYPE.VT_UPCOMING_HORIZONTAL -> {
+//                baseCompList?.setHeadData(mViewModel.mldForYou.value!!.alerts)
+                baseCompList?.setItemList(mViewModel.mldForYou.value!!.alertShows)
+            }
+
             AppConst.VIEWTYPE.VT_MY_FAVORITES -> {
 //                baseCompList?.setHeadData(mViewModel.mldForYou.value!!.alerts)
                 baseCompList?.setItemList(mViewModel.mldForYou.value!!.favorites)
@@ -119,12 +120,12 @@ class ForYouListAdapter(mFragment: Fragment):
 
             AppConst.VIEWTYPE.VT_RECENTLY_VIEWED -> {
 //                baseCompList?.setHeadData(mViewModel.mldForYou.value!!.alerts)
-                baseCompList?.setItemList(mViewModel.mldForYou.value!!.alerts)
+//                baseCompList?.setItemList(mViewModel.mldForYou.value!!.alerts)
             }
 
             AppConst.VIEWTYPE.VT_COUPON -> {
 //                baseCompList?.setHeadData(mViewModel.mldForYou.value!!.alerts)
-                baseCompList?.setItemList(mViewModel.mldForYou.value!!.alerts)
+//                baseCompList?.setItemList(mViewModel.mldForYou.value!!.alerts)
             }
 
             else -> { }
@@ -151,11 +152,18 @@ class ForYouListAdapter(mFragment: Fragment):
         if (mViewModel.mldForYou.value == null) return 0
 
         return when (viewType) {
-            AppConst.VIEWTYPE.VT_UPCOMING_HORIZONTAL -> 0       // not exist
-            AppConst.VIEWTYPE.VT_FAVORITE_CATEGORY -> 0         // not exist
+            AppConst.VIEWTYPE.VT_FAVORITE_CATEGORY -> {         // not exist
+                val nCount = mViewModel.mldForYou.value!!.categoryAlertShow.size
+                if (nCount >= 5) 5 else nCount
+            }
+
             AppConst.VIEWTYPE.VT_FAVORITE_KEYWORD -> {          // alert
                 val nCount = mViewModel.mldForYou.value!!.alerts.size
                 if (nCount >= 5) 5 else nCount
+            }
+
+            AppConst.VIEWTYPE.VT_UPCOMING_HORIZONTAL -> {       // not exist
+                if (mViewModel.mldForYou.value!!.categoryAlertShow.size > 0) 1 else 0
             }
 
             AppConst.VIEWTYPE.VT_MY_FAVORITES -> {              // favorite

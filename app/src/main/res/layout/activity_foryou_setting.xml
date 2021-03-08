@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="android.view.View" />
+        <import type="com.lge.lgshoptimem.ui.common.AppConst" />
+        <variable
+            name="listener"
+            type="com.lge.lgshoptimem.ui.more.ForYouSettingActivity" />
+
+        <variable
+            name="actionbar"
+            type="com.lge.lgshoptimem.ui.common.ActionBar" />
+        <variable
+            name="launch_from"
+            type="int" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_v1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.05" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_v2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.95" />
+
+        <include
+            android:id="@+id/fys_inc_action"
+            layout="@layout/view_action_bar"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            app:actionbar="@{actionbar}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/fys_tl_tabs"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:visibility="@{launch_from == AppConst.VALUE.MORE ? View.VISIBLE : View.GONE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fys_inc_action"
+            app:tabBackground="@color/white"
+            app:tabGravity="fill"
+            app:tabIndicatorColor="@color/black"
+            app:tabIndicatorFullWidth="true"
+            app:tabIndicatorHeight="3dp"
+            app:tabMaxWidth="0dp"
+            app:tabSelectedTextColor="@color/black"
+            app:tabTextAppearance="@style/tabText"
+            app:tabTextColor="@color/gray_999999" />
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/fys_vp_pager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/fys_tl_tabs"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/inc_bottom"/>
+
+        <include
+            android:id="@+id/inc_bottom"
+            layout="@layout/view_bottom_bar"
+            android:visibility="@{launch_from == AppConst.VALUE.MORE ? View.VISIBLE : View.GONE}"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

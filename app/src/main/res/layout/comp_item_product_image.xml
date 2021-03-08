@@ -46,7 +46,7 @@
             android:id="@+id/comp_tb_favorate"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:background="@drawable/sel_favorate"
+            android:background="@drawable/sel_favorite_small"
             android:onClick="@{v -> listener.onClick(v, position)}"
             android:textOff=""
             android:textOn=""

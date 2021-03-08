@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.lge.core.sys.Trace
 import com.lge.core.sys.Util.Companion.GetNowDateFormat
@@ -14,6 +16,7 @@ import com.lge.core.sys.Util.Companion.toDateFormat
 import com.lge.lgshoptimem.BR
 import com.lge.lgshoptimem.R
 import com.lge.lgshoptimem.databinding.*
+import com.lge.lgshoptimem.model.dto.ChannelIcon
 import com.lge.lgshoptimem.model.dto.Schedule
 import com.lge.lgshoptimem.ui.common.AppConst
 import com.lge.lgshoptimem.ui.component.BaseListComponent

@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="android.view.View" />
+        <import type="com.lge.lgshoptimem.ui.common.AppConst" />
+        <variable
+            name="listener"
+            type="com.lge.lgshoptimem.ui.more.ForYouSettingKeywordFragment" />
+        <variable
+            name="launch_from"
+            type="int" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/fys_ll_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="@{launch_from == AppConst.VALUE.MORE ? View.GONE : View.VISIBLE}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" >
+
+            <TextView
+                android:id="@+id/fys_tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal|center_vertical"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:text="2. FAVORITE KEYWORD 2/2"
+                android:layout_marginVertical="10dp"
+                android:layout_marginHorizontal="10dp" />
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/fys_rv_main_list"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fys_ll_title"
+            app:layout_constraintBottom_toTopOf="@+id/fys_cl_bottombar"/>
+
+<!--        <ScrollView-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="0dp"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/fys_ll_title"-->
+<!--            app:layout_constraintBottom_toTopOf="@+id/fys_cl_bottombar" >-->
+
+<!--            <GridLayout-->
+<!--                android:id="@+id/fys_gl_table"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:paddingBottom="16dp"/>-->
+
+<!--        </ScrollView>-->
+
+<!--        <com.lge.lgshoptimem.ui.component.HeaderGridComponent-->
+<!--            android:id="@+id/comp_list"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:headLayout="@layout/comp_head_grid_items"-->
+<!--            app:itemLayout="@layout/comp_item_keyword"-->
+<!--            app:orientation="vertical"-->
+<!--            app:subject="@{fromlist ? `2. FAVORITE KEYWORD 2/2` : ``}"-->
+<!--            app:rowCount="3"-->
+<!--            app:position="0"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"/>-->
+
+<!--        <com.lge.lgshoptimem.ui.component.HeaderListComponent-->
+<!--            android:id="@+id/comp_list"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginHorizontal="5dp"-->
+<!--            app:headLayout="@layout/comp_head_text_number_wrap"-->
+<!--            app:itemLayout="@layout/comp_item_keyword_set"-->
+<!--            app:orientation="vertical"-->
+<!--            app:subject="@{fromlist ? `2. FAVORITE KEYWORD 2/2` : ``}"-->
+<!--            app:showIndex="false"-->
+<!--            app:position="0"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"/>-->
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/fys_cl_bottombar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" >
+
+            <Button
+                android:id="@+id/fys_btn_save"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:text="@string/next"
+                android:onClick="@{listener::onClick}"
+                android:background="@drawable/sel_btn_edit"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/fys_btn_cancel"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
+
+            <View
+                android:id="@+id/fys_v_line_top"
+                android:layout_width="1dp"
+                android:layout_height="15dp"
+                android:background="@color/black_141414"
+                app:layout_constraintBottom_toTopOf="@id/fys_v_line_mid"
+                app:layout_constraintLeft_toRightOf="@id/fys_btn_save"
+                app:layout_constraintRight_toLeftOf="@id/fys_btn_cancel"
+                />
+
+            <View
+                android:id="@+id/fys_v_line_mid"
+                android:layout_width="1dp"
+                android:layout_height="26dp"
+                android:background="@color/gray_989898"
+                app:layout_constraintBottom_toTopOf="@id/fys_v_line_btm"
+                app:layout_constraintLeft_toRightOf="@id/fys_btn_save"
+                app:layout_constraintRight_toLeftOf="@id/fys_btn_cancel"
+                />
+
+            <View
+                android:id="@+id/fys_v_line_btm"
+                android:layout_width="1dp"
+                android:layout_height="15dp"
+                android:background="@color/black_141414"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/fys_btn_save"
+                app:layout_constraintRight_toLeftOf="@id/fys_btn_cancel"
+                />
+
+            <Button
+                android:id="@+id/fys_btn_cancel"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:text="@string/complete"
+                android:onClick="@{listener::onClick}"
+                android:background="@drawable/sel_btn_edit"
+                app:layout_constraintStart_toEndOf="@id/fys_btn_save"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/fys_cl_bottombar2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:visibility="@{launch_from == AppConst.VALUE.MORE ? View.GONE : View.VISIBLE}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" >
+
+            <Button
+                android:id="@+id/fys_btn_done"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:text="@string/done"
+                android:onClick="@{listener::onClick}"
+                android:background="@drawable/sel_btn_edit"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

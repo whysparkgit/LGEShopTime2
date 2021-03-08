@@ -143,6 +143,13 @@ class WatchNowFragment : Fragment(), ComponentItemListener {
             else -> Trace.debug(">> viewType = else")
         }
 
+        when (item.id) {
+            R.id.comp_tb_favorate -> {
+                Trace.debug(">> click favorate")
+                return
+            }
+        }
+
         if (strPartnerId.isNullOrEmpty() or strProductId.isNullOrEmpty()) return
 
         val intent = Intent(context, DetailActivity::class.java)

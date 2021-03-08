@@ -11,9 +11,9 @@
         <variable
             name="adapter"
             type="com.lge.lgshoptimem.ui.component.BaseListComponent.ComponentAdapter" />
-<!--        <variable-->
-<!--            name="viewdata"-->
-<!--            type="com.lge.lgshoptimem.model.dto.Curation" />-->
+        <variable
+            name="total_count"
+            type="int" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -73,7 +73,7 @@
                     android:id="@+id/comp_tv_total_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{String.valueOf(adapter.itemCount) + ` `}"
+                    android:text="@{String.valueOf(total_count) + ` `}"
                     android:textColor="@color/gray_505050"
                     android:textSize="14sp"
                     tools:text="4" />

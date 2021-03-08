@@ -29,7 +29,7 @@ class ForYouViewModel: ViewModel() {
     fun requestData() {
         val protocol: ForYouProtocol = ProtocolFactory.create(ForYouProtocol::class.java)
 
-        // TODO
+        // TODO select category from db
         DatabaseManager.getInstance().getDatabase().getCategoryDao()
 
 

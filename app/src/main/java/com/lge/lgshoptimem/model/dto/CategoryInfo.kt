@@ -1,15 +1,16 @@
 package com.lge.lgshoptimem.model.dto
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.Ignore
-import androidx.room.PrimaryKey
+import androidx.room.*
 
+//@Entity(indices = arrayOf(Index(value = ["lgCatCd"], unique = true)))
+//@Entity(primaryKeys = arrayOf("catId", "lgCatCd"))
 @Entity
 data class CategoryInfo(
-    @PrimaryKey(autoGenerate = true)
-    var catId: Int = 0,
+//    @PrimaryKey(autoGenerate = true)
+//    var catId: Int = 0,
+    @PrimaryKey
     var lgCatCd: String = "",
+    var bFavorite: Boolean = false,
     @Ignore
     var catNm: String = "",
     @Ignore

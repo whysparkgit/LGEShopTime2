@@ -133,6 +133,9 @@
     <string name="holiday">HOLIDAY</string>
     <string name="complete">COMPLETE</string>
     <string name="next">NEXT</string>
+    <string name="save">SAVE</string>
+    <string name="cancel2">CANCEL</string>
+    <string name="done">DONE</string>
     <!-- ForYouSettingActivity END -->
 
     <!-- ScheduleActivity STR -->

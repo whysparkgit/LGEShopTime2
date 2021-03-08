@@ -19,6 +19,7 @@ object HttpConst {
     const val HTTP_HEADER_COOKIE = "Cookie"
     const val HTTP_HEADER_CHARSET_UTF8 = "charset=UTF-8"
 
+    const val HTTP_MIME_TYPE_TEXT = "text/plain"
     const val HTTP_MIME_TYPE_HTML = "text/html"
     const val HTTP_MIME_TYPE_JSON = "application/json";
     const val HTTP_MIME_TYPE_JPEG = "image/jpeg"

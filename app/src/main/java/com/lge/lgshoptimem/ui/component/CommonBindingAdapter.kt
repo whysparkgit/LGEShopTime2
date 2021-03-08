@@ -4,10 +4,12 @@ import android.content.res.TypedArray
 import android.graphics.Bitmap
 import android.graphics.Paint
 import android.view.View
+import android.widget.CompoundButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
+import androidx.databinding.InverseBindingAdapter
 import androidx.databinding.ViewDataBinding
 import com.lge.core.net.HttpResponsable
 import com.lge.core.net.NetworkManager
@@ -80,5 +82,19 @@ object CommonBindingAdapter
         })
 
         NetworkManager.getInstance().asyncRequest(protocol)
+    }
+
+    @JvmStatic
+    @BindingAdapter("android:checked", "app:refId") //, requireAll = false)
+    fun setFavorite(view: CompoundButton, bFavorite: Boolean, productId: String) {
+        view.isChecked = bFavorite
+        Trace.debug("++ BindingAdapter.setFavorite() bFavorite = $bFavorite productId = $productId")
+    }
+
+    @JvmStatic
+    @InverseBindingAdapter(attribute = "android:checked")
+    fun getFavorite(view: CompoundButton): Boolean {
+        Trace.debug("++ BindingAdapter.getFavorite() view.id = ${view.id} isChecked = ${view.isChecked}")
+        return view.isChecked
     }
 }

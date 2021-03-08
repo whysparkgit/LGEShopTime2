@@ -18,6 +18,7 @@ import com.lge.lgshoptimem.ui.common.AppConst
 import com.lge.lgshoptimem.ui.component.ComponentItemListener
 import com.lge.lgshoptimem.ui.component.HeaderGridComponent
 import com.lge.lgshoptimem.ui.component.HeaderListComponent
+import com.lge.lgshoptimem.ui.more.ForYouSettingActivity
 import com.lge.lgshoptimem.ui.product.DetailActivity
 
 class ForYouFragment : Fragment(), ComponentItemListener {
@@ -62,9 +63,33 @@ class ForYouFragment : Fragment(), ComponentItemListener {
         Trace.debug("++ onClick() v = ${v.id} pos = $pos")
 
         when (mAdapter.getItemViewType(pos)) {
+            AppConst.VIEWTYPE.VT_FAVORITE_CATEGORY -> {
+                Trace.debug(">> viewType = VT_CATEGORY_REMINDER")
+
+                when (v.id) {
+                    R.id.comp_tv_edit -> {
+                        val intent = Intent(context, ForYouSettingActivity::class.java)
+                        intent.putExtra(AppConst.KEY.LAUNCH_FROM, AppConst.VALUE.CATEGORY)
+                        startActivity(intent)
+                        return
+                    }
+                }
+            }
+
+            AppConst.VIEWTYPE.VT_FAVORITE_KEYWORD -> {
+                Trace.debug(">> viewType = VT_KEYWORD_REMINDER")
+
+                when (v.id) {
+                    R.id.comp_tv_edit -> {
+                        val intent = Intent(context, ForYouSettingActivity::class.java)
+                        intent.putExtra(AppConst.KEY.LAUNCH_FROM, AppConst.VALUE.KEYWORD)
+                        startActivity(intent)
+                        return
+                    }
+                }
+            }
+
             AppConst.VIEWTYPE.VT_UPCOMING_HORIZONTAL -> Trace.debug(">> viewType = VT_NEXT_UPCOMING_HORIZONTAL")
-            AppConst.VIEWTYPE.VT_FAVORITE_CATEGORY -> Trace.debug(">> viewType = VT_CATEGORY_REMINDER")
-            AppConst.VIEWTYPE.VT_FAVORITE_KEYWORD -> Trace.debug(">> viewType = VT_KEYWORD_REMINDER")
             AppConst.VIEWTYPE.VT_MY_FAVORITES -> Trace.debug(">> viewType = VT_MY_FAVORITES")
             AppConst.VIEWTYPE.VT_RECENTLY_VIEWED -> Trace.debug(">> viewType = VT_RECENTLY_VIEWED")
             AppConst.VIEWTYPE.VT_COUPON -> Trace.debug(">> viewType = VT_COUPON")

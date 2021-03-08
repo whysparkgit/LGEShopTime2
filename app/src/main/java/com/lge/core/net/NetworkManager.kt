@@ -86,7 +86,7 @@ class NetworkManager private constructor()
                 val multipart: Map<String, Any> = protocol.getRequestBody() as Map<String, Any>
                 val json: String = multipart.get(HttpConst.HTTP_MULTIPART_JSON) as String
                 val jsonPart: RequestBody = json.toRequestBody(HttpConst.HTTP_MIME_TYPE_JSON.toMediaType())
-                val file: File? = multipart.get(HttpConst.HTTP_MULTIPART_FILE) as File
+                val file: File = multipart.get(HttpConst.HTTP_MULTIPART_FILE) as File
 
                 if (file != null) {
                     val fileBody = file.asRequestBody(HttpConst.HTTP_MIME_TYPE_JPEG.toMediaType())

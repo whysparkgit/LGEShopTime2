@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity()
         super.onCreate(savedInstanceState)
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         mBinding.listener = this
-        init()
+//        init()
     }
 
     fun init() {
@@ -38,17 +38,17 @@ class MainActivity : AppCompatActivity()
 
     }
 
-    fun onClick(v: View) {
-        when (v.id) {
-            R.id.btn_list1 -> {
-                mBinding.compThlist.refresh()
-            }
-
-            R.id.btn_list2 -> {
-                mBinding.compHilist.refresh()
-            }
-        }
-    }
+//    fun onClick(v: View) {
+//        when (v.id) {
+//            R.id.btn_list1 -> {
+//                mBinding.compThlist.refresh()
+//            }
+//
+//            R.id.btn_list2 -> {
+//                mBinding.compHilist.refresh()
+//            }
+//        }
+//    }
 
     /** Custom Component Data Query */
     fun HeaderListComponent.requestData() {

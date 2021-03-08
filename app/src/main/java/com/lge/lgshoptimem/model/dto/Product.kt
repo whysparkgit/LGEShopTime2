@@ -2,6 +2,7 @@ package com.lge.lgshoptimem.model.dto
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.lge.core.sys.Trace
 
 open class Product() : Parcelable {
     var prdtId: String = ""
@@ -12,6 +13,15 @@ open class Product() : Parcelable {
     var revwGrd: String = ""
     var patnrId: String = ""
     var patncLogoPath: String = ""
+    var bFavorite: Boolean
+        set(value) {
+            Trace.debug("++ Product.bFavorite.setter() prdtId = $prdtId value = $value")
+        }
+
+        get() {
+            Trace.debug("++ Product.bFavorite.getter() prdtId = $prdtId return false")
+            return false
+        }
 
     companion object CREATOR : Parcelable.Creator<Product> {
         override fun createFromParcel(parcel: Parcel): Product {
