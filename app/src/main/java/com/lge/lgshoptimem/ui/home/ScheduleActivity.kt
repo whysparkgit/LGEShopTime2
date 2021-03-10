@@ -3,14 +3,19 @@ package com.lge.lgshoptimem.ui.home
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
+import android.widget.ToggleButton
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.SimpleItemAnimator
 import com.lge.core.sys.Trace
+import com.lge.core.sys.Util
+import com.lge.core.sys.Util.Companion.toDateFormat
 import com.lge.lgshoptimem.R
 import com.lge.lgshoptimem.databinding.ActivityScheduleBinding
 import com.lge.lgshoptimem.model.dto.Schedule
+import com.lge.lgshoptimem.model.dto.ScheduleDate
+import com.lge.lgshoptimem.model.dto.UpcomingAlarm
 import com.lge.lgshoptimem.ui.common.ActionBar
 import com.lge.lgshoptimem.ui.common.AppConst
 import com.lge.lgshoptimem.ui.component.BaseListComponent
@@ -21,69 +26,52 @@ class ScheduleActivity : AppCompatActivity(), ActionBar.onActionBarListener , Co
 
     private lateinit var mBinding: ActivityScheduleBinding
     private lateinit var mAdapter: ScheduleListAdapter
+    private val mViewModel: ScheduleViewModel by viewModels()
 
-    val mSchedules: ArrayList<Schedule> = ArrayList()
+    val mScheduleDates: ArrayList<ScheduleDate> = ArrayList()
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_schedule)
-        mBinding.activity = this
-
-        //actionBar setting
-        val actionBar = ActionBar(this)
-        actionBar.title = getString(R.string.schedule)
-        actionBar.setButton(ActionBar.ACTION_BACK, ActionBar.ACTION_NONE)
-        mBinding.actionbar = actionBar
         mBinding.listener = this
 
         mAdapter = ScheduleListAdapter(this)
 
-//        mBinding.ascRvMainList.itemAnimator = null
         mBinding.ascRvMainList.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             adapter = mAdapter
         }
 
-        //viewmodel
+        mViewModel.mldSchedule.observe(this, this::onDataListChanged)
+        mViewModel.requestData("1", Util.GetNowDateFormat("yyyy-MM-dd HH:mm:ss"))
+
+        initActionBar()
     }
 
-//    private fun onDataListChanged(itemList: WatchNow.Response.Data) {
-//        Trace.debug("++ onDataListChanged()")
-//        mAdapter.notifyDataSetChanged()
-//    }
+    private fun initActionBar() {
+        val actionBar = ActionBar(this)
+        actionBar.title = getString(R.string.schedule)
+        actionBar.setButton(ActionBar.ACTION_BACK, ActionBar.ACTION_NONE)
+        mBinding.actionbar = actionBar
+    }
+
+    private fun onDataListChanged(itemList: Schedule.Response.Data) {
+        Trace.debug("++ onDataListChanged()")
+        mAdapter.notifyDataSetChanged()
+    }
 
     override fun onClick(v: View, pos: Int) {
         Trace.debug("++ onClick() v = ${v.id} pos = $pos")
 
         when (mAdapter.getItemViewType(pos)) {
-            AppConst.VIEWTYPE.VT_LIVE_CHANNELS -> {
+            AppConst.VIEWTYPE.VT_SCHEDULE_DATE -> {
                 Trace.debug(">> viewType = VT_LIVE_CHANNEL_PRODUCT")
-
-//                when (v.id) {
-//                    R.id.comp_tv_more -> {
-//                        val itemBinding: ViewDataBinding? = (mBinding.ascRvMainList.findViewHolderForAdapterPosition(pos) as WatchNowListAdapter.ItemViewHolder<*>).getBinding()
-//                        var nCount = itemBinding?.root?.findViewById<BaseListComponent>(R.id.comp_list)?.mAdapter?.itemCount
-
-//                        Trace.debug(">> mAdapter.itemCount = $nCount")
-//                        Trace.debug(">> productInfos.size = ${mViewModel.mldWatchNow.value!!.productInfos.size}")
-//
-//                        if (mViewModel.mldWatchNow.value!!.productInfos.size > nCount!! + 10) {
-//                            itemBinding?.root?.findViewById<BaseListComponent>(R.id.comp_list)?.setItemCountLimit(nCount + 10)
-//                        } else if (mViewModel.mldWatchNow.value!!.productInfos.size > nCount) {
-//                            nCount = mViewModel.mldWatchNow.value!!.productInfos.size
-//                            itemBinding?.root?.findViewById<BaseListComponent>(R.id.comp_list)?.setItemCountLimit(nCount)
-//                        }
-//
-//                        itemBinding?.root?.findViewById<BaseListComponent>(R.id.comp_list)?.refresh()
-//                        mAdapter.notifyDataSetChanged()
-//                    }
-//                }
             }
-            AppConst.VIEWTYPE.VT_UPCOMING_HORIZONTAL -> Trace.debug(">> viewType = VT_NEXT_UPCOMING_HORIZONTAL")
-            AppConst.VIEWTYPE.VT_TODAY_DEAL -> Trace.debug(">> viewType = VT_TODAY_DEAL")
-            AppConst.VIEWTYPE.VT_POPULAR_SHOWS -> Trace.debug(">> viewType = VT_POPULAR_SHOWS")
-            AppConst.VIEWTYPE.VT_YOU_MAY_LIKE -> Trace.debug(">> viewType = VT_YOU_MAY_LIKE")
+
+            AppConst.VIEWTYPE.VT_LIVE_CHANNEL_ICONS -> {}
+
+            AppConst.VIEWTYPE.VT_UPCOMING_VERTICAL -> Trace.debug(">> viewType = VT_NEXT_UPCOMING_HORIZONTAL")
             else -> Trace.debug(">> viewType = else")
         }
     }
@@ -92,24 +80,66 @@ class ScheduleActivity : AppCompatActivity(), ActionBar.onActionBarListener , Co
         Trace.debug("++ onItemClick() parent = ${parent.id} parentPos = $parentPos item = ${item.id} pos = $pos")
 
         when (mAdapter.getItemViewType(parentPos)) {
-            AppConst.VIEWTYPE.VT_LIVE_CHANNEL_ICONS -> {
-                if (mAdapter.mShowInfoIndex == pos) return
+            AppConst.VIEWTYPE.VT_SCHEDULE_DATE -> {
+                if (mAdapter.mScheduleShowIndex == pos) return
 
-                for (i in 0 until mAdapter.mSchedules.size) {
+//                mAdapter.mScheduleDates.forEach { it.selected = false }
+//                mAdapter.mScheduleDates[pos].selected = true
+//                mAdapter.mShowInfoIndex = pos
+//                mBinding.ascRvMainList.getChildAt(parentPos).findViewById<BaseListComponent>(R.id.comp_list).refresh()
+
+                for (i in 0 until mAdapter.mScheduleDates.size) {
                     if (i == pos) {
-                        mAdapter.mSchedules[i].selected = true
+                        mAdapter.mScheduleDates[i].selected = true
                         mBinding.ascRvMainList.getChildAt(parentPos).findViewById<BaseListComponent>(R.id.comp_list).refreshItem(i)
-                    } else if (mAdapter.mSchedules[i].selected) {
-                        mAdapter.mSchedules[i].selected = false
+                    } else if (mAdapter.mScheduleDates[i].selected) {
+                        mAdapter.mScheduleDates[i].selected = false
                         mBinding.ascRvMainList.getChildAt(parentPos).findViewById<BaseListComponent>(R.id.comp_list).refreshItem(i)
                     }
                 }
 
-//                mAdapter.mSchedules.forEach { it.selected = false }
-//                mAdapter.mSchedules[pos].selected = true
-                mAdapter.mShowInfoIndex = pos
-//                mBinding.ascRvMainList.getChildAt(parentPos).findViewById<BaseListComponent>(R.id.comp_list).refreshItem(pos)
-//                mAdapter.notifyDataSetChanged()
+                mAdapter.mScheduleShowIndex = pos
+            }
+
+            AppConst.VIEWTYPE.VT_LIVE_CHANNEL_ICONS -> {
+//                mAdapter.mChannelIcons.forEach { it.selected = false }
+//                mAdapter.mChannelIcons[pos].selected = true
+//                mAdapter.mChannelShowIndex = pos
+//                mBinding.ascRvMainList.getChildAt(parentPos).findViewById<BaseListComponent>(R.id.comp_list).refresh()
+
+                for (i in 0 until mAdapter.mChannelIcons.size) {
+                    if (i == pos) {
+                        mAdapter.mChannelIcons[i].selected = true
+                        mBinding.ascRvMainList.getChildAt(parentPos).findViewById<BaseListComponent>(R.id.comp_list).refreshItem(i)
+                    } else if (mAdapter.mChannelIcons[i].selected) {
+                        mAdapter.mChannelIcons[i].selected = false
+                        mBinding.ascRvMainList.getChildAt(parentPos).findViewById<BaseListComponent>(R.id.comp_list).refreshItem(i)
+                    }
+                }
+
+                mAdapter.mChannelShowIndex = pos
+
+                val partnerId = mViewModel.mldSchedule.value!!.partnerInfos[pos].patnrId
+                val lDate = Util.getSpecificTime(0, 0, mAdapter.mScheduleShowIndex, 0, 0, 0)
+                Trace.debug(">> startDate = ${lDate.toDateFormat("yyyy-MM-dd HH:mm:ss")}")
+                mViewModel.requestData(partnerId, lDate.toDateFormat("yyyy-MM-dd HH:mm:ss"))
+            }
+
+            AppConst.VIEWTYPE.VT_UPCOMING_VERTICAL -> {
+                when (item.id) {
+                    R.id.comp_tb_reminder -> {
+//                        Trace.debug(">> isChecked =${(item as ToggleButton).isChecked}")
+//                        val request = UpcomingAlarm.Request(
+//                                mViewModel.mldSchedule.value!!.upcomingItems[pos].patnrId,
+//                                mViewModel.mldSchedule.value!!.upcomingItems[pos].showId,
+//                                mViewModel.mldSchedule.value!!.upcomingItems[pos].strtDt,
+//                                mViewModel.mldSchedule.value!!.upcomingItems[pos].endDt,
+//                                if ((item as ToggleButton).isChecked) "Y" else "N"
+//                        )
+//
+//                        mViewModel.requestUpcomingAlarm(request)
+                    }
+                }
             }
 
             else -> Trace.debug(">> viewType = else")

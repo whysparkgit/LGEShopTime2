@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.CompoundButton
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.ToggleButton
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.InverseBindingAdapter
@@ -16,7 +17,11 @@ import com.lge.core.net.NetworkManager
 import com.lge.core.net.ProtocolFactory
 import com.lge.core.sys.Trace
 import com.lge.lgshoptimem.BR
+import com.lge.lgshoptimem.model.dto.Product
+import com.lge.lgshoptimem.model.dto.Show
 import com.lge.lgshoptimem.model.http.ImageLinkProtocol
+import com.lge.lgshoptimem.ui.common.FavoriteProductManager
+import com.lge.lgshoptimem.ui.common.UpcomingAlarmManager
 import java.util.*
 
 object CommonBindingAdapter
@@ -85,16 +90,54 @@ object CommonBindingAdapter
     }
 
     @JvmStatic
-    @BindingAdapter("android:checked", "app:refId") //, requireAll = false)
-    fun setFavorite(view: CompoundButton, bFavorite: Boolean, productId: String) {
+    @BindingAdapter("android:checked", "app:viewdata") //, requireAll = false)
+    fun setFavorite(view: CompoundButton, bFavorite: Boolean, product: Product) {
         view.isChecked = bFavorite
-        Trace.debug("++ BindingAdapter.setFavorite() bFavorite = $bFavorite productId = $productId")
+        view.setTag(view.id, product)
+//        Trace.debug("++ BindingAdapter.setFavorite() bFavorite = $bFavorite productId = ${product.prdtId}")
     }
 
     @JvmStatic
     @InverseBindingAdapter(attribute = "android:checked")
     fun getFavorite(view: CompoundButton): Boolean {
-        Trace.debug("++ BindingAdapter.getFavorite() view.id = ${view.id} isChecked = ${view.isChecked}")
+        if (view.getTag(view.id) == null) return view.isChecked
+
+        val product: Product = view.getTag(view.id) as Product
+        Trace.debug("++ BindingAdapter.getFavorite() view.id = ${view.id} isChecked = ${view.isChecked} productId = ${product.prdtId}")
+
+        // TODO set favorite to FM
+        if (view.isChecked) {
+            FavoriteProductManager.getInstance().addFavorite(product)
+        } else {
+            FavoriteProductManager.getInstance().deleteFavorite(product)
+        }
+
+        return view.isChecked
+    }
+
+    @JvmStatic
+    @BindingAdapter("android:checked", "app:viewdata") //, requireAll = false)
+    fun setAlarm(view: CompoundButton, bAlarm: Boolean, show: Show) {
+        view.isChecked = bAlarm
+        view.setTag(view.id, show)
+//        Trace.debug("++ BindingAdapter.setAlarm() bAlarm = $bAlarm showId = ${show.showId}")
+    }
+
+    @JvmStatic
+    @InverseBindingAdapter(attribute = "android:checked")
+    fun getAlarm(view: CompoundButton): Boolean {
+        if (view.getTag(view.id) == null) return view.isChecked
+
+        val show: Show = view.getTag(view.id) as Show
+        Trace.debug("++ BindingAdapter.getAlarm() view.id = ${view.id} isChecked = ${view.isChecked} showId = ${show.showId}")
+
+        // TODO set favorite to FM
+        if (view.isChecked) {
+            UpcomingAlarmManager.getInstance().addAlarm(show)
+        } else {
+            UpcomingAlarmManager.getInstance().deleteAlarm(show)
+        }
+
         return view.isChecked
     }
 }

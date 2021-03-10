@@ -7,10 +7,7 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.view.children
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.LinearSnapHelper
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.SnapHelper
+import androidx.recyclerview.widget.*
 import com.lge.core.sys.Trace
 import com.lge.lgshoptimem.BR
 import com.lge.lgshoptimem.R
@@ -81,6 +78,8 @@ class HeaderListComponent @JvmOverloads constructor(
             } else {
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                 mSnapHelper.attachToRecyclerView(this)
+
+                (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 
                 addOnItemTouchListener(object: RecyclerView.OnItemTouchListener {
                     override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {

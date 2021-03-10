@@ -2,26 +2,24 @@ package com.lge.lgshoptimem.model.dto
 
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.databinding.Bindable
 import com.lge.core.sys.Trace
+import com.lge.lgshoptimem.ui.common.FavoriteProductManager
 
 open class Product() : Parcelable {
     var prdtId: String = ""
     var prdtNm: String = ""
+        get() { // fixme
+            return prdtId
+        }
     var priceInfo: String = ""
     var prdtFavorCnt: String = ""
     var imgUrl: String = ""
     var revwGrd: String = ""
     var patnrId: String = ""
     var patncLogoPath: String = ""
-    var bFavorite: Boolean
-        set(value) {
-            Trace.debug("++ Product.bFavorite.setter() prdtId = $prdtId value = $value")
-        }
-
-        get() {
-            Trace.debug("++ Product.bFavorite.getter() prdtId = $prdtId return false")
-            return false
-        }
+    var bOrigin: Boolean = false
+    var bFavorite: Boolean = false
 
     companion object CREATOR : Parcelable.Creator<Product> {
         override fun createFromParcel(parcel: Parcel): Product {
@@ -43,6 +41,8 @@ open class Product() : Parcelable {
             revwGrd = readString().toString()
             patnrId = readString().toString()
             patncLogoPath = readString().toString()
+            bFavorite = (readInt() != 0)
+            bOrigin = (readInt() != 0)
         }
     }
 
@@ -56,6 +56,8 @@ open class Product() : Parcelable {
             writeString(revwGrd)
             writeString(patnrId)
             writeString(patncLogoPath)
+            writeInt(if (bFavorite) 1 else 0)
+            writeInt(if (bOrigin) 1 else 0)
         }
     }
 
@@ -107,5 +109,11 @@ open class Product() : Parcelable {
         if (revwGrd == "null") return 0f
 
         return revwGrd.toFloat()
+    }
+
+    fun getFavorite() = FavoriteProductManager.getInstance().isFavoriteChecked(prdtId)
+
+    fun setFavorite(checked: Boolean) {
+        bFavorite = checked
     }
 }

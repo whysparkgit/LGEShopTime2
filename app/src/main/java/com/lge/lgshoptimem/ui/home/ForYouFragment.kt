@@ -89,7 +89,17 @@ class ForYouFragment : Fragment(), ComponentItemListener {
                 }
             }
 
-            AppConst.VIEWTYPE.VT_UPCOMING_HORIZONTAL -> Trace.debug(">> viewType = VT_NEXT_UPCOMING_HORIZONTAL")
+            AppConst.VIEWTYPE.VT_UPCOMING_HORIZONTAL -> {
+                Trace.debug(">> viewType = VT_NEXT_UPCOMING_HORIZONTAL")
+
+                when (v.id) {
+                    R.id.comp_tv_schedule -> {
+                        val intent = Intent(context, ScheduleActivity::class.java)
+                        startActivity(intent)
+                        return
+                    }
+                }
+            }
             AppConst.VIEWTYPE.VT_MY_FAVORITES -> Trace.debug(">> viewType = VT_MY_FAVORITES")
             AppConst.VIEWTYPE.VT_RECENTLY_VIEWED -> Trace.debug(">> viewType = VT_RECENTLY_VIEWED")
             AppConst.VIEWTYPE.VT_COUPON -> Trace.debug(">> viewType = VT_COUPON")

@@ -153,23 +153,34 @@ class ForYouListAdapter(mFragment: Fragment):
 
         return when (viewType) {
             AppConst.VIEWTYPE.VT_FAVORITE_CATEGORY -> {         // not exist
-                val nCount = mViewModel.mldForYou.value!!.categoryAlertShow.size
-                if (nCount >= 5) 5 else nCount
+                return if (mViewModel.mldForYou.value!!.categoryAlertShow.isNullOrEmpty()) 0
+                    else mViewModel.mldForYou.value!!.categoryAlertShow.size.let {
+                        if (it >= 5) 5 else it
+                    }
             }
 
             AppConst.VIEWTYPE.VT_FAVORITE_KEYWORD -> {          // alert
-                val nCount = mViewModel.mldForYou.value!!.alerts.size
-                if (nCount >= 5) 5 else nCount
+                return if (mViewModel.mldForYou.value!!.alerts.isNullOrEmpty()) 0
+                    else mViewModel.mldForYou.value!!.alerts.size.let {
+                        if (it >= 5) 5 else it
+                    }
             }
 
             AppConst.VIEWTYPE.VT_UPCOMING_HORIZONTAL -> {       // not exist
-                if (mViewModel.mldForYou.value!!.categoryAlertShow.size > 0) 1 else 0
+                return if (mViewModel.mldForYou.value!!.categoryAlertShow.isNullOrEmpty()) 0
+                    else mViewModel.mldForYou.value!!.categoryAlertShow.size.let {
+                        if (it > 0) 1 else it
+                    }
             }
 
             AppConst.VIEWTYPE.VT_MY_FAVORITES -> {              // favorite
-                if (mViewModel.mldForYou.value!!.favorites.size > 0) 1 else 0
+                return if (mViewModel.mldForYou.value!!.favorites.isNullOrEmpty()) 0
+                    else mViewModel.mldForYou.value!!.favorites.size.let {
+                        if (it > 0) 1 else it
+                    }
             }
 
+            // TODO
             AppConst.VIEWTYPE.VT_RECENTLY_VIEWED -> 0           // not exist
             AppConst.VIEWTYPE.VT_COUPON -> 0                    // not exist
             else -> 0

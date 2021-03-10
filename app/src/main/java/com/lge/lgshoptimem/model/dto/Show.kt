@@ -1,5 +1,7 @@
 package com.lge.lgshoptimem.model.dto
 
+import com.lge.lgshoptimem.ui.common.UpcomingAlarmManager
+
 data class Show(
     val chanId: String,
     val showDesc: String,
@@ -22,4 +24,17 @@ data class Show(
 
     // For You Upcoming
     val regDt: String,
+    val cntryCd: String,
+    val total: Int,
+    val RN: String,
+
+    var bOrigin: Boolean = false,
+    var bAlarm: Boolean = false
 ): Video()
+{
+    fun getAlarm() = UpcomingAlarmManager.getInstance().isAlarmChecked(showId)
+
+    fun setAlarm(checked: Boolean) {
+        bAlarm = checked
+    }
+}

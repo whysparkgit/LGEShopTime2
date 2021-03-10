@@ -7,7 +7,7 @@ import com.lge.lgshoptimem.model.dto.CategoryList
 import com.lge.lgshoptimem.model.dto.FavoriteKeywordList
 import com.lge.lgshoptimem.model.dto.KeywordList
 
-class AddFavoriteProductProtocol : AbstractHttpProtocol<BaseResponse>()
+class FavoriteProductAddProtocol : AbstractHttpProtocol<BaseResponse>()
 {
     val PATH = "main/category/like.lge"
 
@@ -20,14 +20,4 @@ class AddFavoriteProductProtocol : AbstractHttpProtocol<BaseResponse>()
     }
 
     override fun getMethod() = HttpConst.HTTP_POST
-
-    override fun getContentType(): String = HttpConst.HTTP_MIME_TYPE_TEXT
-
-    fun setRequestBody(partnerId: String, productId: String, categoryCode: String? = null) {
-        var strBody: String = ""
-
-        // TODO
-
-        setRequestBody(strBody)
-    }
 }

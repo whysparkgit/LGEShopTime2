@@ -92,7 +92,19 @@ class WatchNowFragment : Fragment(), ComponentItemListener {
                     }
                 }
             }
-            AppConst.VIEWTYPE.VT_UPCOMING_HORIZONTAL -> Trace.debug(">> viewType = VT_NEXT_UPCOMING_HORIZONTAL")
+
+            AppConst.VIEWTYPE.VT_UPCOMING_HORIZONTAL -> {
+                Trace.debug(">> viewType = VT_NEXT_UPCOMING_HORIZONTAL")
+
+                when (v.id) {
+                    R.id.comp_tv_schedule -> {
+                        val intent = Intent(context, ScheduleActivity::class.java)
+                        startActivity(intent)
+                        return
+                    }
+                }
+            }
+
             AppConst.VIEWTYPE.VT_TODAY_DEAL -> Trace.debug(">> viewType = VT_TODAY_DEAL")
             AppConst.VIEWTYPE.VT_POPULAR_SHOWS -> Trace.debug(">> viewType = VT_POPULAR_SHOWS")
             AppConst.VIEWTYPE.VT_YOU_MAY_LIKE -> Trace.debug(">> viewType = VT_YOU_MAY_LIKE")
@@ -110,11 +122,24 @@ class WatchNowFragment : Fragment(), ComponentItemListener {
             AppConst.VIEWTYPE.VT_LIVE_CHANNEL_ICONS -> {
                 if (mAdapter.mShowInfoIndex == pos) return
 
-                mAdapter.mChannelIcons.forEach { it.selected = false }
-                mAdapter.mChannelIcons[pos].selected = true
-                mAdapter.mShowInfoIndex = pos
-                mBinding.wnRvMainList.getChildAt(parentPos).findViewById<BaseListComponent>(R.id.comp_list).refresh()
+//                mAdapter.mChannelIcons.forEach { it.selected = false }
+//                mAdapter.mChannelIcons[pos].selected = true
+//                mAdapter.mShowInfoIndex = pos
+//                mBinding.wnRvMainList.getChildAt(parentPos).findViewById<BaseListComponent>(R.id.comp_list).refresh()
 
+                for (i in 0 until mAdapter.mChannelIcons.size) {
+                    if (i == pos) {
+                        mAdapter.mChannelIcons[i].selected = true
+                        mBinding.wnRvMainList.getChildAt(parentPos).findViewById<BaseListComponent>(R.id.comp_list).refreshItem(i)
+                    } else if (mAdapter.mChannelIcons[i].selected) {
+                        mAdapter.mChannelIcons[i].selected = false
+                        mBinding.wnRvMainList.getChildAt(parentPos).findViewById<BaseListComponent>(R.id.comp_list).refreshItem(i)
+                    }
+                }
+
+                mAdapter.mShowInfoIndex = pos
+
+                // fixme patnrId
                 mViewModel.requestData(mViewModel.mldWatchNow.value!!.showInfos[pos].patnrId,
                         mViewModel.mldWatchNow.value!!.showInfos[pos].showId)
             }

@@ -30,6 +30,7 @@ interface AppConst {
             const val VT_COUPON = 12
             const val VT_PRODUCT_DETAIL = 13
             const val VT_PRODUCT_REVIEW = 14
+            const val VT_SCHEDULE_DATE = 15
         }
     }
 

@@ -106,13 +106,19 @@ class HotPicksListAdapter(mFragment: Fragment):
 
         return when (viewType) {
             AppConst.VIEWTYPE.VT_TODAY_DEAL -> {
-                if (mViewModel.mldHotPicks.value!!.curations.size > 0) 1 else 0
+                return if (mViewModel.mldHotPicks.value!!.curations.isNullOrEmpty()) 0
+                    else mViewModel.mldHotPicks.value!!.curations.size.let {
+                        if (it > 0) 1 else it
+                    }
             }
 
             AppConst.VIEWTYPE.VT_HOT_PICKS -> {
-                val nCount = mViewModel.mldHotPicks.value!!.themeInfos.size
-                if (nCount >= 5) 5 else nCount
+                return if (mViewModel.mldHotPicks.value!!.themeInfos.isNullOrEmpty()) 0
+                    else mViewModel.mldHotPicks.value!!.themeInfos.size.let {
+                        if (it >= 5) 5 else it
+                    }
             }
+
             else -> 0
         }
     }

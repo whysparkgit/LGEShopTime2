@@ -7,9 +7,9 @@ import com.lge.lgshoptimem.model.dto.CategoryList
 import com.lge.lgshoptimem.model.dto.FavoriteKeywordList
 import com.lge.lgshoptimem.model.dto.KeywordList
 
-class DeleteFavoriteKeywordProtocol : AbstractHttpProtocol<BaseResponse>()
+class FavoriteKeywordDeleteProtocol : AbstractHttpProtocol<BaseResponse>()
 {
-    val PATH = "mypage/alert/show/delete.lge"
+    val PATH = "mypage/keyword/delete.lge"
 
     override fun getUrl() = getDomain() + getPath() + PATH
 
@@ -20,18 +20,4 @@ class DeleteFavoriteKeywordProtocol : AbstractHttpProtocol<BaseResponse>()
     }
 
     override fun getMethod() = HttpConst.HTTP_POST
-
-    override fun getContentType(): String = HttpConst.HTTP_MIME_TYPE_TEXT
-
-    fun setRequestBody(arrKeyword: ArrayList<String>) {
-        var strKeywords: String = ""
-
-        arrKeyword.forEach {
-            strKeywords += "$it,"
-        }
-
-        strKeywords = strKeywords.substring(0, strKeywords.lastIndex)
-
-        setRequestBody(strKeywords)
-    }
 }

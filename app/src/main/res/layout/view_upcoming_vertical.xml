@@ -19,7 +19,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <View
+            android:id="@+id/vw_h1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray_e9e9e9"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
 <!--        android:onClick="@{v -> listener.onClick(v, position)}"-->
+<!--        app:subject="KEYWORD REMINDER"-->
         <com.lge.lgshoptimem.ui.component.HeaderListComponent
             android:id="@+id/comp_list"
             android:layout_width="0dp"
@@ -27,11 +37,10 @@
             app:headLayout="@layout/comp_head_text_number_wrap"
             app:itemLayout="@layout/comp_item_upcoming"
             app:orientation="vertical"
-            app:subject="KEYWORD REMINDER"
             app:showIndex="false"
             app:itemCount="5"
             app:position="@{position}"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/vw_h1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 

@@ -141,54 +141,56 @@ class ForYouSettingViewModel : ViewModel() {
     }
 
     fun saveFavoriteKeyword() {
-        var favoiteList: ArrayList<String> = arrayListOf()
+        CoroutineScope(Dispatchers.IO).launch {
+            val favoriteList: ArrayList<String> = arrayListOf()
 
-        for (keyword: KeywordList.Keyword in mldKeywordList.value!!.keywords) {
-            if (keyword.bOrigin && !keyword.bFavorite) {
-                favoiteList.add(keyword.keywd)
+            for (keyword: KeywordList.Keyword in mldKeywordList.value!!.keywords) {
+                if (keyword.bOrigin && !keyword.bFavorite) {
+                    favoriteList.add(keyword.keywd)
+                }
             }
-        }
 
-        if (favoiteList.size > 0) {
-            val protocol: DeleteFavoriteKeywordProtocol = ProtocolFactory.create(DeleteFavoriteKeywordProtocol::class.java)
-            protocol.setRequestBody(favoiteList)
+            favoriteList.forEach {
+                val deleteProtocol: FavoriteKeywordDeleteProtocol = ProtocolFactory.create(FavoriteKeywordDeleteProtocol::class.java)
+                deleteProtocol.setJsonRequestBody(FavoriteKeywordList.DeleteRequest(it))
 
-            protocol.setHttpResponsable(object : HttpResponsable<BaseResponse> {
-                override fun onResponse(response: BaseResponse) {
-                    Trace.debug(">> requestData() onResponse() : $response")
-                }
+                deleteProtocol.setHttpResponsable(object : HttpResponsable<BaseResponse> {
+                    override fun onResponse(response: BaseResponse) {
+                        Trace.debug(">> requestData() onResponse() : $response")
+                    }
 
-                override fun onFailure(nError: Int, strMsg: String) {
-                    Trace.debug(">> requestData() onFailure($nError) : $strMsg")
-                }
-            })
+                    override fun onFailure(nError: Int, strMsg: String) {
+                        Trace.debug(">> requestData() onFailure($nError) : $strMsg")
+                    }
+                })
 
-            NetworkManager.getInstance().asyncRequest(protocol)
-        }
-
-        favoiteList.clear()
-
-        for (keyword: KeywordList.Keyword in mldKeywordList.value!!.keywords) {
-            if (keyword.bFavorite) {
-                favoiteList.add(keyword.keywd)
+                NetworkManager.getInstance().asyncRequest(deleteProtocol)
             }
-        }
 
-        if (favoiteList.size > 0) {
-            val protocol: AddFavoriteKeywordProtocol = ProtocolFactory.create(AddFavoriteKeywordProtocol::class.java)
-            protocol.setRequestBody(favoiteList)
+            favoriteList.clear()
 
-            protocol.setHttpResponsable(object : HttpResponsable<BaseResponse> {
-                override fun onResponse(response: BaseResponse) {
-                    Trace.debug(">> requestData() onResponse() : $response")
+            for (keyword: KeywordList.Keyword in mldKeywordList.value!!.keywords) {
+                if (keyword.bFavorite) {
+                    favoriteList.add(keyword.keywd)
                 }
+            }
 
-                override fun onFailure(nError: Int, strMsg: String) {
-                    Trace.debug(">> requestData() onFailure($nError) : $strMsg")
-                }
-            })
+            if (favoriteList.size > 0) {
+                val addProtocol: FavoriteKeywordAddProtocol = ProtocolFactory.create(FavoriteKeywordAddProtocol::class.java)
+                addProtocol.setJsonRequestBody(FavoriteKeywordList.AddRequest(favoriteList))
 
-            NetworkManager.getInstance().asyncRequest(protocol)
+                addProtocol.setHttpResponsable(object : HttpResponsable<BaseResponse> {
+                    override fun onResponse(response: BaseResponse) {
+                        Trace.debug(">> requestData() onResponse() : $response")
+                    }
+
+                    override fun onFailure(nError: Int, strMsg: String) {
+                        Trace.debug(">> requestData() onFailure($nError) : $strMsg")
+                    }
+                })
+
+                NetworkManager.getInstance().asyncRequest(addProtocol)
+            }
         }
     }
 }

@@ -30,6 +30,8 @@ import com.lge.core.net.ProtocolFactory
 import com.lge.core.sys.Const
 import com.lge.core.sys.Device
 import com.lge.core.sys.Trace
+import com.lge.core.sys.Util
+import com.lge.core.sys.Util.Companion.toDateFormat
 import com.lge.lgshoptimem.model.dto.BaseResponse
 import com.lge.lgshoptimem.model.dto.CurationList
 import com.lge.lgshoptimem.model.dto.Login
@@ -193,22 +195,14 @@ class IndexActivity : AppCompatActivity()
                 R.id.btn_56 -> {
                 }
                 R.id.btn_61 -> {
+                    Trace.debug(">> getSpecificTime = " + Util.getSpecificTime(-1, 1, 30, 0, 0, 0).toDateFormat("yyyyMMdd"))
                 }
-                R.id.btn_62 -> {
-                    launchActivity(ScheduleActivity::class.java)
-                }
-                R.id.btn_63 -> {
-                    launchActivity(MoreActivity::class.java)
-                }
-                R.id.btn_64 -> {
-                    launchActivity(ForYouSettingActivity::class.java)
-                }
-                R.id.btn_65 -> {
-                    launchActivity(SearchMainActivity::class.java)
-                }
-                R.id.btn_66 -> {
-                    launchActivity(CategoryActivity::class.java)
-                }
+                R.id.btn_62 -> launchActivity(ScheduleActivity::class.java)
+                R.id.btn_63 -> launchActivity(MoreActivity::class.java)
+                R.id.btn_64 -> launchActivity(ForYouSettingActivity::class.java)
+                R.id.btn_65 -> launchActivity(SearchMainActivity::class.java)
+                R.id.btn_66 -> launchActivity(CategoryActivity::class.java)
+
                 R.id.btn_71 -> launchDatePicker()
                 R.id.btn_72 -> launchNotes()
                 R.id.btn_73 -> openImages()

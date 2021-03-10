@@ -46,6 +46,7 @@ class WatchNowListAdapter(mFragment: Fragment):
         return when (viewType) {
             AppConst.VIEWTYPE.VT_LIVE_CHANNEL_ICONS -> {
                 val binding: ViewLiveChannelIconsBinding = DataBindingUtil.inflate(inflater, R.layout.view_live_channel_icons, parent, false)
+                binding.root.findViewById<BaseListComponent>(R.id.comp_list)?.setSubject("LIVE CHANNELS")
                 ItemViewHolder<ViewLiveChannelIconsBinding>(binding.root)
             }
 
@@ -163,28 +164,45 @@ class WatchNowListAdapter(mFragment: Fragment):
 
         return when (viewType) {
             AppConst.VIEWTYPE.VT_LIVE_CHANNEL_ICONS -> {        // showInfos
-                if (mViewModel.mldWatchNow.value!!.showInfos.size > 0) 1 else 0
+                return if (mViewModel.mldWatchNow.value!!.showInfos.isNullOrEmpty()) 0
+                    else mViewModel.mldWatchNow.value!!.showInfos.size.let {
+                        if (it > 0) 1 else it
+                    }
             }
 
             AppConst.VIEWTYPE.VT_LIVE_CHANNELS -> {             // showInfos + productInfos(10)
-                if (mViewModel.mldWatchNow.value!!.showInfos.size > 0) 1 else 0
+                return if (mViewModel.mldWatchNow.value!!.showInfos.isNullOrEmpty()) 0
+                    else mViewModel.mldWatchNow.value!!.showInfos.size.let {
+                        if (it > 0) 1 else it
+                    }
             }
 
             AppConst.VIEWTYPE.VT_UPCOMING_HORIZONTAL -> {       // upcoming(1)
-                if (mViewModel.mldWatchNow.value!!.upcomingItems.size > 0) 1 else 0
+                return if (mViewModel.mldWatchNow.value!!.upcomingItems.isNullOrEmpty()) 0
+                    else mViewModel.mldWatchNow.value!!.upcomingItems.size.let {
+                        if (it > 0) 1 else it
+                    }
             }
 
             AppConst.VIEWTYPE.VT_TODAY_DEAL -> {                // curation
-                if (mViewModel.mldWatchNow.value!!.curations.size > 0) 1 else 0
+                return if (mViewModel.mldWatchNow.value!!.curations.isNullOrEmpty()) 0
+                    else mViewModel.mldWatchNow.value!!.curations.size.let {
+                        if (it > 0) 1 else it
+                    }
             }
 
             AppConst.VIEWTYPE.VT_POPULAR_SHOWS -> {             // topInfos(5)
-                val nCount = mViewModel.mldWatchNow.value!!.topInfos.size
-                if (nCount >= 5) 5 else nCount
+                return if (mViewModel.mldWatchNow.value!!.topInfos.isNullOrEmpty()) 0
+                    else mViewModel.mldWatchNow.value!!.topInfos.size.let {
+                        if (it >= 5) 5 else it
+                    }
             }
 
             AppConst.VIEWTYPE.VT_YOU_MAY_LIKE -> {              // youMayLike(10)
-                if (mViewModel.mldWatchNow.value!!.youmaylike.size > 0) 1 else 0
+                return if (mViewModel.mldWatchNow.value!!.youmaylike.isNullOrEmpty()) 0
+                    else mViewModel.mldWatchNow.value!!.youmaylike.size.let {
+                        if (it > 0) 1 else it
+                    }
             }
 
             else -> 0

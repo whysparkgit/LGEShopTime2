@@ -7,6 +7,8 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.tabs.TabLayoutMediator.TabConfigurationStrategy
 import com.lge.lgshoptimem.R
 import com.lge.lgshoptimem.databinding.ActivityHomeBinding
+import com.lge.lgshoptimem.ui.common.FavoriteProductManager
+import com.lge.lgshoptimem.ui.common.UpcomingAlarmManager
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var mBinding: ActivityHomeBinding
@@ -20,7 +22,9 @@ class HomeActivity : AppCompatActivity() {
 
     fun init() {
         mAdapter = HomeFragmentAdapter(this)
-        mBinding.mmVpPager.setAdapter(mAdapter)
+        mBinding.mmVpPager.adapter = mAdapter
+        FavoriteProductManager.getInstance()
+        UpcomingAlarmManager.getInstance()
 
         val strategy =
             TabConfigurationStrategy { tab, position ->
@@ -37,5 +41,11 @@ class HomeActivity : AppCompatActivity() {
 
     fun onBack() {
         onBackPressed()
+    }
+
+    override fun onDestroy() {
+        FavoriteProductManager.getInstance().syncData()
+        UpcomingAlarmManager.getInstance().syncData()
+        super.onDestroy()
     }
 }

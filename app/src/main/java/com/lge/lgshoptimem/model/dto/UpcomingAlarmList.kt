@@ -1,11 +1,7 @@
 package com.lge.lgshoptimem.model.dto
 
-class FavoriteProductList
+class UpcomingAlarmList
 {
-    data class AddRequest(var patnrId: String, var prdtId: String, var lgCatCd: String? = null)
-
-    data class DeleteRequest(var patnrId: String, var prdtId: String)
-
     data class Response(val data: Data): BaseResponse()
     {
         override fun toString(): String {
@@ -13,7 +9,8 @@ class FavoriteProductList
         }
 
         data class Data(
-            val favorites: ArrayList<Favorite>
+            val upcomAlamUseFlag: String,
+            val alertShows: ArrayList<Show>
         )
     }
 }

@@ -83,6 +83,7 @@ open class BaseListComponent @JvmOverloads constructor(
         mBinding.setVariable(BR.adapter, mAdapter)
 
         findViewById<TextView>(R.id.comp_tv_subject)?.visibility = if (mstrSubject.isNullOrEmpty()) View.GONE else View.VISIBLE
+        findViewById<View>(R.id.vw_h1)?.visibility = if (mstrSubject.isNullOrEmpty()) View.GONE else View.VISIBLE
         findViewById<TextView>(R.id.comp_tv_title)?.visibility = if (mstrTitle.isNullOrEmpty()) View.GONE else View.VISIBLE
         findViewById<TextView>(R.id.comp_tv_subtitle)?.visibility = if (mstrSubtitle.isNullOrEmpty()) View.GONE else View.VISIBLE
     }
@@ -231,6 +232,7 @@ open class BaseListComponent @JvmOverloads constructor(
             Trace.debug("++ onBindViewHolder() position = $position binding = $binding")
             binding.setVariable(BR.position, position)
             binding.setVariable(BR.listener, component)
+            holder.setIsRecyclable(false)
 
             if (!mItemList.isNullOrEmpty() && mItemList!!.size > position) {
                 binding.setVariable(BR.viewdata, mItemList?.get(position))
@@ -262,6 +264,11 @@ open class BaseListComponent @JvmOverloads constructor(
 
             Trace.debug("++ getItemCount() nCount = $nCount")
             return nCount
+        }
+
+        override fun onViewRecycled(holder: ItemViewHolder) {
+            super.onViewRecycled(holder)
+            Trace.debug("++ onViewRecycled()")
         }
 
         inner class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

@@ -398,7 +398,7 @@
                 android:autoSizeMaxTextSize="14sp"
                 android:autoSizeMinTextSize="6sp"
                 android:autoSizeTextType="uniform"
-                android:text="" />
+                android:text="UI:\nschedule" />
 
             <Button
                 android:id="@+id/btn_63"

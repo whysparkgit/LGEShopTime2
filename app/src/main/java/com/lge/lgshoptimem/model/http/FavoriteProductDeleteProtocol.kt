@@ -7,7 +7,7 @@ import com.lge.lgshoptimem.model.dto.CategoryList
 import com.lge.lgshoptimem.model.dto.FavoriteKeywordList
 import com.lge.lgshoptimem.model.dto.KeywordList
 
-class DeleteFavoriteProductProtocol : AbstractHttpProtocol<BaseResponse>()
+class FavoriteProductDeleteProtocol : AbstractHttpProtocol<BaseResponse>()
 {
     val PATH = "mypage/favorite/product.lge"
 
@@ -20,14 +20,4 @@ class DeleteFavoriteProductProtocol : AbstractHttpProtocol<BaseResponse>()
     }
 
     override fun getMethod() = HttpConst.HTTP_POST
-
-    override fun getContentType(): String = HttpConst.HTTP_MIME_TYPE_TEXT
-
-    fun setRequestBody(partnerId: String, productId: String) {
-        var strBody: String = ""
-
-        // TODO
-
-        setRequestBody(strBody)
-    }
 }

@@ -20,6 +20,7 @@
         android:layout_height="wrap_content">
 
 <!--        android:onClick="@{v -> listener.onClick(v, position)}"-->
+<!--        app:subject="LIVE CHANNELS"-->
         <com.lge.lgshoptimem.ui.component.HeaderListComponent
             android:id="@+id/comp_list"
             android:layout_width="0dp"
@@ -27,7 +28,6 @@
             app:headLayout="@layout/comp_head_text_number_wrap"
             app:itemLayout="@layout/comp_item_channel_image"
             app:orientation="horizontal"
-            app:subject="LIVE CHANNELS"
             app:itemCount="4"
             app:showIndex="false"
             app:position="@{position}"

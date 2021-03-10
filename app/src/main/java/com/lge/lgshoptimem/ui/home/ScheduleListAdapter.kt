@@ -1,53 +1,46 @@
 package com.lge.lgshoptimem.ui.home
 
-import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.lge.core.sys.Trace
 import com.lge.core.sys.Util.Companion.GetNowDateFormat
-import com.lge.core.sys.Util.Companion.toDateFormat
 import com.lge.lgshoptimem.BR
 import com.lge.lgshoptimem.R
 import com.lge.lgshoptimem.databinding.*
 import com.lge.lgshoptimem.model.dto.ChannelIcon
-import com.lge.lgshoptimem.model.dto.Schedule
+import com.lge.lgshoptimem.model.dto.ScheduleDate
 import com.lge.lgshoptimem.ui.common.AppConst
 import com.lge.lgshoptimem.ui.component.BaseListComponent
 import com.lge.lgshoptimem.ui.component.ComponentItemListener
 import java.text.DateFormat
 import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.util.*
-import kotlin.collections.ArrayList
 
-class ScheduleListAdapter(mActivity:Activity):
+class ScheduleListAdapter(mActivity: ScheduleActivity):
         RecyclerView.Adapter<ScheduleListAdapter.ItemViewHolder<*>>()
 {
-//    private val mViewModel = mActivity.run {
-//        val viewModel: WatchNowViewModel by viewModels()
-//        viewModel
-//    }
+    private val mViewModel = mActivity.run {
+        val viewModel: ScheduleViewModel by viewModels()
+        viewModel
+    }
 
     val marrViewTypes = arrayOf(
+            AppConst.VIEWTYPE.VT_SCHEDULE_DATE,
             AppConst.VIEWTYPE.VT_LIVE_CHANNEL_ICONS,
-//            AppConst.VIEWTYPE.VT_LIVE_CHANNELS,
-//            AppConst.VIEWTYPE.VT_UPCOMING_HORIZONTAL,
-//            AppConst.VIEWTYPE.VT_TODAY_DEAL,
-//            AppConst.VIEWTYPE.VT_POPULAR_SHOWS,
-//            AppConst.VIEWTYPE.VT_YOU_MAY_LIKE
+            AppConst.VIEWTYPE.VT_UPCOMING_VERTICAL
     )
 
     private val mListener: ComponentItemListener = mActivity as ComponentItemListener
-    var mShowInfoIndex = 0
-    val mSchedules: ArrayList<Schedule> = ArrayList()
+    var mScheduleShowIndex = 0
+    var mChannelShowIndex = 0
+    val mScheduleDates: ArrayList<ScheduleDate> = arrayListOf()
+    val mChannelIcons: ArrayList<ChannelIcon> = arrayListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScheduleListAdapter.ItemViewHolder<*> {
         Trace.debug("++ onCreateViewHolder() viewType = $viewType")
@@ -55,9 +48,20 @@ class ScheduleListAdapter(mActivity:Activity):
 
 
         return when (viewType) {
-            AppConst.VIEWTYPE.VT_LIVE_CHANNEL_ICONS -> {
+            AppConst.VIEWTYPE.VT_SCHEDULE_DATE -> {
                 val binding: ViewScheduleItemsBinding = DataBindingUtil.inflate(inflater, R.layout.view_schedule_items, parent, false)
+                binding.root.findViewById<BaseListComponent>(R.id.comp_list)?.setTitle(getDate(10))
                 ItemViewHolder<ViewScheduleItemsBinding>(binding.root)
+            }
+
+            AppConst.VIEWTYPE.VT_LIVE_CHANNEL_ICONS -> {
+                val binding: ViewLiveChannelIconsBinding = DataBindingUtil.inflate(inflater, R.layout.view_live_channel_icons, parent, false)
+                ItemViewHolder<ViewLiveChannelIconsBinding>(binding.root)
+            }
+
+            AppConst.VIEWTYPE.VT_UPCOMING_VERTICAL -> {
+                val binding: ViewUpcomingVerticalBinding = DataBindingUtil.inflate(inflater, R.layout.view_upcoming_vertical, parent, false)
+                ItemViewHolder<ViewUpcomingVerticalBinding>(binding.root)
             }
 
             else -> {
@@ -72,7 +76,7 @@ class ScheduleListAdapter(mActivity:Activity):
         val binding: ViewDataBinding? = holder.getBinding()
         Trace.debug("++ onBindViewHolder() position = $position binding = $binding")
 
-//        if (mViewModel.mldWatchNow.value == null) return
+        if (mViewModel.mldSchedule.value == null) return
 
         binding?.setVariable(BR.position, position)
         binding?.setVariable(BR.listener, mListener)
@@ -80,25 +84,43 @@ class ScheduleListAdapter(mActivity:Activity):
         val baseCompList = binding?.root?.findViewById<BaseListComponent>(R.id.comp_list)
 
         when (getItemViewType(position)) {
-            AppConst.VIEWTYPE.VT_LIVE_CHANNEL_ICONS -> {
-                if (mSchedules.size == 0) {
-//                if(true) {
-                    //선택, 요일, 날짜
-                    mSchedules.add(Schedule(false,getConvertedDate(0),getDate(0)))
-                    mSchedules.add(Schedule(false,getConvertedDate(1),getDate(1)))
-                    mSchedules.add(Schedule(false,getConvertedDate(2),getDate(2)))
-                    mSchedules.add(Schedule(false,getConvertedDate(3),getDate(3)))
-                    mSchedules.add(Schedule(false,getConvertedDate(4),getDate(4)))
-                    mSchedules.add(Schedule(false,getConvertedDate(5),getDate(5)))
-                    mSchedules.add(Schedule(false,getConvertedDate(6),getDate(6)))
+            AppConst.VIEWTYPE.VT_SCHEDULE_DATE -> {
+                if (mScheduleDates.size == 0) {
+                    mScheduleDates.add(ScheduleDate(false,getConvertedDate(0),getDate(0)))
+                    mScheduleDates.add(ScheduleDate(false,getConvertedDate(1),getDate(1)))
+                    mScheduleDates.add(ScheduleDate(false,getConvertedDate(2),getDate(2)))
+                    mScheduleDates.add(ScheduleDate(false,getConvertedDate(3),getDate(3)))
+                    mScheduleDates.add(ScheduleDate(false,getConvertedDate(4),getDate(4)))
+                    mScheduleDates.add(ScheduleDate(false,getConvertedDate(5),getDate(5)))
+                    mScheduleDates.add(ScheduleDate(false,getConvertedDate(6),getDate(6)))
                 } else {
-                    mSchedules.forEach { it.selected = false }
+                    mScheduleDates.forEach { it.selected = false }
                 }
 
-                mSchedules[mShowInfoIndex].selected = true
-                baseCompList?.setItemList(mSchedules)
-                baseCompList?.setSubject(getDate(10))
-//                baseCompList?.mBinding?.root?.findViewById<RecyclerView>(R.id.comp_rv_list)!!.setItemViewCacheSize(10)
+                mScheduleDates[mScheduleShowIndex].selected = true
+                baseCompList?.setItemList(mScheduleDates)
+            }
+
+            AppConst.VIEWTYPE.VT_LIVE_CHANNEL_ICONS -> {
+                if (mChannelIcons.size == 0) {
+                    mViewModel.mldSchedule.value!!.partnerInfos.forEach {
+                        when (it.patnrId.toInt()) {
+                            1 -> { mChannelIcons.add(ChannelIcon(false, R.drawable.sel_channel_qvc, "")) }     // QVC
+                            2 -> { mChannelIcons.add(ChannelIcon(false, R.drawable.sel_channel_hsn, "")) }     // HSN
+                            3 -> { mChannelIcons.add(ChannelIcon(false, R.drawable.sel_channel_jtv, "")) }     // JTV
+                            4 -> { mChannelIcons.add(ChannelIcon(false, R.drawable.sel_channel_ontv, "")) }    // onTV
+                        }
+                    }
+                } else {
+                    mChannelIcons.forEach { it.selected = false }
+                }
+
+                mChannelIcons[mChannelShowIndex].selected = true
+                baseCompList?.setItemList(mChannelIcons)
+            }
+
+            AppConst.VIEWTYPE.VT_UPCOMING_VERTICAL -> {
+                baseCompList?.setItemList(mViewModel.mldSchedule.value!!.upcomingItems)
             }
 
             else -> { }
@@ -118,6 +140,7 @@ class ScheduleListAdapter(mActivity:Activity):
 
                 return "$year ${convertMonth(month)}"
             }
+
             indicator != 10 -> {
                 val cal = Calendar.getInstance()
 
@@ -127,6 +150,7 @@ class ScheduleListAdapter(mActivity:Activity):
 
                 return df.format(cal.time)
             }
+
             else -> {
                 return ""
             }
@@ -175,25 +199,34 @@ class ScheduleListAdapter(mActivity:Activity):
             nVal -> nCount += getItemCount(nVal)
         }
 
-        Trace.debug("++ getItemCount() nCount = $nCount")
+//        Trace.debug("++ getItemCount() nCount = $nCount")
         return nCount
-//        return 1
     }
 
     fun getItemCount(viewType: Int): Int {
         Trace.debug("++ getItemCount() viewType = $viewType")
-//
-//        if (mViewModel.mldWatchNow.value == null) return 0
 
-//        return when (viewType) {
-//            AppConst.VIEWTYPE.VT_LIVE_CHANNEL_ICONS -> {        // showInfos
-//                if (mViewModel.mldWatchNow.value!!.showInfos.size > 0) 1 else 0
-//            }
+        if (mViewModel.mldSchedule.value == null) return 0
 
-//            else -> 0
-//        }
-//        return 0
-        return 1
+        return when (viewType) {
+            AppConst.VIEWTYPE.VT_SCHEDULE_DATE -> 1
+
+            AppConst.VIEWTYPE.VT_LIVE_CHANNEL_ICONS -> {        // showInfos
+                return if (mViewModel.mldSchedule.value!!.partnerInfos.isNullOrEmpty()) 0
+                else mViewModel.mldSchedule.value!!.partnerInfos.size.let {
+                    if (it > 0) 1 else it
+                }
+            }
+
+            AppConst.VIEWTYPE.VT_UPCOMING_VERTICAL -> {       // upcoming(1)
+                return if (mViewModel.mldSchedule.value!!.upcomingItems.isNullOrEmpty()) 0
+                else mViewModel.mldSchedule.value!!.upcomingItems.size.let {
+                    if (it > 0) 1 else it
+                }
+            }
+
+            else -> 0
+        }
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -233,12 +266,9 @@ class ScheduleListAdapter(mActivity:Activity):
         val nType: Int = getItemViewType(position);
 
         val strViewTypes = arrayOf(
-                "VT_LIVE_CHANNEL_ICONS",
+                "VT_SCHEDULE_DATE",
                 "VT_LIVE_CHANNEL_PRODUCT",
-                "VT_NEXT_UPCOMING_HORIZONTAL",
-                "VT_TODAY_DEAL",
-                "VT_POPULAR_SHOWS_PRODUCT",
-                "VT_YOU_MAY_LIKE"
+                "VT_UPCOMING_VERTICAL"
         )
 
         marrViewTypes.forEachIndexed { index, nVal -> if (nVal == nType) return strViewTypes[index] }

@@ -7,7 +7,7 @@ import com.lge.lgshoptimem.model.dto.CategoryList
 import com.lge.lgshoptimem.model.dto.FavoriteKeywordList
 import com.lge.lgshoptimem.model.dto.KeywordList
 
-class AddFavoriteKeywordProtocol : AbstractHttpProtocol<BaseResponse>()
+class FavoriteKeywordAddProtocol : AbstractHttpProtocol<BaseResponse>()
 {
     val PATH = "mypage/keyword.lge"
 
@@ -20,18 +20,4 @@ class AddFavoriteKeywordProtocol : AbstractHttpProtocol<BaseResponse>()
     }
 
     override fun getMethod() = HttpConst.HTTP_POST
-
-    override fun getContentType(): String = HttpConst.HTTP_MIME_TYPE_TEXT
-
-    fun setRequestBody(arrKeyword: ArrayList<String>) {
-        var strKeywords: String = ""
-
-        arrKeyword.forEach {
-            strKeywords += "$it,"
-        }
-
-        strKeywords = strKeywords.substring(0, strKeywords.lastIndex)
-
-        setRequestBody(strKeywords)
-    }
 }
